@@ -1,9 +1,14 @@
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/grocerystore
-    username: ${DB.USER}
-    password: ${DB.PASSWORD}
+    username: postgres
+    password: postgres
+
   jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
     show-sql: true
     hibernate:
       ddl-auto: create-drop
