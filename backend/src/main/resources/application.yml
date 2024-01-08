@@ -1,0 +1,16 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/grocerystore
+    username: ${DB.USER}
+    password: ${DB.PASSWORD}
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: create-drop
+  main:
+    banner-mode: off
+
+#  jwt:
+#    secret: ${JWT.SECRET}
+#    jwtExpirationTimeInMs: 1800000
+
