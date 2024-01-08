@@ -19,5 +19,9 @@ public class ProductController {
         return productRepository.findAll();
     }
 
-
+    @GetMapping("/test")
+    public Product makeTestProduct() {
+        Product product = new Product("appel", "fruit", 2);
+        return productRepository.save(product);
+    }
 }
