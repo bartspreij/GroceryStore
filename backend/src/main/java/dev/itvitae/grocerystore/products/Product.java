@@ -7,6 +7,9 @@ import jakarta.persistence.Id;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.UUID;
 
 @Entity
@@ -20,11 +23,13 @@ public class Product {
     private UUID id;
     private String name;
     private String category;
-    private int price;
+    private String imageLink;
+    private BigDecimal price;
 
-    public Product(String name, String category, int price) {
+    public Product(String name, String category, String imageLink, BigDecimal price) {
         this.name = name;
         this.category = category;
+        this.imageLink = imageLink;
         this.price = price;
     }
 }

@@ -1,10 +1,9 @@
 package dev.itvitae.grocerystore.products;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.math.BigDecimal;
 
 @RequiredArgsConstructor
 @RestController
@@ -19,9 +18,8 @@ public class ProductController {
         return productRepository.findAll();
     }
 
-    @GetMapping("/test")
-    public Product makeTestProduct() {
-        Product product = new Product("appel", "fruit", 2);
+    @PostMapping("/new")
+    public Product makeNewProduct(@RequestBody Product product) {
         return productRepository.save(product);
     }
 }
