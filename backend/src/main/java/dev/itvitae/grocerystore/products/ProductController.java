@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
 @RestController
-@CrossOrigin
+@CrossOrigin("http://localhost:5173/")
 @RequestMapping("/api/v1/products")
 public class ProductController {
 
