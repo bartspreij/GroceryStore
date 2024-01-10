@@ -1,10 +1,14 @@
 package dev.itvitae.grocerystore.products;
 
+import dev.itvitae.grocerystore.tags.Tag;
+import dev.itvitae.grocerystore.tags.TagRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.math.BigDecimal;
 
 @RequiredArgsConstructor
 @RestController
@@ -13,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ProductController {
 
     private final ProductRepository productRepository;
+    private final TagRepository tagRepository;
 
     @GetMapping("/findall")
     public Iterable<Product> findAll(){
@@ -21,7 +26,13 @@ public class ProductController {
 
     @GetMapping("/test")
     public Product makeTestProduct() {
-        Product product = new Product("appel", "fruit", 2);
+        Tag fruit = new Tag("Fruit");
+        Tag healthy = new Tag("Healthy");
+
+        tagRepository.save(fruit);
+        tagRepository.save(healthy);
+
+        Product product = new Product("Appel", BigDecimal.ONE, fruit, healthy);
         return productRepository.save(product);
     }
 }
