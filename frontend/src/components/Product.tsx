@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Grocery } from '../domain/grocery';
+import { Product } from '../domain/product';
 
 const Product = () => {
-    const [products, setProducts] = useState<Grocery[]>([]);
+    const [products, setProducts] = useState<Product[]>([]);
     useEffect(() => {
         const fetchProduct = async () => {
             const result = await axios.get(

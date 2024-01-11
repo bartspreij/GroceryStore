@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { CartProduct } from '../domain/cartproduct';
+import { CartProduct, sampleProducts } from '../domain/cartproduct';
 import { getCart, addToCart } from '../utils/cartStorage';
 
 const Cart: React.FC = () => {
-    const [cartProduct, setCartProduct] = useState<CartProduct[]>([]);
+    const [cartProduct, setCartProduct] =
+        useState<CartProduct[]>(sampleProducts);
 
-    useEffect(() => {
-        setCartProduct(getCart());
-    }, []);
+    // useEffect(() => {
+    //     setCartProduct(getCart());
+    // }, []);
 
     const handleAddToCart = (item: CartProduct) => {
         addToCart(item);
@@ -15,7 +16,7 @@ const Cart: React.FC = () => {
     };
 
     return (
-        <div>
+        <div className="flex content-center flex-col">
             <h2>Cart</h2>
             {cartProduct.map((item) => (
                 <div key={item.id}>
