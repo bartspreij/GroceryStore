@@ -23,14 +23,14 @@ public class Product {
     private Long id;
     private String name;
     private BigDecimal price;
+    private String imageUrl;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private List<ProductTag> productTags = new ArrayList<>();
 
-    public Product(String name, BigDecimal price, Tag...tags) {
+    public Product(String name, String imageUrl, BigDecimal price, Tag...tags) {
         this.name = name;
-        this.category = category;
-        this.imageLink = imageLink;
+        this.imageUrl = imageUrl;
         this.price = price;
 
         for(var tag : tags) {
