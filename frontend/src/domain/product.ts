@@ -1,7 +1,9 @@
+import { Tag } from './tag';
+
+    id: number;
 export interface Product {
-    id: string;
     name: string;
-    category: string;
-    imageLink: string;
+    imageUrl: string;
     price: number;
+    tags: Tag[];
 }

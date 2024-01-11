@@ -4,16 +4,21 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-@RequiredArgsConstructor
+import java.util.List;
+
 @Transactional
+@RequiredArgsConstructor
 @Service
 public class CartService {
 
     private final CartRepository cartRepository;
 
-    public void addProduct() {
-
+    public Cart saveCart(Cart cart) {
+        return cartRepository.save(cart);
     }
 
+    public List<CartDTO> getCartsAsCartDTO() {
+        return cartRepository.findAll().stream().map(CartDTO::new).toList();
+    }
 
 }

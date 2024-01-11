@@ -19,7 +19,6 @@ public class Cart {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
     @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL)
     Set<CartProduct> cartProducts = new HashSet<>();
 
