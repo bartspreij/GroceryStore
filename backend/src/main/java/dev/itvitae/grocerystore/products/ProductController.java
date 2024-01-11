@@ -20,12 +20,12 @@ public class ProductController {
     private final TagRepository tagRepository;
 
     @GetMapping("/findall")
-    public Iterable<Product> findAll(){
-        return productRepository.findAll();
+    public Iterable<ProductDTO> findAll(){
+        return productRepository.findAll().stream().map(ProductDTO::new).toList();
     }
 
     @GetMapping("/test")
-    public Product makeTestProduct() {
+    public ProductDTO makeTestProduct() {
         Tag fruit = new Tag("Fruit");
         Tag healthy = new Tag("Healthy");
 
@@ -33,6 +33,6 @@ public class ProductController {
         tagRepository.save(healthy);
 
         Product product = new Product("Appel", "google.com", BigDecimal.ONE, fruit, healthy);
-        return productRepository.save(product);
+        return new ProductDTO(productRepository.save(product));
     }
 }
