@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Product } from '../domain/product';
 
-const Product = () => {
+const Products = () => {
     const [products, setProducts] = useState<Product[]>([]);
     useEffect(() => {
         const fetchProduct = async () => {

@@ -6,27 +6,27 @@ export interface CartProduct extends Product {
 
 export const sampleProducts: CartProduct[] = [
     {
-        id: '1',
+        id: 1,
         name: 'Apples',
-        category: 'Fruits',
-        imageLink: 'https://example.com/apples.jpg',
+        imageUrl: 'https://example.com/apples.jpg',
         price: 1.2,
+        tags: [], // Assuming tags are an array of Tag objects
         quantity: 2,
     },
     {
-        id: '2',
+        id: 2,
         name: 'Oranges',
-        category: 'Fruits',
-        imageLink: 'https://example.com/oranges.jpg',
+        imageUrl: 'https://example.com/oranges.jpg',
         price: 0.8,
+        tags: [],
         quantity: 4,
     },
     {
-        id: '3',
+        id: 3,
         name: 'Bananas',
-        category: 'Fruits',
-        imageLink: 'https://example.com/bananas.jpg',
+        imageUrl: 'https://example.com/bananas.jpg',
         price: 1.5,
+        tags: [],
         quantity: 1,
     },
 ];

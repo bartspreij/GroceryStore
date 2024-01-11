@@ -1,7 +1,7 @@
 import { Tag } from './tag';
 
-    id: number;
 export interface Product {
+    id: number;
     name: string;
     imageUrl: string;
     price: number;
