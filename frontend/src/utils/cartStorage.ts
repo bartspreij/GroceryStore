@@ -24,9 +24,9 @@ export const addToCart = (newItem: CartProduct): void => {
     saveCart(cart);
 };
 
-export const removeItemFromCart = (itemToRemove: CartProduct): void => {
+export const removeFromCart = (productToRemove: CartProduct): void => {
     const cart = getCart();
-    const itemIndex = cart.findIndex((item) => item.id === itemToRemove.id);
+    const itemIndex = cart.findIndex((item) => item.id === productToRemove.id);
 
     if (itemIndex !== -1) {
         cart[itemIndex].quantity -= 1;
