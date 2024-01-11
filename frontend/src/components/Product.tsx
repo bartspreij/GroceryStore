@@ -17,21 +17,43 @@ const Product = () => {
     }, []);
 
     return (
-        <div className="product">
+        <div className="products grid grid-cols-1 sm:grid-cols-2 gap-5">
             {products.map((product) => (
-                <div key={product.id}>
-                    <figure>
+                <div
+                    key={product.id}
+                    className="card text-gray-400 card-compact bg-base-100 shadow-xl"
+                >
+                    <figure className="aspect-square">
                         <img
-                            src={product.imageLink}
+                            className="w-full h-full object-cover"
+                            src={product.imageUrl}
                             alt={product.name}
                             height="300px"
                             width="300px"
                         />
                     </figure>
-                    <div className="product-body">
-                        <h2 className="product-title">{product.name}</h2>
-                        <p>Category: {product.category}</p>
+                    <div className="card-body">
+                        <h2 className="card-title">{product.name}</h2>
+
+                        <div className="flex gap-1">
+                            <span>Tags:</span>
+                            {product.tags.map((tag) => (
+                                <span
+                                    className="p-1 bg-slate-400 text-white"
+                                    key={tag.id}
+                                >
+                                    {tag.name}
+                                </span>
+                            ))}
+                        </div>
+
                         <p>{product.price}</p>
+
+                        <div className="card-actions justify-end">
+                            <button type="button" className="btn btn-primary">
+                                Buy Now
+                            </button>
+                        </div>
                     </div>
                 </div>
             ))}

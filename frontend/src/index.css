@@ -1,3 +1,17 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+    --site-width: 60rem;
+    --bg: #e8e8e8;
+}
+
+body {
+ padding: 1rem;
+ margin: 2rem auto;
+ width: var(--site-width);
+ max-width: 100%;
+ background: var(--bg);
+}
+

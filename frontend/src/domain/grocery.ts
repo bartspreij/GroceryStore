@@ -1,7 +1,9 @@
+import { Tag } from './tag';
+
 export interface Grocery {
-    id: string;
+    id: number;
     name: string;
-    category: string;
-    imageLink: string;
+    imageUrl: string;
     price: number;
+    tags: Tag[];
 }
