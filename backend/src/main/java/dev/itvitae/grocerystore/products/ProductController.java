@@ -32,7 +32,7 @@ public class ProductController {
         tagRepository.save(fruit);
         tagRepository.save(healthy);
 
-        Product product = new Product("Appel", BigDecimal.ONE, fruit, healthy);
+        Product product = new Product("Appel", "google.com", BigDecimal.ONE, fruit, healthy);
         return productRepository.save(product);
     }
 }
