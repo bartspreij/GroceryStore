@@ -17,7 +17,7 @@ const Product = () => {
     }, []);
 
     return (
-        <div className="products grid grid-cols-1 sm:grid-cols-2 gap-5">
+        <div className="products grid grid-cols-1 sm:grid-cols-3 gap-5">
             {products.map((product) => (
                 <div
                     key={product.id}
@@ -35,21 +35,21 @@ const Product = () => {
                     <div className="card-body">
                         <h2 className="card-title">{product.name}</h2>
 
-                        <div className="flex gap-1">
-                            <span>Tags:</span>
-                            {product.tags.map((tag) => (
-                                <span
-                                    className="p-1 bg-slate-400 text-white"
-                                    key={tag.id}
-                                >
-                                    {tag.name}
-                                </span>
-                            ))}
-                        </div>
+                        <p>€{product.price}</p>
 
-                        <p>{product.price}</p>
+                        <div className="card-actions justify-between">
+                            <div className="flex flex-wrap items-center gap-1">
+                                <span>Tags:</span>
+                                {product.tags.map((tag) => (
+                                    <span
+                                        className="p-1 bg-slate-400 text-white"
+                                        key={tag.id}
+                                    >
+                                        {tag.name}
+                                    </span>
+                                ))}
+                            </div>
 
-                        <div className="card-actions justify-end">
                             <button type="button" className="btn btn-primary">
                                 Buy Now
                             </button>
