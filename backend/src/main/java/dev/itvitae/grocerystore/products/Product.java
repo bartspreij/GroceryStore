@@ -29,6 +29,8 @@ public class Product {
 
     public Product(String name, BigDecimal price, Tag...tags) {
         this.name = name;
+        this.category = category;
+        this.imageLink = imageLink;
         this.price = price;
 
         for(var tag : tags) {
