@@ -1,10 +1,17 @@
 const Navbar = () => (
     <div className="navbar bg-base-100">
-        <div className="flex-1">
+        <div className="flex-1 justify-between pr-2">
             <a className="btn btn-ghost text-xl">GroceryStore</a>
+            <div className="form-control text-align: right">
+                <input
+                    type="text"
+                    placeholder="Search"
+                    className="input input-bordered w-24 md:w-auto"
+                />
+            </div>
         </div>
         <div className="flex-none">
-            <div className="dropdown dropdown-end">
+            <div className="dropdown dropdown-end pr-1">
                 <div
                     tabIndex={0}
                     role="button"
