@@ -1,10 +1,8 @@
 package dev.itvitae.grocerystore.seeder;
 
 import dev.itvitae.grocerystore.cart.Cart;
-import dev.itvitae.grocerystore.cart.CartRepository;
 import dev.itvitae.grocerystore.cart.CartService;
 import dev.itvitae.grocerystore.cartproduct.CartProduct;
-import dev.itvitae.grocerystore.cartproduct.CartProductRepository;
 import dev.itvitae.grocerystore.products.Product;
 import dev.itvitae.grocerystore.products.ProductRepository;
 import dev.itvitae.grocerystore.tags.Tag;
@@ -21,9 +19,7 @@ import java.math.BigDecimal;
 @Component
 public class Seeder implements CommandLineRunner {
 
-    private final CartRepository cartRepository;
     private final CartService cartService;
-    private final CartProductRepository cartProductRepository;
     private final ProductRepository productRepository;
     private final TagRepository tagRepository;
 

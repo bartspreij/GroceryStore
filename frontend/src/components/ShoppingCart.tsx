@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { CartProduct, sampleProducts } from '../domain/cartproduct';
-import { getCart, addToCart } from '../utils/cartStorage';
+import { CartProduct, sampleProducts } from '../domain/cart-product';
+import { getCart, addToCart } from '../api/cart.api';
 
-const Cart: React.FC = () => {
+const ShoppingCart: React.FC = () => {
     const [cartProduct, setCartProduct] =
-        useState<CartProduct[]>(sampleProducts);
+        useState<Cart>(sampleProducts);
 
     // useEffect(() => {
     //     setCartProduct(getCart());
@@ -29,4 +29,4 @@ const Cart: React.FC = () => {
     );
 };
 
-export default Cart;
+export default ShoppingCart;

@@ -1,6 +1,7 @@
-import { CartProduct } from './cartproduct';
+import { CartProduct } from './cart-product';
 
-export default interface Cart {
-    id: number;
-    cartProducts: CartProduct[];
+export default class Cart {
+    public id: number = 0;
+
+    public products: CartProduct[] = [];
 }
