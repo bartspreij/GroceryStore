@@ -4,7 +4,7 @@ import dev.itvitae.grocerystore.cartproduct.CartProductDTO;
 
 import java.util.List;
 
-public record CartDTO(Long id, List<CartProductDTO> cartProducts) {
+public record CartDTO(Long id, List<CartProductDTO> products) {
     public CartDTO(Cart cart) {
         this(cart.getId(), cart.getCartProducts().stream()
                 .map(CartProductDTO::new)

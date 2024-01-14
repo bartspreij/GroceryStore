@@ -1,7 +1,11 @@
-import Cart from './components/ShoppingCart';
+import CartDropdown from './components/cart/CartDropdown';
 
 const App = () => {
-    return <Cart />;
+    return (
+        <div>
+            <CartDropdown />
+        </div>
+    );
 };
 
 export default App;
