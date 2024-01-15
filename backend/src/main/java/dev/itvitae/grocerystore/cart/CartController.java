@@ -29,6 +29,4 @@ public class CartController {
 
         return ResponseEntity.created(locationOfNewCart).body(savedCart);
     }
-
-
 }
