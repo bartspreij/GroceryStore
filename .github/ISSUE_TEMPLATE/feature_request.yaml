@@ -1,0 +1,60 @@
+name: 🚀 Backlog Item Template
+description: Document a feature or task that needs to be implemented in the project.
+title: "[Feature Request / Suggestion]: "
+labels: ["Type: Backlog Item", "enhancement"]
+assignees:
+  - [Your Team Member's Name]
+
+body:
+  - type: markdown
+    attributes:
+      value: "# 🚀 Backlog Item"
+
+  - type: textarea
+    id: feature-task
+    attributes:
+      label: What is the feature or task?
+      description: A clear and concise description of what the feature or task is. Focus on 'what' needs to be done and 'how' it might be implemented.
+      placeholder: "Describe the feature or task here..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: importance-impact
+    attributes:
+      label: Importance and Impact
+      description: Describe why this feature or task is important and how it impacts the project or users.
+      placeholder: "Explain the importance and impact here..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected-outcome
+    attributes:
+      label: Expected Outcome
+      description: Detail what the expected outcome of implementing this feature or completing this task would be.
+      placeholder: "Describe the expected outcome here..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: implementation-details
+    attributes:
+      label: Implementation Details
+      description: Provide any specific details about how this feature should be implemented or this task should be performed.
+      placeholder: "Include implementation details here..."
+    validations:
+      required: true
+      
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional Context
+      description: Add any other context or screenshots about the feature or task request here.
+      placeholder: "Add any additional context here..."
+    validations:
+      required: false
+
+  - type: markdown
+    attributes:
+      value: "Don't forget to assign the issue to the project over there ->"

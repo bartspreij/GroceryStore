@@ -1,9 +1,11 @@
-import CartDropdown from './components/cart/CartDropdown';
+import Navbar from './components/Navbar';
+import Products from './components/Products';
 
 const App = () => {
     return (
         <div>
-            <CartDropdown />
+            <Navbar />
+            <Products />
         </div>
     );
 };
