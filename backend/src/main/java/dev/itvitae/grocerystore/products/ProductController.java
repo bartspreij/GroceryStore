@@ -31,8 +31,8 @@ public class ProductController {
 
     @GetMapping("/test")
     public ProductDTO makeTestProduct() {
-        Tag fruit = new Tag("Fruit");
-        Tag healthy = new Tag("Healthy");
+        Tag fruit = new Tag("Fruit", true);
+        Tag healthy = new Tag("Healthy", false);
 
         tagRepository.save(fruit);
         tagRepository.save(healthy);

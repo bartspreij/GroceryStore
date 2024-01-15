@@ -3,12 +3,11 @@ package dev.itvitae.grocerystore.tags;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import dev.itvitae.grocerystore.products.Product;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Data
 @Entity(name = "tags")
+@Setter
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Tag {
@@ -18,7 +17,11 @@ public class Tag {
 
     private String name = "";
 
-    public Tag(String name) {
+    private Boolean isMainCategory;
+
+    public Tag(String name, boolean isMainCategory) {
+
         this.name = name;
+        this.isMainCategory = isMainCategory;
     }
 }

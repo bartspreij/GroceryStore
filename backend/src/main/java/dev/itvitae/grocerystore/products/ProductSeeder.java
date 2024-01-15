@@ -20,18 +20,18 @@ public class ProductSeeder implements CommandLineRunner {
         productRepository.save(product);
     }
 
-    private Tag saveTag(String name) {
-        Tag tag = new Tag(name);
+    private Tag saveTag(String name, boolean isMainCategory) {
+        Tag tag = new Tag(name, isMainCategory);
         tagRepository.save(tag);
         return tag;
     }
 
     @Override
     public void run(String... args) throws Exception {
-        Tag fruit = saveTag("Fruit");
-        Tag potassium = saveTag("Potassium");
-        Tag meat = saveTag("Meat");
-        Tag dairy = saveTag("Dairy");
+        Tag fruit = saveTag("Fruit", true);
+        Tag potassium = saveTag("Potassium", false);
+        Tag meat = saveTag("Meat", true);
+        Tag dairy = saveTag("Dairy", true);
 
         saveProduct("Apple", "https://i.imgur.com/TVN1Hs5.jpeg", BigDecimal.valueOf(0.89), fruit);
         saveProduct("Banana", "https://i.imgur.com/xhlyEjv.png", BigDecimal.valueOf(1.29), fruit, potassium);
