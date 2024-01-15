@@ -1,9 +1,19 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Product } from '../domain/product';
+import CartButtons from './cart/CartButtons';
+import { getCartProduct } from '../api/cart.api';
 
 const Products = () => {
     const [products, setProducts] = useState<Product[]>([]);
+
+    const [trigger, setTrigger] = useState(false);
+
+    // Method to force rerender
+    const forceRerender = () => {
+        setTrigger((t) => !t); // Toggle the state to force rerender
+    };
+
     useEffect(() => {
         const fetchProduct = async () => {
             const result = await axios.get(
@@ -14,7 +24,7 @@ const Products = () => {
         };
 
         fetchProduct();
-    }, []);
+    }, [trigger]);
 
     return (
         <div className="products grid grid-cols-1 sm:grid-cols-3 gap-5">
@@ -50,9 +60,11 @@ const Products = () => {
                                 ))}
                             </div>
 
-                            <button type="button" className="btn btn-primary">
-                                Buy Now
-                            </button>
+                            <br />
+                            <CartButtons
+                                item={getCartProduct(product)}
+                                onChange={() => forceRerender()}
+                            />
                         </div>
                     </div>
                 </div>

@@ -1,7 +1,10 @@
+import { useContext } from 'react';
 import ShoppingCart from './ShoppingCart';
-import { getTotalQuantity } from '../../api/cart.api';
+import ShoppingCartContext from './ShoppingCartContext';
 
 const CartDropdown = () => {
+    const { cart } = useContext(ShoppingCartContext);
+
     return (
         <div className="flex justify-center align-center">
             <div className="dropdown dropdown-end">
@@ -26,7 +29,10 @@ const CartDropdown = () => {
                             />
                         </svg>
                         <span className="badge badge-sm indicator-item">
-                            {getTotalQuantity()}
+                            {cart.products.reduce(
+                                (total, item) => total + item.quantity,
+                                0
+                            )}
                         </span>
                     </div>
                 </div>
