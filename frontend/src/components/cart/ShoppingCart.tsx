@@ -1,14 +1,19 @@
-import { useEffect, useState } from 'react';
-import { getCart, getSubtotal, getTotalQuantity } from '../../api/cart.api';
+import { useContext } from 'react';
 import CartButtons from './CartButtons';
-import Cart from '../../domain/cart';
+import ShoppingCartContext from './ShoppingCartContext';
 
 const ShoppingCart = () => {
-    const [cart, setCart] = useState<Cart>(new Cart());
+    const { cart } = useContext(ShoppingCartContext);
 
-    useEffect(() => {
-        setCart(getCart());
-    }, []);
+    const subtotal = cart.products.reduce(
+        (total, item) => total + item.quantity * item.product.price,
+        0
+    );
+
+    const totalQuantity = cart.products.reduce(
+        (total, item) => total + item.quantity,
+        0
+    );
 
     return (
         <div className="mt-3 z-[1] card card-compact dropdown-content w-52 bg-base-100 shadow">
@@ -22,17 +27,12 @@ const ShoppingCart = () => {
                             {item.product.name} €
                             {(item.quantity * item.product.price).toFixed(2)}
                         </span>
-                        <CartButtons
-                            item={item}
-                            onChange={() => setCart(getCart())}
-                        />
+                        <CartButtons item={item} />
                     </div>
                 ))}
-                <span className="font-bold text-lg">
-                    {getTotalQuantity()} Items
-                </span>
+                <span className="font-bold text-lg">{totalQuantity} Items</span>
                 <span className="text-info">
-                    Subtotal: €{getSubtotal().toFixed(2)}
+                    Subtotal: €{subtotal.toFixed(2)}
                 </span>
                 <div className="card-actions">
                     <button type="button" className="btn btn-primary btn-block">

@@ -7,24 +7,17 @@ import { getCartProduct } from '../api/cart.api';
 const Products = () => {
     const [products, setProducts] = useState<Product[]>([]);
 
-    const [trigger, setTrigger] = useState(false);
-
-    // Method to force rerender
-    const forceRerender = () => {
-        setTrigger((t) => !t); // Toggle the state to force rerender
-    };
-
     useEffect(() => {
         const fetchProduct = async () => {
             const result = await axios.get(
                 'http://localhost:8080/api/v1/products/findall'
             );
-            setProducts(result.data);
             console.log(result.data);
+            setProducts(result.data);
         };
 
         fetchProduct();
-    }, [trigger]);
+    }, []);
 
     return (
         <div className="products grid grid-cols-1 sm:grid-cols-3 gap-5">
@@ -61,10 +54,7 @@ const Products = () => {
                             </div>
 
                             <br />
-                            <CartButtons
-                                item={getCartProduct(product)}
-                                onChange={() => forceRerender()}
-                            />
+                            <CartButtons item={{ product, quantity: 1 }} />
                         </div>
                     </div>
                 </div>

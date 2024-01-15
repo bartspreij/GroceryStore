@@ -1,48 +1,36 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 import { FaMinus, FaPlus, FaTrashCan } from 'react-icons/fa6';
 import { CartProduct } from '../../domain/cart-product';
-import { addProductToCart, deleteProductFromCart } from '../../api/cart.api';
 import ShoppingCartContext from './ShoppingCartContext';
+import { Product } from '../../domain/product';
 
 export interface CartButtonProps {
     item: CartProduct;
-    onChange: () => void;
 }
 
-const CartButtons: React.FC<CartButtonProps> = ({ item, onChange }) => {
-    const [product, setProduct] = useState<CartProduct>(item);
-    const { removeProductFromCart } = useContext(ShoppingCartContext);
+const CartButtons: React.FC<CartButtonProps> = ({ item }) => {
+    const context = useContext(ShoppingCartContext);
 
-    useEffect(() => {
-        setProduct(item);
-    }, [item, product, product.quantity]);
+    if (!context) {
+        throw new Error(
+            'CartButtons must be used within a ShoppingCartProvider'
+        );
+    }
 
-    const onAdd = () => {
-        addProductToCart(product);
-        onChange();
-        console.log(item.quantity);
-    };
-
-    const onRemove = () => {
-        console.log(item);
-        removeProductFromCart(item);
-    };
-
-    const onDelete = () => {
-        deleteProductFromCart(product);
-    };
+    const { addProductToCart, removeProductFromCart, deleteProductFromCart } =
+        context;
 
     return (
         <div>
             <button
-                onClick={() => onDelete()}
+                onClick={() => deleteProductFromCart(item)}
                 type="button"
                 className="btn btn-xs btn-error"
             >
                 <FaTrashCan />
             </button>
             <button
-                onClick={onRemove}
+                onClick={() => removeProductFromCart(item)}
                 type="button"
                 className="btn btn-xs btn-circle"
             >
@@ -56,11 +44,11 @@ const CartButtons: React.FC<CartButtonProps> = ({ item, onChange }) => {
                 max="99"
                 aria-disabled="false"
                 autoComplete="off"
-                value={product.quantity}
+                value={item.quantity}
                 readOnly
             />
             <button
-                onClick={onAdd}
+                onClick={() => addProductToCart(item)}
                 type="button"
                 className="btn btn-xs btn-circle"
             >
