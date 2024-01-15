@@ -1,7 +1,13 @@
-import Product from './components/Product';
+import Navbar from './components/Navbar';
+import Products from './components/Products';
 
 const App = () => {
-    return <Product />;
+    return (
+        <div>
+            <Navbar />
+            <Products />
+        </div>
+    );
 };
 
 export default App;
