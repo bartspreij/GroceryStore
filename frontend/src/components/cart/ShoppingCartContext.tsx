@@ -29,10 +29,19 @@ const initialContextValue: ShoppingCartContextValue = {
 const ShoppingCartContext =
     createContext<ShoppingCartContextValue>(initialContextValue);
 
+const CART_KEY = 'groceryCart';
+
 export const ShoppingCartProvider: React.FC<ShoppingCartProviderProps> = ({
     children,
 }) => {
     const [cart, setCart] = useState<Cart>(getCart());
+
+    useEffect(() => {
+        const storedCart = localStorage.getItem(CART_KEY);
+        if (storedCart) {
+            setCart(JSON.parse(storedCart));
+        }
+    }, []);
 
     const updateCart = (updatedCart: Cart) => {
         setCart(updatedCart);
