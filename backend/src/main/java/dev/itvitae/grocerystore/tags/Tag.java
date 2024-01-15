@@ -1,7 +1,5 @@
 package dev.itvitae.grocerystore.tags;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import dev.itvitae.grocerystore.products.Product;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -17,11 +15,11 @@ public class Tag {
 
     private String name = "";
 
-    private Boolean isMainCategory;
+    private boolean isCategory;
 
-    public Tag(String name, boolean isMainCategory) {
+    public Tag(String name, boolean isCategory) {
 
         this.name = name;
-        this.isMainCategory = isMainCategory;
+        this.isCategory = isCategory;
     }
 }
