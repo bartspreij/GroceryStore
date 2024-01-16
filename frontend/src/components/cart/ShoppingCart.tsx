@@ -3,17 +3,7 @@ import CartButtons from './CartButtons';
 import ShoppingCartContext from './ShoppingCartContext';
 
 const ShoppingCart = () => {
-    const { cart } = useContext(ShoppingCartContext);
-
-    const subtotal = cart.products.reduce(
-        (total, item) => total + item.quantity * item.product.price,
-        0
-    );
-
-    const totalQuantity = cart.products.reduce(
-        (total, item) => total + item.quantity,
-        0
-    );
+    const { cart, totalQuantity, subtotal } = useContext(ShoppingCartContext);
 
     return (
         <div className="mt-3 z-[1] card card-compact dropdown-content w-52 bg-base-100 shadow">

@@ -3,7 +3,7 @@ import ShoppingCart from './ShoppingCart';
 import ShoppingCartContext from './ShoppingCartContext';
 
 const CartDropdown = () => {
-    const { cart } = useContext(ShoppingCartContext);
+    const { totalQuantity } = useContext(ShoppingCartContext);
 
     return (
         <div className="flex justify-center align-center">
@@ -29,10 +29,7 @@ const CartDropdown = () => {
                             />
                         </svg>
                         <span className="badge badge-sm indicator-item">
-                            {cart.products.reduce(
-                                (total, item) => total + item.quantity,
-                                0
-                            )}
+                            {totalQuantity}
                         </span>
                     </div>
                 </div>

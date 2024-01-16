@@ -2,23 +2,14 @@ import React, { useContext } from 'react';
 import { FaMinus, FaPlus, FaTrashCan } from 'react-icons/fa6';
 import { CartProduct } from '../../domain/cart-product';
 import ShoppingCartContext from './ShoppingCartContext';
-import { Product } from '../../domain/product';
 
-export interface CartButtonProps {
+interface CartButtonProps {
     item: CartProduct;
 }
 
 const CartButtons: React.FC<CartButtonProps> = ({ item }) => {
-    const context = useContext(ShoppingCartContext);
-
-    if (!context) {
-        throw new Error(
-            'CartButtons must be used within a ShoppingCartProvider'
-        );
-    }
-
     const { addProductToCart, removeProductFromCart, deleteProductFromCart } =
-        context;
+        useContext(ShoppingCartContext);
 
     return (
         <div>

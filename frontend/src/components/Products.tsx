@@ -1,18 +1,18 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 import { Product } from '../domain/product';
 import CartButtons from './cart/CartButtons';
-import { getCartProduct } from '../api/cart.api';
+import ShoppingCartContext from './cart/ShoppingCartContext';
 
 const Products = () => {
     const [products, setProducts] = useState<Product[]>([]);
+    const { getCartProduct } = useContext(ShoppingCartContext);
 
     useEffect(() => {
         const fetchProduct = async () => {
             const result = await axios.get(
                 'http://localhost:8080/api/v1/products/findall'
             );
-            console.log(result.data);
             setProducts(result.data);
         };
 
@@ -43,18 +43,18 @@ const Products = () => {
                         <div className="card-actions justify-between">
                             <div className="flex flex-wrap items-center gap-1">
                                 <span>Tags:</span>
-                                {product.tags.map((tag) => (
+                                {/* {product.productTags.map((tag) => (
                                     <span
                                         className="p-1 bg-slate-400 text-white"
                                         key={tag.id}
                                     >
                                         {tag.name}
                                     </span>
-                                ))}
+                                ))} */}
                             </div>
 
                             <br />
-                            <CartButtons item={{ product, quantity: 1 }} />
+                            <CartButtons item={getCartProduct(product)} />
                         </div>
                     </div>
                 </div>

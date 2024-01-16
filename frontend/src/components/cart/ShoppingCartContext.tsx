@@ -1,16 +1,14 @@
-import {
-    createContext,
-    useEffect,
-    useMemo,
-    useState,
-    ReactNode,
-    useCallback,
-} from 'react';
+import { createContext, useMemo, ReactNode, useCallback } from 'react';
 import Cart from '../../domain/cart';
 import { CartProduct } from '../../domain/cart-product';
+import useStorageState from '../../hooks/useStorageState';
+import { Product } from '../../domain/product';
 
 interface ShoppingCartContextValue {
     cart: Cart;
+    subtotal: number;
+    totalQuantity: number;
+    getCartProduct: (product: Product) => CartProduct;
     addProductToCart: (product: CartProduct) => void;
     removeProductFromCart: (product: CartProduct) => void;
     deleteProductFromCart: (product: CartProduct) => void;
@@ -20,46 +18,64 @@ interface ShoppingCartProviderProps {
     children: ReactNode;
 }
 
-const CART_KEY = 'groceryCart';
-
+/**
+This solely exists to satisfy a rule
+that makes sure that when the context is used outside of the
+`ShoppingCartProvider` it is safe to use.
+*/
 const defaultContextValue: ShoppingCartContextValue = {
     cart: new Cart(),
+    subtotal: 0,
+    totalQuantity: 0,
+    getCartProduct: () => {
+        return {
+            product: {
+                id: 1,
+                name: 'Why the f',
+                imageUrl: 'www.lmgtfy.com',
+                price: 69,
+                productTags: [{ id: 1, name: 'cheese' }],
+            },
+            quantity: 1,
+        };
+    },
     addProductToCart: () => {},
     removeProductFromCart: () => {},
     deleteProductFromCart: () => {},
 };
+
 const ShoppingCartContext =
     createContext<ShoppingCartContextValue>(defaultContextValue);
 
 export const ShoppingCartProvider: React.FC<ShoppingCartProviderProps> = ({
     children,
 }) => {
-    const [cart, setCart] = useState<Cart>(new Cart());
+    const [cart, setCart] = useStorageState('cartKey');
 
-    useEffect(() => {
-        const storedCart = localStorage.getItem(CART_KEY);
-        if (storedCart) {
-            setCart(JSON.parse(storedCart));
-        }
-    }, []);
-
-    useEffect(() => {
-        localStorage.setItem(CART_KEY, JSON.stringify(cart));
-    }, [cart]);
+    const updateCart = useCallback((): void => {
+        const updatedCart = new Cart();
+        updatedCart.products = [...cart.products];
+        setCart(updatedCart);
+    }, [cart, setCart]);
 
     const addProductToCart = useCallback(
         (newItem: CartProduct): void => {
+            const itemToAdd = newItem;
+
             const existingItem = cart.products.find(
-                (item) => item.product.id === newItem.product.id
+                (item) => item.product.id === itemToAdd.product.id
             );
 
             if (existingItem) {
                 existingItem.quantity += 1;
             } else {
-                cart.products.push(newItem);
+                itemToAdd.quantity = 1;
+                cart.products.push(itemToAdd);
             }
+
+            updateCart();
         },
-        [cart]
+        [cart, updateCart]
     );
 
     const removeProductFromCart = useCallback(
@@ -69,18 +85,16 @@ export const ShoppingCartProvider: React.FC<ShoppingCartProviderProps> = ({
             );
 
             if (itemIndex < 0) return;
-            const newProducts = [...cart.products];
-            newProducts[itemIndex].quantity -= 1;
 
-            if (newProducts[itemIndex].quantity < 1) {
-                newProducts.splice(itemIndex, 1);
+            cart.products[itemIndex].quantity -= 1;
+
+            if (cart.products[itemIndex].quantity < 1) {
+                cart.products.splice(itemIndex, 1);
             }
 
-            const updatedCart = new Cart();
-            updatedCart.products = newProducts;
-            setCart(updatedCart);
+            updateCart();
         },
-        [cart]
+        [cart, updateCart]
     );
 
     const deleteProductFromCart = useCallback(
@@ -88,25 +102,53 @@ export const ShoppingCartProvider: React.FC<ShoppingCartProviderProps> = ({
             const itemIndex = cart.products.findIndex(
                 (item) => item.product.id === itemToDelete.product.id
             );
-
+            cart.products[itemIndex].quantity = 0;
             cart.products.splice(itemIndex, 1);
 
-            const newProducts = [...cart.products];
-            const updatedCart = new Cart();
-            updatedCart.products = newProducts;
-            setCart(updatedCart);
+            updateCart();
+        },
+        [cart, updateCart]
+    );
+
+    const getCartProduct = useCallback(
+        (product: Product) => {
+            const cartProductFound = cart.products.find(
+                (cartProduct) => cartProduct.product.id === product.id
+            );
+            return cartProductFound || { product, quantity: 0 };
         },
         [cart]
+    );
+
+    const subtotal = cart.products.reduce(
+        (total, item) => total + item.quantity * item.product.price,
+        0
+    );
+
+    const totalQuantity = cart.products.reduce(
+        (total, item) => total + item.quantity,
+        0
     );
 
     const contextValue = useMemo(
         () => ({
             cart,
+            subtotal,
+            totalQuantity,
+            getCartProduct,
             addProductToCart,
             removeProductFromCart,
             deleteProductFromCart,
         }),
-        [addProductToCart, cart, deleteProductFromCart, removeProductFromCart]
+        [
+            cart,
+            subtotal,
+            totalQuantity,
+            getCartProduct,
+            addProductToCart,
+            deleteProductFromCart,
+            removeProductFromCart,
+        ]
     );
 
     return (
