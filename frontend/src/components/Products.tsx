@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Product } from '../domain/product';
 import CartButtons from './cart/CartButtons';
 import ShoppingCartContext from './cart/ShoppingCartContext';
+import { Tag } from '../domain/tag';
 
 const Products = () => {
     const [products, setProducts] = useState<Product[]>([]);
@@ -14,6 +15,7 @@ const Products = () => {
                 'http://localhost:8080/api/v1/products/findall'
             );
             setProducts(result.data);
+            console.log(result.data);
         };
 
         fetchProduct();
@@ -43,7 +45,7 @@ const Products = () => {
                         <div className="card-actions justify-between">
                             <div className="flex flex-wrap items-center gap-1">
                                 <span>Tags:</span>
-                                {/* {product.productTags.map((tag) => (
+                                {/* {product.tags.map((tag) => (
                                     <span
                                         className="p-1 bg-slate-400 text-white"
                                         key={tag.id}
