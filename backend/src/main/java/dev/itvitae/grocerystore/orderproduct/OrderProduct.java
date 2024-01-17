@@ -1,8 +1,10 @@
-package dev.itvitae.grocerystore.cartproduct;
+package dev.itvitae.grocerystore.orderproduct;
 
-import dev.itvitae.grocerystore.cart.Cart;
+import dev.itvitae.grocerystore.order.Order;
 import dev.itvitae.grocerystore.products.Product;
+
 import jakarta.persistence.*;
+
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,23 +14,20 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @Entity
-public class CartProduct {
+public class OrderProduct {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Getter(AccessLevel.NONE)
     private Long id;
 
-    @ManyToOne
-    private Cart cart;
-
-    @ManyToOne
-    private Product product;
+    @ManyToOne private Order order;
+    @ManyToOne private Product product;
 
     private Integer quantity;
 
-    public CartProduct(Cart cart, Product product, Integer quantity) {
-        this.cart = cart;
+    public OrderProduct(Order order, Product product, Integer quantity) {
+        this.order = order;
         this.product = product;
         this.quantity = quantity;
     }

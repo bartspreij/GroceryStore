@@ -1,8 +1,7 @@
 package dev.itvitae.grocerystore.user;
 
+import dev.itvitae.grocerystore.exception.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -14,21 +13,21 @@ import java.net.URI;
 @RestController
 public class UserController {
 
-    private final UserService userService;
+    private final UserRepository userRepository;
 
     @GetMapping()
-    public Page<User> getAllUsers(Pageable pageable) {
-        return userService.getAll(pageable);
+    public Iterable<User> getAllUsers() {
+        return userRepository.findAll();
     }
 
     @GetMapping("/{email}")
     public User findByEmail(@PathVariable("email") String email){
-        return userService.findByEmail(email);
+        return userRepository.findByEmail(email).orElseThrow(() -> new UserNotFoundException(email));
     }
 
     @PostMapping()
     public ResponseEntity<User> saveUser(@RequestBody User user, UriComponentsBuilder ucb){
-        User savedUser = userService.addUser(user);
+        User savedUser = userRepository.save(user);
 
         URI locationOfNewRecipe = ucb
                 .path("api/v1/user/{id}")
