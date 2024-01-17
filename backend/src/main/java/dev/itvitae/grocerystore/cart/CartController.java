@@ -8,6 +8,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.net.URI;
 
 @RequiredArgsConstructor
+@CrossOrigin("http://localhost:5173")
 @RequestMapping("api/v1/carts")
 @RestController
 public class CartController {
