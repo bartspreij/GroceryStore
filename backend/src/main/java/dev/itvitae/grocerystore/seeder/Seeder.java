@@ -29,31 +29,35 @@ public class Seeder implements CommandLineRunner {
         seedCart();
     }
 
-    private void saveProduct(String name, String imageUrl, BigDecimal price, Tag...tags){
+    private void saveProduct(String name, String imageUrl, BigDecimal price, Tag... tags) {
         Product product = new Product(name, imageUrl, price, tags);
         productRepository.save(product);
     }
 
-    private Tag saveTag(String name) {
-        Tag tag = new Tag(name);
+    private Tag saveTag(String name, boolean isCategory) {
+        Tag tag = new Tag(name, isCategory);
         tagRepository.save(tag);
         return tag;
     }
 
     private void seedProducts() {
-        Tag fruit = saveTag("Fruit");
-        Tag potassium = saveTag("Potassium");
-        Tag meat = saveTag("Meat");
-        Tag dairy = saveTag("Dairy");
+        Tag fruit = saveTag("Fruit", true);
+        Tag potassium = saveTag("Potassium", false);
+        Tag meat = saveTag("Meat", true);
+        Tag dairy = saveTag("Dairy", true);
 
         saveProduct("Apple", "https://i.imgur.com/TVN1Hs5.jpeg", BigDecimal.valueOf(0.89), fruit);
         saveProduct("Banana", "https://i.imgur.com/xhlyEjv.png", BigDecimal.valueOf(1.29), fruit, potassium);
-        saveProduct("Minced Beef", "https://static.ah.nl/dam/product/AHI_4354523130303233323432?revLabel=1&rendition=800x800_JPG_Q90&fileType=binary", BigDecimal.valueOf(3.49), meat);
-        saveProduct("Milk", "https://static.ah.nl/dam/product/AHI_43545239393331383832?revLabel=6&rendition=800x800_JPG_Q90&fileType=binary", BigDecimal.valueOf(1.89), dairy);
+        saveProduct("Minced Beef",
+                "https://static.ah.nl/dam/product/AHI_4354523130303233323432?revLabel=1&rendition=800x800_JPG_Q90&fileType=binary",
+                BigDecimal.valueOf(3.49), meat);
+        saveProduct("Milk",
+                "https://static.ah.nl/dam/product/AHI_43545239393331383832?revLabel=6&rendition=800x800_JPG_Q90&fileType=binary",
+                BigDecimal.valueOf(1.89), dairy);
     }
 
     private void seedCart() {
-        Page<Product> products = productRepository.findAll(PageRequest.of(0,10));
+        Page<Product> products = productRepository.findAll(PageRequest.of(0, 10));
         Cart cart = new Cart();
 
         int maxQuantity = 10;
