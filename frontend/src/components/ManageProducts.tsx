@@ -115,7 +115,6 @@ const ManageProducts = () => {
 
     const handleSubmitProduct = async (e: any) => {
         e.preventDefault();
-        console.log(productMockup);
 
         if (productMockup.name.length === 0) {
             alert('Name cannot be empty');
@@ -209,45 +208,39 @@ const ManageProducts = () => {
                             <label>
                                 Tags
                                 <div className="flex flex-wrap gap-2">
-                                    {productMockup.tagIds.map(
-                                        (productTagId, index) => (
-                                            <div
-                                                className="inline-flex items-center"
-                                                key={index}
+                                    {productMockup.tagIds.map((_, index) => (
+                                        <div
+                                            className="inline-flex items-center"
+                                            key={index}
+                                        >
+                                            <select
+                                                onChange={(e) =>
+                                                    setTag(
+                                                        index,
+                                                        e.target.value
+                                                    )
+                                                }
                                             >
-                                                <select
-                                                    onChange={(e) =>
-                                                        setTag(
-                                                            index,
-                                                            e.target.value
-                                                        )
-                                                    }
-                                                >
-                                                    {tags
-                                                        .filter(
-                                                            (t) => !t.category
-                                                        )
-                                                        .map((tag) => (
-                                                            <option
-                                                                key={tag.id}
-                                                                value={tag.name}
-                                                            >
-                                                                {tag.name}
-                                                            </option>
-                                                        ))}
-                                                </select>
-                                                <button
-                                                    type="button"
-                                                    onClick={() =>
-                                                        removeTag(index)
-                                                    }
-                                                    className="ml-1 btn btn-xs btn-circle"
-                                                >
-                                                    <FaMinus />
-                                                </button>
-                                            </div>
-                                        )
-                                    )}
+                                                {tags
+                                                    .filter((t) => !t.category)
+                                                    .map((tag) => (
+                                                        <option
+                                                            key={tag.id}
+                                                            value={tag.name}
+                                                        >
+                                                            {tag.name}
+                                                        </option>
+                                                    ))}
+                                            </select>
+                                            <button
+                                                type="button"
+                                                onClick={() => removeTag(index)}
+                                                className="ml-1 btn btn-xs btn-circle"
+                                            >
+                                                <FaMinus />
+                                            </button>
+                                        </div>
+                                    ))}
                                 </div>
                             </label>
                         )}
@@ -257,7 +250,7 @@ const ManageProducts = () => {
                             className="btn mt-auto"
                             onClick={addTag}
                         >
-                            + Add tag
+                            + Add Tag
                         </button>
                     </div>
 
