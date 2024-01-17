@@ -34,8 +34,8 @@ public class Seeder implements CommandLineRunner {
         productRepository.save(product);
     }
 
-    private Tag saveTag(String name) {
-        Tag tag = new Tag(name);
+    private Tag saveTag(String name, boolean isCategory) {
+        Tag tag = new Tag(name, isCategory);
         tagRepository.save(tag);
         return tag;
     }
@@ -76,7 +76,7 @@ public class Seeder implements CommandLineRunner {
 
 
     private void seedCart() {
-        Page<Product> products = productRepository.findAll(PageRequest.of(0,10));
+        Page<Product> products = productRepository.findAll(PageRequest.of(0, 10));
         Cart cart = new Cart();
 
         int maxQuantity = 10;
