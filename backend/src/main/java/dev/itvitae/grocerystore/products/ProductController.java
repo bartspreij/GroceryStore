@@ -12,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
-import java.time.Instant;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -24,11 +23,6 @@ public class ProductController {
     private final ProductRepository productRepository;
     private final TagRepository tagRepository;
 
-    @GetMapping("/findall")
-    public Iterable<ProductDTO> findAll(){
-        return productRepository.findAll().stream().map(ProductDTO::new).toList();
-    }
-
     @GetMapping("/test")
     public ProductDTO makeTestProduct() {
         Tag fruit = new Tag("Fruit", true);
@@ -38,7 +32,9 @@ public class ProductController {
         tagRepository.save(healthy);
 
         Product product = new Product("Appel", "google.com", BigDecimal.ONE, fruit, healthy);
-        return new ProductDTO(productRepository.save(product));
+        productRepository.save(product);
+
+        return new ProductDTO(product);
     }
 
     @GetMapping("/query")
@@ -47,19 +43,19 @@ public class ProductController {
             @RequestParam(name = "c", required = false) String categoryName,
             @RequestParam(name = "page", defaultValue = "0") int page,
             @RequestParam(name = "size", defaultValue = "20") int size,
-            @RequestParam(name = "sort", defaultValue = "id,desc") String sort){
+            @RequestParam(name = "sort", defaultValue = "id,desc") String sort) {
 
         Pageable pageable = createPageable(sort, page, size);
 
         Page<Product> results;
         if (query != null && !query.isEmpty())
             results = productRepository.findByNameIgnoreCase(query, pageable);
-        else if(categoryName != null && !categoryName.isEmpty()) {
+        else if (categoryName != null && !categoryName.isEmpty()) {
             Optional<Tag> tag = tagRepository.findByName(categoryName);
-            if(tag.isEmpty()) return new ResponseEntity<>("Tag not found", HttpStatus.NOT_FOUND);
+            if (tag.isEmpty())
+                return new ResponseEntity<>("Tag not found", HttpStatus.NOT_FOUND);
             results = productRepository.findByProductTags_Tag(tag.get(), pageable);
-        }
-        else
+        } else
             results = productRepository.findAll(pageable);
 
         return new ResponseEntity<Page<ProductDTO>>(results.map(ProductDTO::new), HttpStatus.OK);

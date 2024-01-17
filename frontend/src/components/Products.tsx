@@ -1,10 +1,14 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import CartButtons from './cart/CartButtons';
+import ShoppingCartContext from './cart/ShoppingCartContext';
 import Pageable from '../domain/pageable';
 import { Results, queryProducts } from '../api/products-api';
+import { Tag } from '../domain/tag';
 
-const Product = () => {
+const Products = () => {
     const [results, setResults] = useState<Results>(new Results());
     const [pageable, setPageable] = useState<Pageable>(new Pageable());
+    const { getCartProduct } = useContext(ShoppingCartContext);
 
     useEffect(() => {
         const fetchProduct = async () => {
@@ -62,7 +66,7 @@ const Product = () => {
                             <div className="card-actions justify-between">
                                 <div className="flex flex-wrap items-center gap-1">
                                     <span>Tags:</span>
-                                    {product.tags.map((tag) => (
+                                    {product.tags.map((tag: Tag) => (
                                         <a
                                             className="p-1 bg-slate-400 text-white"
                                             href={'/?c=' + tag.name}
@@ -73,12 +77,7 @@ const Product = () => {
                                     ))}
                                 </div>
 
-                                <button
-                                    type="button"
-                                    className="btn btn-primary"
-                                >
-                                    Buy Now
-                                </button>
+                                <CartButtons item={getCartProduct(product)} />
                             </div>
                         </div>
                     </div>
@@ -101,4 +100,4 @@ const Product = () => {
     );
 };
 
-export default Product;
+export default Products;
