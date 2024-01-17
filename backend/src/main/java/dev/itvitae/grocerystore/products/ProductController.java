@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -31,7 +32,7 @@ public class ProductController {
         tagRepository.save(fruit);
         tagRepository.save(healthy);
 
-        Product product = new Product("Appel", "google.com", BigDecimal.ONE, fruit, healthy);
+        Product product = new Product("Appel", "empty",  "google.com", BigDecimal.ONE, fruit, healthy);
         productRepository.save(product);
 
         return new ProductDTO(product);
@@ -59,6 +60,36 @@ public class ProductController {
             results = productRepository.findAll(pageable);
 
         return new ResponseEntity<Page<ProductDTO>>(results.map(ProductDTO::new), HttpStatus.OK);
+    }
+
+    @PostMapping()
+    public ResponseEntity<?> addProduct(@RequestBody ProductModel model) {
+        String name = model.name();
+        String description = model.description();
+        String imageUrl =  model.imageUrl();
+        BigDecimal price = model.price();
+        Long categoryId = model.categoryId();
+        Long[] tagIds = model.tagIds();
+
+        // Create tag array and add category by id
+        ArrayList<Tag> tags = new ArrayList<>();
+        Optional<Tag> category = tagRepository.findById(categoryId);
+        if(category.isEmpty())
+            return new ResponseEntity<>("Category not found", HttpStatus.BAD_REQUEST);
+        tags.add(category.get());
+
+        // Add other tags by id
+        for(Long tagId: tagIds) {
+            Optional<Tag> tag = tagRepository.findById(tagId);
+            if(tag.isEmpty())
+                return new ResponseEntity<>("Tag not found", HttpStatus.BAD_REQUEST);
+            tags.add(tag.get());
+        }
+
+        Product product = new Product(name, description, imageUrl, price, tags.toArray(new Tag[0]));
+        productRepository.save(product);
+
+        return new ResponseEntity<>(new ProductDTO(product), HttpStatus.OK);
     }
 
     private static Pageable createPageable(String sort, int page, int size) {

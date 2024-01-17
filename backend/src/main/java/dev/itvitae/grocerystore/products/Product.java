@@ -22,14 +22,16 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+    private String description;
     private BigDecimal price;
     private String imageUrl;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private List<ProductTag> productTags = new ArrayList<>();
 
-    public Product(String name, String imageUrl, BigDecimal price, Tag...tags) {
+    public Product(String name, String description, String imageUrl, BigDecimal price, Tag...tags) {
         this.name = name;
+        this.description = description;
         this.imageUrl = imageUrl;
         this.price = price;
 
