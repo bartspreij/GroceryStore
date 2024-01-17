@@ -10,7 +10,7 @@ interface Props {
 
 function roundedPrice(price: number): string {
     const roundedValue: number = Number((price * 0.7).toFixed(2));
-    return `Nu: €${roundedValue}`;
+    return `Now: €${roundedValue}`;
 }
 
 const SaleGalleryItem = ({ product }: Props) => {
