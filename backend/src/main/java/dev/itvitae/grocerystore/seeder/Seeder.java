@@ -23,19 +23,14 @@ public class Seeder implements CommandLineRunner {
     private final ProductRepository productRepository;
     private final TagRepository tagRepository;
 
-<<<<<<< Updated upstream:backend/src/main/java/dev/itvitae/grocerystore/seeder/Seeder.java
     @Override
     public void run(String... args) throws Exception {
         seedProducts();
         seedCart();
     }
 
-    private void saveProduct(String name, String imageUrl, BigDecimal price, Tag...tags){
-        Product product = new Product(name, imageUrl, price, tags);
-=======
     private void saveProduct(String name, String imageUrl, BigDecimal price, boolean onSale, Tag...tags){
         Product product = new Product(name, imageUrl, price, onSale, tags);
->>>>>>> Stashed changes:backend/src/main/java/dev/itvitae/grocerystore/products/ProductSeeder.java
         productRepository.save(product);
     }
 
@@ -45,14 +40,7 @@ public class Seeder implements CommandLineRunner {
         return tag;
     }
 
-<<<<<<< Updated upstream:backend/src/main/java/dev/itvitae/grocerystore/seeder/Seeder.java
     private void seedProducts() {
-        Tag fruit = saveTag("Fruit");
-        Tag potassium = saveTag("Potassium");
-=======
-    @Override
-    public void run(String... args) throws Exception {
->>>>>>> Stashed changes:backend/src/main/java/dev/itvitae/grocerystore/products/ProductSeeder.java
         Tag meat = saveTag("Meat");
         Tag dairy = saveTag("Dairy");
         Tag seafood = saveTag("Seafood");
@@ -84,8 +72,8 @@ public class Seeder implements CommandLineRunner {
         saveProduct("Broccoli", "https://static.ah.nl/dam/product/AHI_43545237303333353032?revLabel=1&rendition=800x800_JPG_Q90&fileType=binary", BigDecimal.valueOf(1.49), false, vegetables);
         saveProduct("Pork Chops", "https://static.ah.nl/dam/product/AHI_43545239383638363631?revLabel=1&rendition=800x800_JPG_Q90&fileType=binary", BigDecimal.valueOf(6.49), false, meat);
         saveProduct("Mozzarella", "https://static.ah.nl/dam/product/AHI_43545239373439353038?revLabel=1&rendition=800x800_JPG_Q90&fileType=binary", BigDecimal.valueOf(4.49), false, dairy);
-
     }
+
 
     private void seedCart() {
         Page<Product> products = productRepository.findAll(PageRequest.of(0,10));

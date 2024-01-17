@@ -24,20 +24,15 @@ public class ProductController {
     private final TagRepository tagRepository;
 
     @GetMapping("/test")
-    public Product makeTestProduct() {
+    public ProductDTO makeTestProduct() {
         Tag fruit = new Tag("Fruit");
         Tag healthy = new Tag("Healthy");
 
         tagRepository.save(fruit);
         tagRepository.save(healthy);
 
-<<<<<<< Updated upstream
-        Product product = new Product("Appel", "google.com", BigDecimal.ONE, false, fruit, healthy);
-        return productRepository.save(product);
-=======
         Product product = new Product("Appel", "google.com", BigDecimal.ONE, false, fruit, healthy);
         return new ProductDTO(productRepository.save(product));
->>>>>>> Stashed changes
     }
 
     @GetMapping("/query")
