@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { fetchCategories } from '../tag-api';
+import { useState, useEffect } from 'react';
+import { fetchCategories } from '../api/tag-api';
 import { Tag } from '../domain/tag';
 
 const Navbar = () => {
@@ -15,7 +15,7 @@ const Navbar = () => {
     }, []);
 
     return (
-        <div className="navbar bg-base-100 mb-1">
+        <div className="navbar bg-base-100 mb-4">
             <div className="flex-1 mr-2">
                 <a href={'/'} className="btn btn-ghost text-xl">
                     GroceryStore
@@ -31,7 +31,10 @@ const Navbar = () => {
                     >
                         <div className="card-body">
                             {categories.map((category) => (
-                                <a href={'/'} key={category.id}>
+                                <a
+                                    href={'/?c=' + category.name}
+                                    key={category.id}
+                                >
                                     {category.name}
                                 </a>
                             ))}

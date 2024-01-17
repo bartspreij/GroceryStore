@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Tag } from './domain/tag';
+import { Tag } from '../domain/tag';
 
 // eslint-disable-next-line import/prefer-default-export
 export const fetchCategories = async (): Promise<Tag[]> => {

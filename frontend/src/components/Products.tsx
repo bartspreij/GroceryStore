@@ -1,15 +1,6 @@
 import { useEffect, useState } from 'react';
-import axios from 'axios';
-import { Grocery } from '../domain/grocery';
 import Pageable from '../domain/pageable';
-
-class Results {
-    content: Grocery[] = [];
-
-    pageable: Pageable = new Pageable();
-
-    totalPages: number = 0;
-}
+import { Results, queryProducts } from '../api/products-api';
 
 const Product = () => {
     const [results, setResults] = useState<Results>(new Results());
@@ -17,14 +8,23 @@ const Product = () => {
 
     useEffect(() => {
         const fetchProduct = async () => {
-            const query = window.location.search.substring(3);
-            const result = await axios.get(
-                `http://localhost:8080/api/v1/products/query?q=${query}&page=${pageable.pageNumber}&size=${pageable.pageSize}`
+            const searchType = window.location.search.substring(1, 2);
+            let query = '';
+            let category = '';
+            if (searchType === 'c')
+                category = window.location.search.substring(3);
+            if (searchType === 'q') query = window.location.search.substring(3);
+
+            const result = await queryProducts(
+                pageable.pageNumber,
+                pageable.pageSize,
+                query,
+                category
             );
 
-            setResults(result.data);
-            setPageable(result.data.pageable);
-            console.log(result.data);
+            setResults(result);
+            setPageable(result.pageable);
+            console.log(result);
         };
 
         fetchProduct();
@@ -63,12 +63,13 @@ const Product = () => {
                                 <div className="flex flex-wrap items-center gap-1">
                                     <span>Tags:</span>
                                     {product.tags.map((tag) => (
-                                        <span
+                                        <a
                                             className="p-1 bg-slate-400 text-white"
+                                            href={'/?c=' + tag.name}
                                             key={tag.id}
                                         >
                                             {tag.name}
-                                        </span>
+                                        </a>
                                     ))}
                                 </div>
 
