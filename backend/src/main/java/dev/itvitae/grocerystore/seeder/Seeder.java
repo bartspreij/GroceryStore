@@ -34,6 +34,12 @@ public class Seeder implements CommandLineRunner {
         productRepository.save(product);
     }
 
+    private Tag saveTag(String name) {
+        Tag tag = new Tag(name, true);
+        tagRepository.save(tag);
+        return tag;
+    }
+
     private Tag saveTag(String name, boolean isCategory) {
         Tag tag = new Tag(name, isCategory);
         tagRepository.save(tag);
@@ -49,13 +55,15 @@ public class Seeder implements CommandLineRunner {
         Tag beverages = saveTag("Beverages");
         Tag pantry = saveTag("Pantry");
         Tag vegetables = saveTag("Vegetables");
+        Tag protein = saveTag("Rich in protein", false);
+        Tag carbs = saveTag("Lots of carbs", false);
 
-        saveProduct("Minced Beef", "https://static.ah.nl/dam/product/AHI_4354523130303233323432?revLabel=1&rendition=800x800_JPG_Q90&fileType=binary", BigDecimal.valueOf(3.49), true, meat);
-        saveProduct("Milk", "https://static.ah.nl/dam/product/AHI_43545239393331383832?revLabel=6&rendition=800x800_JPG_Q90&fileType=binary", BigDecimal.valueOf(1.89), true, dairy);
-        saveProduct("Chicken Breast", "https://static.ah.nl/dam/product/AHI_43545239383938333733?revLabel=1&rendition=800x800_JPG_Q90&fileType=binary", BigDecimal.valueOf(5.99), true, meat);
-        saveProduct("Eggs", "https://static.ah.nl/dam/product/AHI_4354523130303133313939?revLabel=1&rendition=800x800_JPG_Q90&fileType=binary", BigDecimal.valueOf(2.49), true, pantry);
+        saveProduct("Minced Beef", "https://static.ah.nl/dam/product/AHI_4354523130303233323432?revLabel=1&rendition=800x800_JPG_Q90&fileType=binary", BigDecimal.valueOf(3.49), true, meat, protein);
+        saveProduct("Milk", "https://static.ah.nl/dam/product/AHI_43545239393331383832?revLabel=6&rendition=800x800_JPG_Q90&fileType=binary", BigDecimal.valueOf(1.89), true, dairy, protein);
+        saveProduct("Chicken Breast", "https://static.ah.nl/dam/product/AHI_43545239383938333733?revLabel=1&rendition=800x800_JPG_Q90&fileType=binary", BigDecimal.valueOf(5.99), true, meat, protein);
+        saveProduct("Eggs", "https://static.ah.nl/dam/product/AHI_4354523130303133313939?revLabel=1&rendition=800x800_JPG_Q90&fileType=binary", BigDecimal.valueOf(2.49), true, pantry, protein);
         saveProduct("Salmon Fillet", "https://static.ah.nl/dam/product/AHI_43545239363933323830?revLabel=1&rendition=800x800_JPG_Q90&fileType=binary", BigDecimal.valueOf(7.99), true, seafood);
-        saveProduct("Bread", "https://static.ah.nl/dam/product/AHI_4354523130303135363931?revLabel=1&rendition=800x800_JPG_Q90&fileType=binary", BigDecimal.valueOf(2.29), true, bakery);
+        saveProduct("Bread", "https://static.ah.nl/dam/product/AHI_4354523130303135363931?revLabel=1&rendition=800x800_JPG_Q90&fileType=binary", BigDecimal.valueOf(2.29), true, bakery, carbs);
         saveProduct("Apples", "https://static.ah.nl/dam/product/AHI_43545239383933333036?revLabel=1&rendition=800x800_JPG_Q90&fileType=binary", BigDecimal.valueOf(1.99), true, fruits);
         saveProduct("Orange Juice", "https://static.ah.nl/dam/product/AHI_43545239373536353838?revLabel=3&rendition=800x800_JPG_Q90&fileType=binary", BigDecimal.valueOf(3.79), true, beverages);
         saveProduct("Pasta", "https://static.ah.nl/dam/product/AHI_43545239393232393430?revLabel=1&rendition=800x800_JPG_Q90&fileType=binary", BigDecimal.valueOf(1.49), false, pantry);

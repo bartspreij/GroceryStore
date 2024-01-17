@@ -5,5 +5,6 @@ export interface Product {
     name: string;
     imageUrl: string;
     price: number;
+    onSale: boolean;
     tags: Tag[];
 }

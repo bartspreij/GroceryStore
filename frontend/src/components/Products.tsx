@@ -4,6 +4,7 @@ import ShoppingCartContext from './cart/ShoppingCartContext';
 import Pageable from '../domain/pageable';
 import { Results, queryProducts } from '../api/products-api';
 import { Tag } from '../domain/tag';
+import SaleGallery from './sales/SaleGallery';
 
 const Products = () => {
     const [results, setResults] = useState<Results>(new Results());
@@ -43,6 +44,7 @@ const Products = () => {
 
     return (
         <>
+            <SaleGallery />
             <div className="products grid grid-cols-1 sm:grid-cols-3 gap-5">
                 {results.content.map((product) => (
                     <div
@@ -69,7 +71,7 @@ const Products = () => {
                                     {product.tags.map((tag: Tag) => (
                                         <a
                                             className="p-1 bg-slate-400 text-white"
-                                            href={'/?c=' + tag.name}
+                                            href={`/?c=${tag.name}`}
                                             key={tag.id}
                                         >
                                             {tag.name}
@@ -89,6 +91,7 @@ const Products = () => {
                     <button
                         className="btn"
                         type="button"
+                        // eslint-disable-next-line react/no-array-index-key
                         key={index + 1}
                         onClick={() => setPage(index)}
                     >

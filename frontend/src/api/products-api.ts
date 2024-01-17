@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import axios from 'axios';
-import { Grocery } from '../domain/grocery';
 import Pageable from '../domain/pageable';
+import { Product } from '../domain/product';
 
 export class Results {
-    content: Grocery[] = [];
+    content: Product[] = [];
 
     pageable: Pageable = new Pageable();
 
