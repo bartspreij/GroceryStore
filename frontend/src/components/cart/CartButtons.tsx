@@ -18,25 +18,27 @@ const CartButtons: React.FC<CartButtonProps> = ({ item }) => {
     const itemInCart = isInCart(item);
 
     return (
-        <div>
+        <div className="join">
             {itemInCart && (
                 <>
                     <button
+                        aria-label="Delete button"
                         onClick={() => deleteProductFromCart(item)}
                         type="button"
-                        className="btn btn-xs btn-error"
+                        className="btn btn-xs btn-error join-item rounded-r-full"
                     >
                         <FaTrashCan />
                     </button>
                     <button
+                        aria-label="Remove button"
                         onClick={() => removeProductFromCart(item)}
                         type="button"
-                        className="btn btn-xs btn-circle"
+                        className="btn btn-xs join-item"
                     >
                         <FaMinus />
                     </button>
                     <input
-                        className="input input-xs input-primary w-12 caret-transparent text-center focus:outline-none focus:ring-0"
+                        className="input input-xs input-bordered w-12 caret-transparent text-center focus:outline-none focus:ring-0 join-item"
                         type="number"
                         aria-label="Change product value"
                         pattern="[0-9]{1,2}"
@@ -49,11 +51,12 @@ const CartButtons: React.FC<CartButtonProps> = ({ item }) => {
                 </>
             )}
             <button
+                aria-label="Add button"
                 onClick={() => addProductToCart(item)}
                 type="button"
                 className={
                     itemInCart
-                        ? 'btn btn-xs btn-circle'
+                        ? 'btn btn-xs  join-item rounded-r-full'
                         : 'btn btn-xs btn-circle btn-success'
                 }
             >
