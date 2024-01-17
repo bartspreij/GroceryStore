@@ -3,7 +3,7 @@ export default class Pageable {
 
     pageNumber: number = 0;
 
-    pageSize: number = 2;
+    pageSize: number = 6;
 
     paged: boolean = false;
 }
