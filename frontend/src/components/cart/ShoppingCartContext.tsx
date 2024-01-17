@@ -8,6 +8,7 @@ interface ShoppingCartContextValue {
     cart: Cart;
     subtotal: number;
     totalQuantity: number;
+    isInCart: (product: CartProduct) => boolean;
     getCartProduct: (product: Product) => CartProduct;
     addProductToCart: (product: CartProduct) => void;
     removeProductFromCart: (product: CartProduct) => void;
@@ -27,6 +28,7 @@ const defaultContextValue: ShoppingCartContextValue = {
     cart: new Cart(),
     subtotal: 0,
     totalQuantity: 0,
+    isInCart: () => true,
     getCartProduct: () => {
         return {
             product: {
@@ -120,6 +122,15 @@ export const ShoppingCartProvider: React.FC<ShoppingCartProviderProps> = ({
         [cart]
     );
 
+    const isInCart = useCallback(
+        (item: CartProduct) => {
+            return cart.products.some(
+                (cartProduct) => cartProduct.product.id === item.product.id
+            );
+        },
+        [cart]
+    );
+
     const subtotal = cart.products.reduce(
         (total, item) => total + item.quantity * item.product.price,
         0
@@ -135,6 +146,7 @@ export const ShoppingCartProvider: React.FC<ShoppingCartProviderProps> = ({
             cart,
             subtotal,
             totalQuantity,
+            isInCart,
             getCartProduct,
             addProductToCart,
             removeProductFromCart,
@@ -144,6 +156,7 @@ export const ShoppingCartProvider: React.FC<ShoppingCartProviderProps> = ({
             cart,
             subtotal,
             totalQuantity,
+            isInCart,
             getCartProduct,
             addProductToCart,
             deleteProductFromCart,

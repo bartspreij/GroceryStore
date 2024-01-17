@@ -12,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
-import java.time.Instant;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -23,11 +22,6 @@ public class ProductController {
 
     private final ProductRepository productRepository;
     private final TagRepository tagRepository;
-
-    @GetMapping("/findall")
-    public Iterable<Product> findAll(){
-        return productRepository.findAll();
-    }
 
     @GetMapping("/test")
     public Product makeTestProduct() {
