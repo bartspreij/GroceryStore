@@ -1,12 +1,13 @@
 import Navbar from './components/Navbar';
 import Products from './components/Products';
+import { ShoppingCartProvider } from './components/cart/ShoppingCartContext';
 
 const App = () => {
     return (
-        <div>
+        <ShoppingCartProvider>
             <Navbar />
             <Products />
-        </div>
+        </ShoppingCartProvider>
     );
 };
 

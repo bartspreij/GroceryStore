@@ -1,16 +1,20 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
-import { Grocery } from '../domain/grocery';
+import { Product } from '../domain/product';
+import CartButtons from './cart/CartButtons';
+import ShoppingCartContext from './cart/ShoppingCartContext';
 
-const Product = () => {
-    const [products, setProducts] = useState<Grocery[]>([]);
+const Products = () => {
+    const [products, setProducts] = useState<Product[]>([]);
+    const { getCartProduct } = useContext(ShoppingCartContext);
+
     useEffect(() => {
         const fetchProduct = async () => {
             const result = await axios.get(
-                'http://localhost:8080/api/v1/products/findall'
+                'http://localhost:8080/api/v1/products/query?page=0&size=10'
             );
-            setProducts(result.data);
-            console.log(result.data);
+            setProducts(result.data.content);
+            console.log(result.data.content);
         };
 
         fetchProduct();
@@ -50,9 +54,8 @@ const Product = () => {
                                 ))}
                             </div>
 
-                            <button type="button" className="btn btn-primary">
-                                Buy Now
-                            </button>
+                            <br />
+                            <CartButtons item={getCartProduct(product)} />
                         </div>
                     </div>
                 </div>
@@ -61,4 +64,4 @@ const Product = () => {
     );
 };
 
-export default Product;
+export default Products;

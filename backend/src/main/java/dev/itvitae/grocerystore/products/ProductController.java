@@ -12,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
-import java.time.Instant;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -24,13 +23,8 @@ public class ProductController {
     private final ProductRepository productRepository;
     private final TagRepository tagRepository;
 
-    @GetMapping("/findall")
-    public Iterable<ProductDTO> findAll(){
-        return productRepository.findAll().stream().map(ProductDTO::new).toList();
-    }
-
     @GetMapping("/test")
-    public ProductDTO makeTestProduct() {
+    public Product makeTestProduct() {
         Tag fruit = new Tag("Fruit");
         Tag healthy = new Tag("Healthy");
 
@@ -38,7 +32,7 @@ public class ProductController {
         tagRepository.save(healthy);
 
         Product product = new Product("Appel", "google.com", BigDecimal.ONE, fruit, healthy);
-        return new ProductDTO(productRepository.save(product));
+        return productRepository.save(product);
     }
 
     @GetMapping("/query")
