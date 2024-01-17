@@ -12,5 +12,5 @@ import java.util.UUID;
 @Component
 public interface ProductRepository extends JpaRepository<Product, UUID>{
     Page<Product> findByProductTags_Tag(Tag tag, Pageable pageable);
-    Page<Product> findByNameIgnoreCase(String name, Pageable pageable);
+    Page<Product> findByNameContainingIgnoreCase(String name, Pageable pageable);
 }
