@@ -1,19 +1,11 @@
 import { useEffect, useState } from 'react';
 import Pageable from '../domain/pageable';
-import { Results, queryProducts } from '../api/products-api';
+import { Results, postProduct, queryProducts } from '../api/products-api';
 import ProductList from './ProductList';
 import { Tag } from '../domain/tag';
 import { fetchTags } from '../api/tag-api';
 import { FaMinus } from 'react-icons/fa6';
-
-interface ProductMockup {
-    name: string;
-    description: string;
-    imageUrl: string;
-    price: number;
-    categoryId: number;
-    tagIds: number[];
-}
+import { ProductMockup } from '../domain/product-mockup';
 
 const ManageProducts = () => {
     const [productMockup, setProductMockup] = useState<ProductMockup>({
@@ -34,19 +26,19 @@ const ManageProducts = () => {
             setTags(tags);
         };
 
-        const loadProducts = async () => {
-            const result = await queryProducts(
-                pageable.pageNumber,
-                pageable.pageSize
-            );
-
-            setResults(result);
-            setPageable(result.pageable);
-        };
-
         loadProducts();
         loadTags();
     }, [pageable.pageNumber, pageable.pageSize]);
+
+    const loadProducts = async () => {
+        const result = await queryProducts(
+            pageable.pageNumber,
+            pageable.pageSize
+        );
+
+        setResults(result);
+        setPageable(result.pageable);
+    };
 
     const setPage = (page: number) => {
         setPageable((old) => ({
@@ -121,7 +113,7 @@ const ManageProducts = () => {
         }));
     };
 
-    const handleSubmitProduct = (e: any) => {
+    const handleSubmitProduct = async (e: any) => {
         e.preventDefault();
         console.log(productMockup);
 
@@ -139,6 +131,12 @@ const ManageProducts = () => {
             alert('Please choose a category');
             return;
         }
+
+        try {
+            await postProduct(productMockup);
+            loadProducts();
+            window.location.href = '/admin';
+        } catch {}
     };
 
     return (
