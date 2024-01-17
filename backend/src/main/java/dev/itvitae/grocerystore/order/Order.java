@@ -21,7 +21,7 @@ public class Order {
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     Set<OrderProduct> orderProducts = new HashSet<>();
 
-    @ManyToOne User user;
+    @ManyToOne() User user;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

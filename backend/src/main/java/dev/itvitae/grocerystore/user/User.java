@@ -19,13 +19,18 @@ import java.util.Set;
 @Entity(name = "`user`")
 public class User {
 
-    @OneToMany Set<Order> orders = new HashSet<>();
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    Set<Order> orders = new HashSet<>();
+
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String firstName;
+
     @NaturalId(mutable = true)
     private String email;
+
     private String password;
     private String role;
 
