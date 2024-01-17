@@ -49,7 +49,7 @@ public class ProductController {
 
         Page<Product> results;
         if (query != null && !query.isEmpty())
-            results = productRepository.findByNameContainingIgnoreCase(query, pageable);
+            results = productRepository.findByNameOrTagContainingIgnoreCase(query, pageable);
         else if (categoryName != null && !categoryName.isEmpty()) {
             Optional<Tag> tag = tagRepository.findByName(categoryName);
             if (tag.isEmpty())
