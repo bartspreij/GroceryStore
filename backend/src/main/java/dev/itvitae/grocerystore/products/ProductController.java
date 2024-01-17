@@ -31,8 +31,13 @@ public class ProductController {
         tagRepository.save(fruit);
         tagRepository.save(healthy);
 
-        Product product = new Product("Appel", "google.com", BigDecimal.ONE, fruit, healthy);
+<<<<<<< Updated upstream
+        Product product = new Product("Appel", "google.com", BigDecimal.ONE, false, fruit, healthy);
         return productRepository.save(product);
+=======
+        Product product = new Product("Appel", "google.com", BigDecimal.ONE, false, fruit, healthy);
+        return new ProductDTO(productRepository.save(product));
+>>>>>>> Stashed changes
     }
 
     @GetMapping("/query")
