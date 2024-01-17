@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import axios from 'axios';
-import { Grocery } from '../domain/grocery';
 import Pageable from '../domain/pageable';
+import { Product } from '../domain/product';
 
 export class Results {
-    content: Grocery[] = [];
+    content: Product[] = [];
 
     pageable: Pageable = new Pageable();
 
@@ -15,16 +15,16 @@ export class Results {
 export const queryProducts = async (
     page: number,
     size: number,
-    query: string,
-    category: string
+    query?: string,
+    category?: string
 ): Promise<Results> => {
     const params: any = {
         page,
         size,
     };
 
-    if (query?.length > 0) params.q = query;
-    if (category?.length > 0) params.c = category;
+    if (query && query.length > 0) params.q = query;
+    if (category && category.length > 0) params.c = category;
 
     const result = await axios.get<Results>(
         `http://localhost:8080/api/v1/products/query`,
