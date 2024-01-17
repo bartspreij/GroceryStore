@@ -4,14 +4,39 @@
 
 :root {
     --site-width: 60rem;
-    --bg: #e8e8e8;
 }
 
 body {
- padding: 1rem;
- margin: 2rem auto;
- width: var(--site-width);
- max-width: 100%;
- background: var(--bg);
+    padding: 1rem;
+    margin: 2rem auto;
+    width: var(--site-width);
+    max-width: 100%;
+    background-color: oklch(var(--n));
 }
 
+form {
+    label {
+        flex-grow: 1;
+        input,
+        select {
+            margin-top: 0.2rem;
+        }
+    }
+
+    input,
+    select {
+        display: block;
+        /* max-width: 20rem; */
+        width: 100%;
+    }
+}
+
+input,
+select {
+    padding: 0.25rem 0.5rem;
+}
+
+h2 {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
