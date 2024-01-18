@@ -29,18 +29,20 @@ export const queryProducts = async (
     if (category && category.length > 0) params.c = category;
 
     const result = await axios.get<Results>(uri + `/query`, { params });
-
     return result.data;
 };
 
-export const postProduct = async (productMockup: Product) => {
-    const result = await axios.post<Product>(uri, productMockup);
-
+export const postProduct = async (product: Product) => {
+    const result = await axios.post<Product>(uri, product);
     return result.data;
 };
 
-export const saveProduct = async (productMockup: Product) => {
-    const result = await axios.patch<Product>(uri, productMockup);
+export const saveProduct = async (product: Product) => {
+    const result = await axios.patch<Product>(uri, product);
+    return result.data;
+};
 
+export const deleteProduct = async (product: Product) => {
+    const result = await axios.delete<Product>(`${uri}/${product.id}`);
     return result.data;
 };

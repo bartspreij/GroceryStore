@@ -2,7 +2,6 @@ package dev.itvitae.grocerystore.products;
 
 import dev.itvitae.grocerystore.tags.Tag;
 import dev.itvitae.grocerystore.tags.TagRepository;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -13,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -80,7 +78,6 @@ public class ProductController {
     }
 
     @PatchMapping()
-    @Transactional
     public ResponseEntity<?> patchProduct(@RequestBody ProductDTO dto) {
         Long id = dto.id();
         String name = dto.name();
@@ -109,22 +106,23 @@ public class ProductController {
         }
 
         product.setTags(newTags);
-
-        // Delete old product tags
         productRepository.save(product);
-//
-//        // Add new product tags
-//        product.setProductTags(
-//                Arrays.stream(tags)
-//                        .map(tag -> new ProductTag(product, tag))
-//                        .collect(Collectors.toList())
-//        );
 
-//        for(var productTag: product.getProductTags()) {
-//            System.out.println("Tag name: " + productTag.getTag().getName());
-//        }
-//        productRepository.save(product);
         return new ResponseEntity<>(new ProductDTO(product), HttpStatus.OK);
+    }
+
+    @DeleteMapping("{productId}")
+    public ResponseEntity<?> deleteProduct(@PathVariable Long productId) {
+
+        Product product = productRepository.findById(productId)
+                .orElse(null);
+
+        if(product == null)
+            return new ResponseEntity<>("Product not found", HttpStatus.NOT_FOUND);
+
+        productRepository.delete(product);
+
+        return new ResponseEntity<>("Delete success", HttpStatus.OK);
     }
 
     private static Pageable createPageable(String sort, int page, int size) {

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import Pageable from '../domain/pageable';
 import {
     Results,
+    deleteProduct,
     postProduct,
     queryProducts,
     saveProduct,
@@ -39,22 +40,31 @@ const ManageProducts = () => {
     };
 
     const handleSubmitProduct = async (productMockup: Product) => {
-        try {
-            await postProduct(productMockup);
-            // window.location.href = '/admin';
-        } catch {}
+        await postProduct(productMockup);
+        setAddingProduct(false);
+        loadProducts();
     };
 
     const handleSaveProduct = async (productMockup: Product) => {
-        try {
-            await saveProduct(productMockup);
-            // window.location.href = '/admin';
-        } catch {}
+        await saveProduct(productMockup);
+        setProductEditing(undefined);
+        loadProducts();
+    };
+
+    const handleDeleteProduct = async (product: Product) => {
+        if (!confirm(`Are you sure you want to delete ${product.name}?`))
+            return;
+
+        await deleteProduct(product);
+        loadProducts();
     };
 
     return (
         <>
-            <button className="btn mb-4" onClick={() => setAddingProduct(true)}>
+            <button
+                className="m-auto btn btn-success mb-4"
+                onClick={() => setAddingProduct(true)}
+            >
                 Add new product
             </button>
 
@@ -95,6 +105,9 @@ const ManageProducts = () => {
                 totalPages={results.totalPages}
                 setPage={(page: number) => setPage(page)}
                 editProduct={(product: Product) => setProductEditing(product)}
+                deleteProduct={(product: Product) =>
+                    handleDeleteProduct(product)
+                }
             />
         </>
     );

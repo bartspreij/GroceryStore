@@ -3,6 +3,8 @@ import CartButtons from './cart/CartButtons';
 import ShoppingCartContext from './cart/ShoppingCartContext';
 import { Tag } from '../domain/tag';
 import { Product } from '../domain/product';
+import { FaTrashCan } from 'react-icons/fa6';
+import { MdEdit } from 'react-icons/md';
 
 interface ProductListProps {
     products: Product[];
@@ -10,6 +12,7 @@ interface ProductListProps {
     totalPages: number;
     setPage: (page: number) => void;
     editProduct?: (product: Product) => void;
+    deleteProduct?: (product: Product) => void;
 }
 
 const ProductList: React.FC<ProductListProps> = ({
@@ -18,6 +21,7 @@ const ProductList: React.FC<ProductListProps> = ({
     totalPages,
     setPage,
     editProduct,
+    deleteProduct,
 }) => {
     const { getCartProduct } = useContext(ShoppingCartContext);
 
@@ -41,10 +45,19 @@ const ProductList: React.FC<ProductListProps> = ({
 
                         {!!editProduct && (
                             <button
-                                className="btn absolute top-1 right-1"
+                                className="btn btn-sm btn-circle absolute top-1 left-1"
                                 onClick={() => editProduct(product)}
                             >
-                                Edit
+                                <MdEdit />
+                            </button>
+                        )}
+
+                        {!!deleteProduct && (
+                            <button
+                                className="btn btn-sm btn-circle btn-error absolute top-1 right-1"
+                                onClick={() => deleteProduct(product)}
+                            >
+                                <FaTrashCan />
                             </button>
                         )}
 
