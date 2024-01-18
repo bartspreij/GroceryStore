@@ -47,9 +47,13 @@ public class ProductController {
 
         Pageable pageable = createPageable(sort, page, size);
 
+        // Replace + with spaces
+        if(query != null) query = query.replaceAll("\\+", " ");
+        if(categoryName != null) categoryName = categoryName.replaceAll("\\+", " ");
+
         Page<Product> results;
         if (query != null && !query.isEmpty())
-            results = productRepository.findByNameOrTagContainingIgnoreCase(query, pageable);
+            results = productRepository.findByNameContainingIgnoreCaseOrProductTags_Tag_NameContainingIgnoreCase(query, query, pageable);
         else if (categoryName != null && !categoryName.isEmpty()) {
             Optional<Tag> tag = tagRepository.findByName(categoryName);
             if (tag.isEmpty())

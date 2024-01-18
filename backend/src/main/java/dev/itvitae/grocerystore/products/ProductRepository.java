@@ -14,6 +14,5 @@ import java.util.UUID;
 @Component
 public interface ProductRepository extends JpaRepository<Product, UUID>{
     Page<Product> findByProductTags_Tag(Tag tag, Pageable pageable);
-    @Query("SELECT p FROM Product p JOIN p.productTags pt WHERE LOWER(p.name) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR LOWER(pt.tag.name) LIKE LOWER(CONCAT('%', :searchTerm, '%'))")
-    Page<Product> findByNameOrTagContainingIgnoreCase(@Param("searchTerm") String searchTerm, Pageable pageable);
+    Page<Product> findByNameContainingIgnoreCaseOrProductTags_Tag_NameContainingIgnoreCase(String name, String tagName, Pageable pageable);
 }
