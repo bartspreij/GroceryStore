@@ -2,7 +2,6 @@
 import axios from 'axios';
 import Pageable from '../domain/pageable';
 import { Product } from '../domain/product';
-import { ProductMockup } from '../domain/product-mockup';
 
 const uri = `http://localhost:8080/api/v1/products`;
 
@@ -34,8 +33,14 @@ export const queryProducts = async (
     return result.data;
 };
 
-export const postProduct = async (productMockup: ProductMockup) => {
+export const postProduct = async (productMockup: Product) => {
     const result = await axios.post<Product>(uri, productMockup);
+
+    return result.data;
+};
+
+export const saveProduct = async (productMockup: Product) => {
+    const result = await axios.patch<Product>(uri, productMockup);
 
     return result.data;
 };

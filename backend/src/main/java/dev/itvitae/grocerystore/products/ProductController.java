@@ -2,6 +2,7 @@ package dev.itvitae.grocerystore.products;
 
 import dev.itvitae.grocerystore.tags.Tag;
 import dev.itvitae.grocerystore.tags.TagRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -12,8 +13,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 @RequiredArgsConstructor
 @RestController
@@ -55,7 +58,7 @@ public class ProductController {
             Optional<Tag> tag = tagRepository.findByName(categoryName);
             if (tag.isEmpty())
                 return new ResponseEntity<>("Tag not found", HttpStatus.NOT_FOUND);
-            results = productRepository.findByProductTags_Tag(tag.get(), pageable);
+            results = productRepository.findByTags(tag.get(), pageable);
         } else
             results = productRepository.findAll(pageable);
 
@@ -63,32 +66,64 @@ public class ProductController {
     }
 
     @PostMapping()
-    public ResponseEntity<?> addProduct(@RequestBody ProductModel model) {
-        String name = model.name();
-        String description = model.description();
-        String imageUrl =  model.imageUrl();
-        BigDecimal price = model.price();
-        Long categoryId = model.categoryId();
-        Long[] tagIds = model.tagIds();
+    public ResponseEntity<?> addProduct(@RequestBody ProductDTO dto) {
+        String name = dto.name();
+        String description = dto.description();
+        String imageUrl =  dto.imageUrl();
+        BigDecimal price = dto.price();
+        Tag[] tags = dto.tags();
 
-        // Create tag array and add category by id
-        ArrayList<Tag> tags = new ArrayList<>();
-        Optional<Tag> category = tagRepository.findById(categoryId);
-        if(category.isEmpty())
-            return new ResponseEntity<>("Category not found", HttpStatus.BAD_REQUEST);
-        tags.add(category.get());
-
-        // Add other tags by id
-        for(Long tagId: tagIds) {
-            Optional<Tag> tag = tagRepository.findById(tagId);
-            if(tag.isEmpty())
-                return new ResponseEntity<>("Tag not found", HttpStatus.BAD_REQUEST);
-            tags.add(tag.get());
-        }
-
-        Product product = new Product(name, description, imageUrl, price, tags.toArray(new Tag[0]));
+        Product product = new Product(name, description, imageUrl, price, tags);
         productRepository.save(product);
 
+        return new ResponseEntity<>(new ProductDTO(product), HttpStatus.OK);
+    }
+
+    @PatchMapping()
+    @Transactional
+    public ResponseEntity<?> patchProduct(@RequestBody ProductDTO dto) {
+        Long id = dto.id();
+        String name = dto.name();
+        String description = dto.description();
+        String imageUrl =  dto.imageUrl();
+        BigDecimal price = dto.price();
+        Tag[] tags = dto.tags();
+
+        Product product = productRepository.findById(id)
+                .orElse(null);
+
+        if(product == null)
+            return new ResponseEntity<>("Product not found", HttpStatus.NOT_FOUND);
+
+        // Update properties
+        product.setName(name);
+        product.setDescription(description);
+        product.setImageUrl(imageUrl);
+        product.setPrice(price);
+
+        // Find tags for the thingamajig
+        Set<Tag> newTags = new HashSet<>();
+        for(var tag : tags) {
+            Optional<Tag> databaseTag = tagRepository.findById(tag.getId());
+            databaseTag.ifPresent(newTags::add);
+        }
+
+        product.setTags(newTags);
+
+        // Delete old product tags
+        productRepository.save(product);
+//
+//        // Add new product tags
+//        product.setProductTags(
+//                Arrays.stream(tags)
+//                        .map(tag -> new ProductTag(product, tag))
+//                        .collect(Collectors.toList())
+//        );
+
+//        for(var productTag: product.getProductTags()) {
+//            System.out.println("Tag name: " + productTag.getTag().getName());
+//        }
+//        productRepository.save(product);
         return new ResponseEntity<>(new ProductDTO(product), HttpStatus.OK);
     }
 

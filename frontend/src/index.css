@@ -4,6 +4,7 @@
 
 :root {
     --site-width: 60rem;
+    --transparent-dark: rgb(0, 0, 0, 0.1);
 }
 
 body {
@@ -12,6 +13,13 @@ body {
     width: var(--site-width);
     max-width: 100%;
     background-color: oklch(var(--n));
+}
+
+label {
+    font-weight: bold;
+    > * {
+        font-weight: 400;
+    }
 }
 
 form {
@@ -39,4 +47,22 @@ select {
 h2 {
     font-size: 1.5rem;
     font-weight: bold;
+}
+
+.popup-overlay {
+    background: var(--transparent-dark);
+    z-index: 100;
+    position: fixed;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.popup-content {
+    width: 25rem;
+    max-width: calc(100vw - 4rem);
+    padding: 1rem;
+    border-radius: 1rem;
 }

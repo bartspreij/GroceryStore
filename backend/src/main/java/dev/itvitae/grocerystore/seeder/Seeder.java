@@ -45,6 +45,7 @@ public class Seeder implements CommandLineRunner {
         Tag potassium = saveTag("Potassium", false);
         Tag meat = saveTag("Meat", true);
         Tag dairy = saveTag("Dairy", true);
+        Tag calciumRich = saveTag("Rich in Calcium", false);
 
         saveProduct("Apple", "empty", "https://i.imgur.com/TVN1Hs5.jpeg", BigDecimal.valueOf(0.89), fruit);
         saveProduct("Banana", "empty", "https://i.imgur.com/xhlyEjv.png", BigDecimal.valueOf(1.29), fruit, potassium);
@@ -53,7 +54,7 @@ public class Seeder implements CommandLineRunner {
                 BigDecimal.valueOf(3.49), meat);
         saveProduct("Milk",
                 "empty", "https://static.ah.nl/dam/product/AHI_43545239393331383832?revLabel=6&rendition=800x800_JPG_Q90&fileType=binary",
-                BigDecimal.valueOf(1.89), dairy);
+                BigDecimal.valueOf(1.89), dairy, calciumRich);
     }
 
     private void seedCart() {

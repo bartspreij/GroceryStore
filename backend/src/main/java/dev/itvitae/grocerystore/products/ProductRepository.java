@@ -6,11 +6,14 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Component;
 
 import dev.itvitae.grocerystore.tags.Tag;
+import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
 import java.util.UUID;
 
-@Component
-public interface ProductRepository extends JpaRepository<Product, UUID>{
-    Page<Product> findByProductTags_Tag(Tag tag, Pageable pageable);
+@Repository
+public interface ProductRepository extends JpaRepository<Product, Long>{
+    Page<Product> findByTags(Tag tag, Pageable pageable);
     Page<Product> findByNameIgnoreCase(String name, Pageable pageable);
+    Optional<Product> findById(Long id); // Apparently otherwise it expects a UUID
 }

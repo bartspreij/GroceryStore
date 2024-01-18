@@ -1,8 +1,6 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext } from 'react';
 import CartButtons from './cart/CartButtons';
 import ShoppingCartContext from './cart/ShoppingCartContext';
-import Pageable from '../domain/pageable';
-import { Results, queryProducts } from '../api/products-api';
 import { Tag } from '../domain/tag';
 import { Product } from '../domain/product';
 
@@ -11,6 +9,7 @@ interface ProductListProps {
     currentPage: number;
     totalPages: number;
     setPage: (page: number) => void;
+    editProduct?: (product: Product) => void;
 }
 
 const ProductList: React.FC<ProductListProps> = ({
@@ -18,6 +17,7 @@ const ProductList: React.FC<ProductListProps> = ({
     currentPage,
     totalPages,
     setPage,
+    editProduct,
 }) => {
     const { getCartProduct } = useContext(ShoppingCartContext);
 
@@ -38,6 +38,16 @@ const ProductList: React.FC<ProductListProps> = ({
                                 width="300px"
                             />
                         </figure>
+
+                        {!!editProduct && (
+                            <button
+                                className="btn absolute top-1 right-1"
+                                onClick={() => editProduct(product)}
+                            >
+                                Edit
+                            </button>
+                        )}
+
                         <div className="card-body">
                             <h2 className="card-title">{product.name}</h2>
 
