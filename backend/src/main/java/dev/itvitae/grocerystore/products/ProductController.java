@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -42,10 +43,13 @@ public class ProductController {
         tagRepository.save(fruit);
         tagRepository.save(healthy);
 
-        Product product = new Product("Appel", "google.com", BigDecimal.ONE, fruit, healthy);
-        productRepository.save(product);
+        Product product = new Product("Appel", "google.com", BigDecimal.ONE, false, fruit, healthy);
+        return new ProductDTO(productRepository.save(product));
+    }
 
-        return new ProductDTO(product);
+    @GetMapping("/onsale")
+    public List<Product> getOnSaleProducts() {
+        return productRepository.findByOnSaleTrue();
     }
 
     @GetMapping("/query")
@@ -58,9 +62,13 @@ public class ProductController {
 
         Pageable pageable = createPageable(sort, page, size);
 
+        // Replace + with spaces
+        if(query != null) query = query.replaceAll("\\+", " ");
+        if(categoryName != null) categoryName = categoryName.replaceAll("\\+", " ");
+
         Page<Product> results;
         if (query != null && !query.isEmpty())
-            results = productRepository.findByNameIgnoreCase(query, pageable);
+            results = productRepository.findByNameContainingIgnoreCaseOrProductTags_Tag_NameContainingIgnoreCase(query, query, pageable);
         else if (categoryName != null && !categoryName.isEmpty()) {
             Optional<Tag> tag = tagRepository.findByName(categoryName);
             if (tag.isEmpty()) return new ResponseEntity<>("Tag not found", HttpStatus.NOT_FOUND);
