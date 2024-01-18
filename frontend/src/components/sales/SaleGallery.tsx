@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import SaleGalleryItem from './SaleGalleryItem';
-import { Product } from '../../domain/product';
+import { Discount } from '../../domain/discount';
 
 const SaleGallery = () => {
-    const [productsOnSale, setProductsOnSale] = useState<Product[]>([]);
+    const [productsOnSale, setProductsOnSale] = useState<Discount[]>([]);
 
     useEffect(() => {
         const fetchProductsOnSale = async () => {
             const result = await axios.get(
-                'http://localhost:8080/api/v1/products/onsale'
+                'http://localhost:8080/api/v1/discounts'
             );
             setProductsOnSale(result.data);
         };
@@ -18,8 +18,8 @@ const SaleGallery = () => {
 
     return (
         <div className="carousel carousel-center p-4 space-x-4 bg-neutral rounded-box">
-            {productsOnSale.map((product) => (
-                <SaleGalleryItem key={product.id} product={product} />
+            {productsOnSale.map((discount) => (
+                <SaleGalleryItem key={discount.id} discount={discount} />
             ))}
         </div>
     );

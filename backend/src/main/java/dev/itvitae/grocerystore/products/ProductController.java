@@ -24,18 +24,6 @@ public class ProductController {
     private final ProductRepository productRepository;
     private final TagRepository tagRepository;
 
-    @GetMapping("/test")
-    public ProductDTO makeTestProduct() {
-        Tag fruit = new Tag("Fruit", true);
-        Tag healthy = new Tag("Healthy", false);
-
-        tagRepository.save(fruit);
-        tagRepository.save(healthy);
-
-        Product product = new Product("Appel", "google.com", BigDecimal.ONE, false, fruit, healthy);
-        return new ProductDTO(productRepository.save(product));
-    }
-
     @GetMapping("/onsale")
     public List<Product> getOnSaleProducts() {
         return productRepository.findByOnSaleTrue();

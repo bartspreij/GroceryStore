@@ -3,6 +3,8 @@ package dev.itvitae.grocerystore.seeder;
 import dev.itvitae.grocerystore.cart.Cart;
 import dev.itvitae.grocerystore.cart.CartService;
 import dev.itvitae.grocerystore.cartproduct.CartProduct;
+import dev.itvitae.grocerystore.discounts.Discount;
+import dev.itvitae.grocerystore.discounts.DiscountRepository;
 import dev.itvitae.grocerystore.products.Product;
 import dev.itvitae.grocerystore.products.ProductRepository;
 import dev.itvitae.grocerystore.tags.Tag;
@@ -14,6 +16,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Component
@@ -22,11 +26,13 @@ public class Seeder implements CommandLineRunner {
     private final CartService cartService;
     private final ProductRepository productRepository;
     private final TagRepository tagRepository;
+    private final DiscountRepository discountRepository;
 
     @Override
     public void run(String... args) throws Exception {
         seedProducts();
         seedCart();
+        seedDiscounts();
     }
 
     private void saveProduct(String name, String imageUrl, BigDecimal price, boolean onSale, Tag...tags){
@@ -94,5 +100,10 @@ public class Seeder implements CommandLineRunner {
         }
 
         cartService.saveCart(cart);
+    }
+    private void seedDiscounts() {
+        discountRepository.saveAll(
+                List.of(new Discount(1.0, LocalDate.now(), LocalDate.now().plusDays(7), productRepository.findByName("Milk")),
+                        new Discount(2.49, LocalDate.now(), LocalDate.now().plusDays(7), productRepository.findByName("Minced Beef"))));
     }
 }

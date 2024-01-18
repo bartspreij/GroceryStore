@@ -29,6 +29,7 @@ public class Product {
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private List<ProductTag> productTags = new ArrayList<>();
 
+
     public Product(String name, String imageUrl, BigDecimal price, boolean onSale, Tag...tags) {
         this.name = name;
         this.imageUrl = imageUrl;
