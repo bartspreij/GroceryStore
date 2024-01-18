@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -31,10 +32,13 @@ public class ProductController {
         tagRepository.save(fruit);
         tagRepository.save(healthy);
 
-        Product product = new Product("Appel", "google.com", BigDecimal.ONE, fruit, healthy);
-        productRepository.save(product);
+        Product product = new Product("Appel", "google.com", BigDecimal.ONE, false, fruit, healthy);
+        return new ProductDTO(productRepository.save(product));
+    }
 
-        return new ProductDTO(product);
+    @GetMapping("/onsale")
+    public List<Product> getOnSaleProducts() {
+        return productRepository.findByOnSaleTrue();
     }
 
     @GetMapping("/query")
