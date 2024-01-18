@@ -2,7 +2,9 @@ package dev.itvitae.grocerystore.products;
 
 import dev.itvitae.grocerystore.tags.Tag;
 import dev.itvitae.grocerystore.tags.TagRepository;
+
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -22,6 +24,15 @@ public class ProductController {
 
     private final ProductRepository productRepository;
     private final TagRepository tagRepository;
+
+    private static Pageable createPageable(String sort, int page, int size) {
+        String[] sortArray = sort.split(",");
+        String sortBy = sortArray[0];
+        String sortDirection = sortArray.length > 1 ? sortArray[1] : "asc";
+
+        Sort sortObj = Sort.by(Sort.Direction.fromString(sortDirection), sortBy);
+        return PageRequest.of(page, size, sortObj);
+    }
 
     @GetMapping("/test")
     public ProductDTO makeTestProduct() {
@@ -52,21 +63,10 @@ public class ProductController {
             results = productRepository.findByNameIgnoreCase(query, pageable);
         else if (categoryName != null && !categoryName.isEmpty()) {
             Optional<Tag> tag = tagRepository.findByName(categoryName);
-            if (tag.isEmpty())
-                return new ResponseEntity<>("Tag not found", HttpStatus.NOT_FOUND);
+            if (tag.isEmpty()) return new ResponseEntity<>("Tag not found", HttpStatus.NOT_FOUND);
             results = productRepository.findByProductTags_Tag(tag.get(), pageable);
-        } else
-            results = productRepository.findAll(pageable);
+        } else results = productRepository.findAll(pageable);
 
         return new ResponseEntity<Page<ProductDTO>>(results.map(ProductDTO::new), HttpStatus.OK);
-    }
-
-    private static Pageable createPageable(String sort, int page, int size) {
-        String[] sortArray = sort.split(",");
-        String sortBy = sortArray[0];
-        String sortDirection = sortArray.length > 1 ? sortArray[1] : "asc";
-
-        Sort sortObj = Sort.by(Sort.Direction.fromString(sortDirection), sortBy);
-        return PageRequest.of(page, size, sortObj);
     }
 }

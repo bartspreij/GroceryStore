@@ -1,16 +1,17 @@
 package dev.itvitae.grocerystore.products;
 
-import java.math.BigDecimal;
-
 import dev.itvitae.grocerystore.producttags.ProductTag;
 import dev.itvitae.grocerystore.tags.Tag;
 
+import java.math.BigDecimal;
+
 public record ProductDTO(Long id, String name, BigDecimal price, String imageUrl, Tag[] tags) {
     public ProductDTO(Product product) {
-        this(product.getId(), product.getName(), product.getPrice(), product.getImageUrl(),
-       product.getProductTags().stream()
-            .map(ProductTag::getTag)
-            .toArray(Tag[]::new));
+        this(
+                product.getId(),
+                product.getName(),
+                product.getPrice(),
+                product.getImageUrl(),
+                product.getProductTags().stream().map(ProductTag::getTag).toArray(Tag[]::new));
     }
-            
 }

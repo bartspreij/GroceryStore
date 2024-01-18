@@ -87,32 +87,28 @@ public class Seeder implements CommandLineRunner {
 
     private void seedOrders() {
         List<Product> products = productRepository.findAll(PageRequest.of(0, 10)).toList();
-        Order order = new Order();
-
-        int maxQuantity = 10;
-        for (Product product : products) {
-            int randomQuantity = (int) (Math.random() * maxQuantity) + 1;
-            order.getOrderProducts().add(new OrderProduct(order, product, randomQuantity));
-        }
-
-        // Hardcoded order products for testing frequency bought in that specific quantity
-        List<OrderProduct> orderProducts =
-                List.of(
-                        new OrderProduct(order, products.get(1), 7),
-                        new OrderProduct(order, products.get(1), 7),
-                        new OrderProduct(order, products.get(1), 7));
-
-        order.getOrderProducts().addAll(orderProducts);
-
         User user =
                 userRepository
                         .findByEmail("bartspreij@gmail.com")
                         .orElseThrow(() -> new UserNotFoundException("bartspreij@gmail.com"));
 
-        user.getOrders().add(order);
-        order.setUser(user);
-        orderRepository.save(order);
+        // Create multiple orders with varying quantities for the same products
+        for (int i = 0; i < 5; i++) { // Create multiple orders
+            Order order = new Order();
+            order.setUser(user);
 
-        productService.findTopTenMostFrequentlyPurchasedProductByUser(user);
+            for (int j = 0; j < products.size(); j++) {
+                Product product = products.get(j);
+                order.getOrderProducts().add(new OrderProduct(order, product, i + 2));
+            }
+
+            // Add some specific order products to test frequency in specific quantities
+            if (i < 3) {
+                order.getOrderProducts().add(new OrderProduct(order, products.get(1), 7));
+            }
+
+            user.getOrders().add(order);
+            orderRepository.save(order);
+        }
     }
 }
