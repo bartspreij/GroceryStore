@@ -1,42 +1,40 @@
 import { useContext } from 'react';
-import { Product } from '../../domain/product';
 import { Tag } from '../../domain/tag';
 import CartButtons from '../cart/CartButtons';
 import ShoppingCartContext from '../cart/ShoppingCartContext';
+import { CartProduct } from '../../domain/cart-product';
 
-interface Props {
-    product: Product;
+interface CarouselItemProps {
+    cartProduct: CartProduct;
 }
 
-function roundedPrice(price: number): string {
-    const roundedValue: number = Number((price * 0.7).toFixed(2));
-    return `Now: €${roundedValue}`;
-}
-
-const SaleGalleryItem = ({ product }: Props) => {
+const CarouselItem: React.FC<CarouselItemProps> = ({ cartProduct }) => {
     const { getCartProduct } = useContext(ShoppingCartContext);
 
     return (
         <div className="carousel-item max-w-xs max-h-96">
-            <div key={product.id} className="card w-96 bg-base-100 shadow-xl">
+            <div
+                key={cartProduct.product.id}
+                className="card w-96 bg-base-100 shadow-xl"
+            >
                 <figure className="aspect-square">
                     <img
                         className="w-full h-full object-cover"
-                        src={product.imageUrl}
-                        alt={product.name}
+                        src={cartProduct.product.imageUrl}
+                        alt={cartProduct.product.name}
                         height="300px"
                         width="300px"
                     />
                 </figure>
                 <div className="card-body">
-                    <h2 className="card-title">{product.name}</h2>
-                    <p className="line-through">€{product.price}</p>
-                    <p>{roundedPrice(product.price)}</p>
+                    <h2 className="card-title">{cartProduct.product.name}</h2>
+                    <p className="line-through">€{cartProduct.product.price}</p>
+                    <p>{cartProduct.product.price}</p>
                     <div className="card-actions justify-between">
                         <div className="flex flex-wrap items-center gap-1">
                             <span>Tags:</span>
-                            {product.tags &&
-                                product.tags.map((tag: Tag) => (
+                            {cartProduct.product.tags &&
+                                cartProduct.product.tags.map((tag: Tag) => (
                                     <a
                                         className="p-1 bg-slate-400 text-white"
                                         href={`/?c=${tag.name}`}
@@ -47,11 +45,11 @@ const SaleGalleryItem = ({ product }: Props) => {
                                 ))}
                         </div>
                     </div>
-                    <CartButtons item={getCartProduct(product)} />
+                    <CartButtons item={getCartProduct(cartProduct.product)} />
                 </div>
             </div>
         </div>
     );
 };
 
-export default SaleGalleryItem;
+export default CarouselItem;

@@ -15,11 +15,9 @@ const CartButtons: React.FC<CartButtonProps> = ({ item }) => {
         isInCart,
     } = useContext(ShoppingCartContext);
 
-    const itemInCart = isInCart(item);
-
     return (
         <div className="join">
-            {itemInCart && (
+            {isInCart(item) && (
                 <>
                     <button
                         aria-label="Delete button"
@@ -55,7 +53,7 @@ const CartButtons: React.FC<CartButtonProps> = ({ item }) => {
                 onClick={() => addProductToCart(item)}
                 type="button"
                 className={
-                    itemInCart
+                    isInCart(item)
                         ? 'btn btn-xs  join-item rounded-r-full'
                         : 'btn btn-xs btn-circle btn-success'
                 }
