@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Pageable from '../domain/pageable';
 import { Results, queryProducts } from '../api/products-api';
 import ProductList from './ProductList';
