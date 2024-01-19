@@ -11,9 +11,6 @@ interface CarouselItemProps {
 const FrequentlyPurchasedItem: React.FC<CarouselItemProps> = ({
     cartProduct,
 }) => {
-    const { updateCartProductQuantity } =
-        useContext(ShoppingCartContext);
-
     return (
         <div className="carousel-item max-w-xs max-h-96">
             <div

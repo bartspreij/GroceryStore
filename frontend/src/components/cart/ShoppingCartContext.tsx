@@ -10,7 +10,7 @@ interface ShoppingCartContextValue {
     totalQuantity: number;
     isInCart: (product: CartProduct) => boolean;
     getCartProduct: (product: Product) => CartProduct;
-    addProductToCart: (product: CartProduct) => void;
+    addProductToCart: (product: Product) => void;
     addProductInSpecificQuantity: (product: Product, quantity: number) => void;
     removeProductFromCart: (product: CartProduct) => void;
     deleteProductFromCart: (product: CartProduct) => void;
@@ -64,18 +64,18 @@ export const ShoppingCartProvider: React.FC<ShoppingCartProviderProps> = ({
     }, [cart, setCart]);
 
     const addProductToCart = useCallback(
-        (newItem: CartProduct, quantity = 1): void => {
+        (newItem: Product, quantity = 1): void => {
             const itemToAdd = newItem;
 
             const existingItem = cart.products.find(
-                (item) => item.product.id === itemToAdd.product.id
+                (item) => item.product.id === itemToAdd.id
             );
 
             if (existingItem) {
                 existingItem.quantity += 1;
             } else {
-                itemToAdd.quantity = quantity;
-                cart.products.push(itemToAdd);
+                const cartProduct = { itemToAdd, quantity}
+                cart.products.push({ itemToAdd, quantity });
             }
 
             updateCart();

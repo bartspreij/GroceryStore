@@ -5,13 +5,9 @@ import ShoppingCartContext from './ShoppingCartContext';
 
 interface CartButtonProps {
     item: CartProduct;
-    quantityToAdd: number;
 }
 
-const CartButtons: React.FC<CartButtonProps> = ({
-    item,
-    quantityToAdd = 1,
-}) => {
+const CartButtons: React.FC<CartButtonProps> = ({ item }) => {
     const {
         addProductToCart,
         removeProductFromCart,
@@ -54,7 +50,7 @@ const CartButtons: React.FC<CartButtonProps> = ({
             )}
             <button
                 aria-label="Add button"
-                onClick={() => addProductToCart(item, quantityToAdd)}
+                onClick={() => addProductToCart(item, 1)}
                 type="button"
                 className={
                     isInCart(item)
