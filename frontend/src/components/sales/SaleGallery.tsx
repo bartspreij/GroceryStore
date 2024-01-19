@@ -20,11 +20,17 @@ const SaleGallery = () => {
         // eslint-disable-next-line react/jsx-no-useless-fragment
         <>
             {products.length > 0 && (
-                <div className="carousel carousel-center p-4 bg-neutral rounded-box">
-                    {products.map((product) => (
-                        <SaleGalleryItem key={product.id} product={product} />
-                    ))}
-                </div>
+                <>
+                    <h2>On Sale</h2>
+                    <div className="carousel w-full bg-neutral rounded-box mb-4">
+                        {products.map((product) => (
+                            <SaleGalleryItem
+                                key={product.id}
+                                product={product}
+                            />
+                        ))}
+                    </div>
+                </>
             )}
         </>
     );

@@ -7,12 +7,16 @@
     --transparent-dark: rgb(0, 0, 0, 0.1);
 }
 
+* {
+    box-sizing: border-box;
+}
+
 body {
     padding: 1rem;
     margin: 2rem auto;
     width: var(--site-width);
     max-width: 100%;
-    background-color: oklch(var(--n));
+    /* background-color: oklch(var(--n)); */
 }
 
 label {

@@ -238,15 +238,16 @@ public class Seeder implements CommandLineRunner {
         if(allProducts.isEmpty()) return;
         Random random = new Random();
 
-        discountRepository.saveAll(
-                List.of(new Discount(1.0, LocalDate.now(), LocalDate.now().plusDays(7),
-                                allProducts.get(random.nextInt(allProducts.size()))),
-                        new Discount(2.49, LocalDate.now(), LocalDate.now().plusDays(7),
-                                allProducts.get(random.nextInt(allProducts.size()))),
-                        new Discount(2.49, LocalDate.now(), LocalDate.now().plusDays(7),
-                                allProducts.get(random.nextInt(allProducts.size()))),
-                        new Discount(2.49, LocalDate.now(), LocalDate.now().plusDays(7),
-                                allProducts.get(random.nextInt(allProducts.size())))
-                ));
+        for(var i = 0; i < 10; i++) {
+            generateDiscount(allProducts.get(random.nextInt(allProducts.size())));
+        }
+    }
+
+    private void generateDiscount(Product product) {
+        Discount discount = new Discount(product.getPrice().multiply(BigDecimal.valueOf(0.8)),
+                LocalDate.now(), LocalDate.now().plusDays(7),
+                product);
+
+        discountRepository.save(discount);
     }
 }

@@ -20,7 +20,7 @@ const SaleGalleryItem = ({ product }: Props) => {
         <div className="carousel-item max-w-xs max-h-96">
             <div
                 key={product.id}
-                className="card text-gray-400 card-compact bg-base-100 shadow-xl"
+                className="card m-2 text-gray-400 card-compact bg-base-100 shadow-xl"
             >
                 <figure className="aspect-square">
                     <img

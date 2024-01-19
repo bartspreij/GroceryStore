@@ -25,12 +25,10 @@ public class Discount {
     @ManyToOne
     private Product product;
 
-    public Discount (double discountedPrice, LocalDate startDate, LocalDate endDate, Product product) {
-        this.discountedPrice = BigDecimal.valueOf(discountedPrice);
+    public Discount (BigDecimal discountedPrice, LocalDate startDate, LocalDate endDate, Product product) {
+        this.discountedPrice = discountedPrice;
         this.startDate = startDate;
         this.endDate = endDate;
         this.product = product;
-
-
     }
 }
