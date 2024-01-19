@@ -26,20 +26,6 @@ public class ProductController {
   private final ProductRepository productRepository;
   private final TagRepository tagRepository;
 
-  @GetMapping("/test")
-  public ProductDTO makeTestProduct() {
-    Tag fruit = new Tag("Fruit", true);
-    Tag healthy = new Tag("Healthy", false);
-
-    tagRepository.save(fruit);
-    tagRepository.save(healthy);
-
-    Product product = new Product("Appel", "empty", "google.com", BigDecimal.ONE, fruit, healthy);
-    productRepository.save(product);
-
-    return new ProductDTO(product);
-  }
-
   @GetMapping("/onsale")
   public List<Product> getOnSaleProducts() {
     return productRepository.findByOnSaleTrue();
@@ -56,19 +42,22 @@ public class ProductController {
     Pageable pageable = createPageable(sort, page, size);
 
     // Replace + with spaces
-    if (query != null) query = query.replaceAll("\\+", " ");
-    if (categoryName != null) categoryName = categoryName.replaceAll("\\+", " ");
+    if (query != null)
+      query = query.replaceAll("\\+", " ");
+    if (categoryName != null)
+      categoryName = categoryName.replaceAll("\\+", " ");
 
     Page<Product> results;
     if (query != null && !query.isEmpty())
-      results =
-          productRepository.findByNameContainingIgnoreCaseOrTags_NameContainingIgnoreCase(
-              query, query, pageable);
+      results = productRepository.findByNameContainingIgnoreCaseOrTags_NameContainingIgnoreCase(
+          query, query, pageable);
     else if (categoryName != null && !categoryName.isEmpty()) {
       Optional<Tag> tag = tagRepository.findByName(categoryName);
-      if (tag.isEmpty()) return new ResponseEntity<>("Tag not found", HttpStatus.NOT_FOUND);
+      if (tag.isEmpty())
+        return new ResponseEntity<>("Tag not found", HttpStatus.NOT_FOUND);
       results = productRepository.findByTags(tag.get(), pageable);
-    } else results = productRepository.findAll(pageable);
+    } else
+      results = productRepository.findAll(pageable);
 
     return new ResponseEntity<Page<ProductDTO>>(results.map(ProductDTO::new), HttpStatus.OK);
   }
@@ -98,7 +87,8 @@ public class ProductController {
 
     Product product = productRepository.findById(id).orElse(null);
 
-    if (product == null) return new ResponseEntity<>("Product not found", HttpStatus.NOT_FOUND);
+    if (product == null)
+      return new ResponseEntity<>("Product not found", HttpStatus.NOT_FOUND);
 
     // Update properties
     product.setName(name);
@@ -124,7 +114,8 @@ public class ProductController {
 
     Product product = productRepository.findById(productId).orElse(null);
 
-    if (product == null) return new ResponseEntity<>("Product not found", HttpStatus.NOT_FOUND);
+    if (product == null)
+      return new ResponseEntity<>("Product not found", HttpStatus.NOT_FOUND);
 
     productRepository.delete(product);
 

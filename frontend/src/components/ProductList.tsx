@@ -1,10 +1,10 @@
 import { useContext } from 'react';
+import { FaTrashCan } from 'react-icons/fa6';
+import { MdEdit } from 'react-icons/md';
 import CartButtons from './cart/CartButtons';
 import ShoppingCartContext from './cart/ShoppingCartContext';
 import { Tag } from '../domain/tag';
 import { Product } from '../domain/product';
-import { FaTrashCan } from 'react-icons/fa6';
-import { MdEdit } from 'react-icons/md';
 
 interface ProductListProps {
     products: Product[];
@@ -27,15 +27,19 @@ const ProductList: React.FC<ProductListProps> = ({
 
     return (
         <>
-            <div className="products grid grid-cols-1 sm:grid-cols-3 gap-5">
+            <div className="products grid grid-cols-1 sm:grid-cols-4 gap-5">
                 {products.map((product) => (
                     <div
                         key={product.id}
                         className="card text-gray-400 card-compact bg-base-100 shadow-xl"
                     >
-                        <figure className="aspect-square">
+                        <figure
+                            style={{
+                                aspectRatio: '1.3',
+                            }}
+                        >
                             <img
-                                className="w-full h-full object-cover"
+                                className="w-full h-full object-contain p-2"
                                 src={product.imageUrl}
                                 alt={product.name}
                                 height="300px"
@@ -45,6 +49,7 @@ const ProductList: React.FC<ProductListProps> = ({
 
                         {!!editProduct && (
                             <button
+                                type="button"
                                 className="btn btn-sm btn-circle absolute top-1 left-1"
                                 onClick={() => editProduct(product)}
                             >
@@ -54,6 +59,7 @@ const ProductList: React.FC<ProductListProps> = ({
 
                         {!!deleteProduct && (
                             <button
+                                type="button"
                                 className="btn btn-sm btn-circle btn-error absolute top-1 right-1"
                                 onClick={() => deleteProduct(product)}
                             >
@@ -62,10 +68,10 @@ const ProductList: React.FC<ProductListProps> = ({
                         )}
 
                         <div className="card-body">
-                            <h2 className="card-title">{product.name}</h2>
-
-                            <p>€{product.price}</p>
-
+                            <div className="flex items-center justify-between">
+                                <h3>{product.name}</h3>
+                                <span>€{product.price}</span>
+                            </div>
                             <div className="card-actions justify-between">
                                 <div className="flex flex-wrap items-center gap-1">
                                     <span>Tags:</span>

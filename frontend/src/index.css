@@ -7,12 +7,16 @@
     --transparent-dark: rgb(0, 0, 0, 0.1);
 }
 
+* {
+    box-sizing: border-box;
+}
+
 body {
     padding: 1rem;
     margin: 2rem auto;
     width: var(--site-width);
     max-width: 100%;
-    background-color: oklch(var(--n));
+    /* background-color: oklch(var(--n)); */
 }
 
 label {
@@ -42,11 +46,19 @@ form {
 input,
 select {
     padding: 0.25rem 0.5rem;
+    border: 1.2px solid #8080802b;
+        border-radius: 0.3rem;
 }
 
 h2 {
     font-size: 1.5rem;
     font-weight: bold;
+}
+
+h3 {
+    font-size: 1.1rem;
+    margin-bottom: 0.25rem;
+    font-weight: 500;
 }
 
 .popup-overlay {

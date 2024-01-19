@@ -1,3 +1,4 @@
+import { Discount } from './discount';
 import { Tag } from './tag';
 
 export interface Product {
@@ -8,4 +9,5 @@ export interface Product {
     price: number;
     onSale: boolean;
     tags: Tag[];
+    discounts: Discount[];
 }
