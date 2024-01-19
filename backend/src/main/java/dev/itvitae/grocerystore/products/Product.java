@@ -22,6 +22,7 @@ public class Product {
     private String description;
     private BigDecimal price;
     private String imageUrl;
+    private boolean onSale;
 
     @ManyToMany
     private Set<Tag> tags = new HashSet<>();
@@ -31,6 +32,7 @@ public class Product {
         this.description = description;
         this.imageUrl = imageUrl;
         this.price = price;
+        this.onSale = onSale;
 
         Collections.addAll(this.tags, tags);
     }

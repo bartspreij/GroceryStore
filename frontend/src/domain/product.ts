@@ -6,5 +6,6 @@ export interface Product {
     description: string;
     imageUrl: string;
     price: number;
+    onSale: boolean;
     tags: Tag[];
 }

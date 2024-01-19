@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -36,7 +37,9 @@ public class ProductController {
         Product product = new Product("Appel", "empty",  "google.com", BigDecimal.ONE, fruit, healthy);
         productRepository.save(product);
 
-        return new ProductDTO(product);
+    @GetMapping("/onsale")
+    public List<Product> getOnSaleProducts() {
+        return productRepository.findByOnSaleTrue();
     }
 
     @GetMapping("/query")
@@ -49,9 +52,13 @@ public class ProductController {
 
         Pageable pageable = createPageable(sort, page, size);
 
+        // Replace + with spaces
+        if(query != null) query = query.replaceAll("\\+", " ");
+        if(categoryName != null) categoryName = categoryName.replaceAll("\\+", " ");
+
         Page<Product> results;
         if (query != null && !query.isEmpty())
-            results = productRepository.findByNameIgnoreCase(query, pageable);
+            results = productRepository.findByNameContainingIgnoreCaseOrProductTags_Tag_NameContainingIgnoreCase(query, query, pageable);
         else if (categoryName != null && !categoryName.isEmpty()) {
             Optional<Tag> tag = tagRepository.findByName(categoryName);
             if (tag.isEmpty())

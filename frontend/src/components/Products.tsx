@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from 'react';
 import Pageable from '../domain/pageable';
 import { Results, queryProducts } from '../api/products-api';
 import ProductList from './ProductList';
+import SaleGallery from './sales/SaleGallery';
 
 const Products = () => {
     const [results, setResults] = useState<Results>(new Results());
@@ -40,6 +41,7 @@ const Products = () => {
 
     return (
         <>
+            <SaleGallery />
             <ProductList
                 products={results.content}
                 currentPage={pageable.pageNumber}
