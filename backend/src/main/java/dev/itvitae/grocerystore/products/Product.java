@@ -14,26 +14,25 @@ import java.util.*;
 @Getter
 @NoArgsConstructor
 public class Product {
-    
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String name;
-    private String description;
-    private BigDecimal price;
-    private String imageUrl;
-    private boolean onSale;
 
-    @ManyToMany
-    private Set<Tag> tags = new HashSet<>();
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-    public Product(String name, String description, String imageUrl, BigDecimal price, Tag...tags) {
-        this.name = name;
-        this.description = description;
-        this.imageUrl = imageUrl;
-        this.price = price;
-        this.onSale = onSale;
+  private String name;
+  private String description;
+  private BigDecimal price;
+  private String imageUrl;
+  private boolean onSale; // REMOVE
 
-        Collections.addAll(this.tags, tags);
-    }
+  @ManyToMany private Set<Tag> tags = new HashSet<>();
+
+  public Product(String name, String description, String imageUrl, BigDecimal price, Tag... tags) {
+    this.name = name;
+    this.description = description;
+    this.imageUrl = imageUrl;
+    this.price = price;
+
+    Collections.addAll(this.tags, tags);
+  }
 }

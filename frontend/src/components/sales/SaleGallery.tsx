@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import SaleGalleryItem from './SaleGalleryItem';
 import { Product } from '../../domain/product';
+import { IoMdReturnLeft } from 'react-icons/io';
 
 const SaleGallery = () => {
     const [productsOnSale, setProductsOnSale] = useState<Product[]>([]);
@@ -17,11 +18,15 @@ const SaleGallery = () => {
     }, []);
 
     return (
-        <div className="carousel carousel-center p-4 space-x-4 bg-neutral rounded-box">
-            {productsOnSale.map((product) => (
-                <SaleGalleryItem key={product.id} product={product} />
-            ))}
-        </div>
+        <>
+            {productsOnSale.length > 0 && (
+                <div className="carousel carousel-center p-4 bg-neutral rounded-box">
+                    {productsOnSale.map((product) => (
+                        <SaleGalleryItem key={product.id} product={product} />
+                    ))}
+                </div>
+            )}
+        </>
     );
 };
 

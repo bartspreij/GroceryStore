@@ -37,11 +37,18 @@ const Products = () => {
             ...old,
             pageNumber: page,
         }));
+
+        // Move window up
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth', // Optional: Use 'smooth' for smooth scrolling
+        });
     };
 
     return (
         <>
             <SaleGallery />
+
             <ProductList
                 products={results.content}
                 currentPage={pageable.pageNumber}
