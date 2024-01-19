@@ -1,27 +1,32 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 import SaleGalleryItem from './SaleGalleryItem';
-import { Discount } from '../../domain/discount';
+import { Product } from '../../domain/product';
 
 const SaleGallery = () => {
-    const [discount, setDiscount] = useState<Discount[]>([]);
+    const [products, setProducts] = useState<Product[]>([]);
 
     useEffect(() => {
         const fetchDiscount = async () => {
-            const result = await axios.get(
+            const result = await axios.get<Product[]>(
                 'http://localhost:8080/api/v1/discounts'
             );
-            setDiscount(result.data);
+            setProducts(result.data);
         };
         fetchDiscount();
     }, []);
 
     return (
-        <div className="carousel carousel-center p-4 space-x-4 bg-neutral rounded-box">
-            {discount.map((discount) => (
-                <SaleGalleryItem key={discount.id} discount={discount} />
-            ))}
-        </div>
+        // eslint-disable-next-line react/jsx-no-useless-fragment
+        <>
+            {products.length > 0 && (
+                <div className="carousel carousel-center p-4 bg-neutral rounded-box">
+                    {products.map((product) => (
+                        <SaleGalleryItem key={product.id} product={product} />
+                    ))}
+                </div>
+            )}
+        </>
     );
 };
 

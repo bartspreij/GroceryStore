@@ -8,16 +8,13 @@ import org.springframework.stereotype.Component;
 import dev.itvitae.grocerystore.tags.Tag;
 
 import java.util.List;
-import java.util.UUID;
 
 @Component
-public interface ProductRepository extends JpaRepository<Product, UUID> {
-    Page<Product> findByProductTags_Tag(Tag tag, Pageable pageable);
+public interface ProductRepository extends JpaRepository<Product, Long> {
+  Page<Product> findByTags(Tag tag, Pageable pageable);
 
-    List<Product> findByOnSaleTrue();
+  List<Product> findByOnSaleTrue();
 
-    Page<Product> findByNameContainingIgnoreCaseOrProductTags_Tag_NameContainingIgnoreCase(String name, String tagName,
-            Pageable pageable);
-
-    Product findByName(String name);
+  Page<Product> findByNameContainingIgnoreCaseOrTags_NameContainingIgnoreCase(
+      String name, String tagName, Pageable pageable);
 }

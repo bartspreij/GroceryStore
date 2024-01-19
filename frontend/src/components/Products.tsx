@@ -1,15 +1,12 @@
-import { useContext, useEffect, useState } from 'react';
-import CartButtons from './cart/CartButtons';
-import ShoppingCartContext from './cart/ShoppingCartContext';
+import { useEffect, useState } from 'react';
 import Pageable from '../domain/pageable';
 import { Results, queryProducts } from '../api/products-api';
-import { Tag } from '../domain/tag';
+import ProductList from './ProductList';
 import SaleGallery from './sales/SaleGallery';
 
 const Products = () => {
     const [results, setResults] = useState<Results>(new Results());
     const [pageable, setPageable] = useState<Pageable>(new Pageable());
-    const { getCartProduct } = useContext(ShoppingCartContext);
 
     useEffect(() => {
         const fetchProduct = async () => {
@@ -40,65 +37,24 @@ const Products = () => {
             ...old,
             pageNumber: page,
         }));
+
+        // Move window up
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth', // Optional: Use 'smooth' for smooth scrolling
+        });
     };
 
     return (
         <>
             <SaleGallery />
-            <div className="products grid grid-cols-1 sm:grid-cols-3 gap-5">
-                {results.content.map((product) => (
-                    <div
-                        key={product.id}
-                        className="card text-gray-400 card-compact bg-base-100 shadow-xl"
-                    >
-                        <figure className="aspect-square">
-                            <img
-                                className="w-full h-full object-cover"
-                                src={product.imageUrl}
-                                alt={product.name}
-                                height="300px"
-                                width="300px"
-                            />
-                        </figure>
-                        <div className="card-body">
-                            <h2 className="card-title">{product.name}</h2>
 
-                            <p>€{product.price}</p>
-
-                            <div className="card-actions justify-between">
-                                <div className="flex flex-wrap items-center gap-1">
-                                    <span>Tags:</span>
-                                    {product.tags.map((tag: Tag) => (
-                                        <a
-                                            className="p-1 bg-slate-400 text-white"
-                                            href={`/?c=${tag.name}`}
-                                            key={tag.id}
-                                        >
-                                            {tag.name}
-                                        </a>
-                                    ))}
-                                </div>
-
-                                <CartButtons item={getCartProduct(product)} />
-                            </div>
-                        </div>
-                    </div>
-                ))}
-            </div>
-            <div className="flex justify-center gap-2 mt-4">
-                {[...Array(results.totalPages)].map((_, index) => (
-                    // eslint-disable-next-line react/no-array-index-key
-                    <button
-                        className="btn"
-                        type="button"
-                        // eslint-disable-next-line react/no-array-index-key
-                        key={index + 1}
-                        onClick={() => setPage(index)}
-                    >
-                        {index + 1}
-                    </button>
-                ))}{' '}
-            </div>
+            <ProductList
+                products={results.content}
+                currentPage={pageable.pageNumber}
+                totalPages={results.totalPages}
+                setPage={(page: number) => setPage(page)}
+            />
         </>
     );
 };

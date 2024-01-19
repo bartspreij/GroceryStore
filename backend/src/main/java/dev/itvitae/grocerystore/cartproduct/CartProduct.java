@@ -7,6 +7,8 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Getter
 @Setter
@@ -23,6 +25,7 @@ public class CartProduct {
     private Cart cart;
 
     @ManyToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Product product;
 
     private Integer quantity;

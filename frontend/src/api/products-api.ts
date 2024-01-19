@@ -3,6 +3,8 @@ import axios from 'axios';
 import Pageable from '../domain/pageable';
 import { Product } from '../domain/product';
 
+const uri = `http://localhost:8080/api/v1/products`;
+
 export class Results {
     content: Product[] = [];
 
@@ -15,21 +17,32 @@ export class Results {
 export const queryProducts = async (
     page: number,
     size: number,
-    query: string,
-    category: string
+    query?: string,
+    category?: string
 ): Promise<Results> => {
     const params: any = {
         page,
         size,
     };
 
-    if (query?.length > 0) params.q = query;
-    if (category?.length > 0) params.c = category;
+    if (query && query.length > 0) params.q = query;
+    if (category && category.length > 0) params.c = category;
 
-    const result = await axios.get<Results>(
-        `http://localhost:8080/api/v1/products/query`,
-        { params }
-    );
+    const result = await axios.get<Results>(uri + `/query`, { params });
+    return result.data;
+};
 
+export const postProduct = async (product: Product) => {
+    const result = await axios.post<Product>(uri, product);
+    return result.data;
+};
+
+export const saveProduct = async (product: Product) => {
+    const result = await axios.patch<Product>(uri, product);
+    return result.data;
+};
+
+export const deleteProduct = async (product: Product) => {
+    const result = await axios.delete<Product>(`${uri}/${product.id}`);
     return result.data;
 };
