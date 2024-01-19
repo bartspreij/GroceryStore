@@ -27,7 +27,7 @@ public class OrderController {
         return orderRepository.findAll().stream().map(OrderDTO::new).toList();
     }
 
-    @GetMapping("{userId}")
+    @GetMapping("/user/{userId}/frequent-purchases")
     public List<OrderProductDTO> getFrequentPurchaseByUser(@PathVariable Long userId) {
         return orderProductRepository.findTopFrequentlyPurchasedProducts(
                 userId, PageRequest.of(0, 10));
