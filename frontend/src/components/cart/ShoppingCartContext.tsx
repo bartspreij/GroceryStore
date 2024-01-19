@@ -11,6 +11,7 @@ interface ShoppingCartContextValue {
     isInCart: (product: CartProduct) => boolean;
     getCartProduct: (product: Product) => CartProduct;
     addProductToCart: (product: CartProduct) => void;
+    addProductInSpecificQuantity: (product: Product, quantity: number) => void;
     removeProductFromCart: (product: CartProduct) => void;
     deleteProductFromCart: (product: CartProduct) => void;
 }
@@ -43,6 +44,7 @@ const defaultContextValue: ShoppingCartContextValue = {
         };
     },
     addProductToCart: () => {},
+    addProductInSpecificQuantity: () => {},
     removeProductFromCart: () => {},
     deleteProductFromCart: () => {},
 };
@@ -62,7 +64,7 @@ export const ShoppingCartProvider: React.FC<ShoppingCartProviderProps> = ({
     }, [cart, setCart]);
 
     const addProductToCart = useCallback(
-        (newItem: CartProduct): void => {
+        (newItem: CartProduct, quantity = 1): void => {
             const itemToAdd = newItem;
 
             const existingItem = cart.products.find(
@@ -72,7 +74,7 @@ export const ShoppingCartProvider: React.FC<ShoppingCartProviderProps> = ({
             if (existingItem) {
                 existingItem.quantity += 1;
             } else {
-                itemToAdd.quantity = 1;
+                itemToAdd.quantity = quantity;
                 cart.products.push(itemToAdd);
             }
 
@@ -132,6 +134,23 @@ export const ShoppingCartProvider: React.FC<ShoppingCartProviderProps> = ({
         [cart]
     );
 
+    const addProductInSpecificQuantity = useCallback(
+        (product: Product, quantity: number) => {
+            const itemToAdd = product;
+
+            const existingItem = cart.products.find(
+                (item) => item.product.id === itemToAdd.id
+            );
+
+            if (!existingItem) {
+                cart.products.push({ product, quantity });
+            }
+
+            updateCart();
+        },
+        [cart, updateCart]
+    );
+
     const subtotal = cart.products.reduce(
         (total, item) => total + item.quantity * item.product.price,
         0
@@ -150,6 +169,7 @@ export const ShoppingCartProvider: React.FC<ShoppingCartProviderProps> = ({
             isInCart,
             getCartProduct,
             addProductToCart,
+            addProductInSpecificQuantity,
             removeProductFromCart,
             deleteProductFromCart,
         }),
@@ -159,6 +179,7 @@ export const ShoppingCartProvider: React.FC<ShoppingCartProviderProps> = ({
             totalQuantity,
             isInCart,
             getCartProduct,
+            addProductInSpecificQuantity,
             addProductToCart,
             deleteProductFromCart,
             removeProductFromCart,

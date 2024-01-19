@@ -4,17 +4,12 @@ import ShoppingCartContext from './cart/ShoppingCartContext';
 import Pageable from '../domain/pageable';
 import { Results, queryProducts } from '../api/products-api';
 import { Tag } from '../domain/tag';
-import SaleGallery from './sales/SaleGallery';
-import fetchFrequentlyPurchasedInSpecificQuantity from '../api/frequently-purchased-api';
-import { CartProduct } from '../domain/cart-product';
-import Carousel from './frequently-purchased/Carousel';
+import DiscountCarousel from './sales/DiscountCarousel';
+import FrequentlyPurchasedCarousel from './frequently-purchased/FrequentlyPurchasedCarousel';
 
 const Products = () => {
     const [results, setResults] = useState<Results>(new Results());
     const [pageable, setPageable] = useState<Pageable>(new Pageable());
-    const [frequentPurchases, setFrequentPurchases] = useState<CartProduct[]>(
-        []
-    );
     const { getCartProduct } = useContext(ShoppingCartContext);
 
     useEffect(() => {
@@ -35,21 +30,10 @@ const Products = () => {
 
             setResults(result);
             setPageable(result.pageable);
-            console.log(result);
         };
 
         fetchProduct();
     }, [pageable.pageNumber, pageable.pageSize]);
-
-    useEffect(() => {
-        const fetchFrequentPurchases = async () => {
-            const orderProducts =
-                await fetchFrequentlyPurchasedInSpecificQuantity();
-            setFrequentPurchases(orderProducts);
-        };
-
-        fetchFrequentPurchases();
-    }, [setFrequentPurchases]);
 
     const setPage = (page: number) => {
         setPageable((old) => ({
@@ -60,8 +44,20 @@ const Products = () => {
 
     return (
         <>
-            <Carousel cartProducts={frequentPurchases} />
-            <SaleGallery />
+            <div className="indicator">
+                <span className="indicator-item indicator-top indicator-start badge badge-lg">
+                    Frequently Purchased
+                </span>
+                <FrequentlyPurchasedCarousel />
+            </div>
+
+            <div className="indicator">
+                <span className="indicator-item indicator-top indicator-start badge badge-lg">
+                    Discounted Items
+                </span>
+                <DiscountCarousel />
+            </div>
+
             <div className="products grid grid-cols-1 sm:grid-cols-3 gap-5">
                 {results.content.map((product) => (
                     <div

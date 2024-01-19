@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { Tag } from '../../domain/tag';
 import CartButtons from '../cart/CartButtons';
 import ShoppingCartContext from '../cart/ShoppingCartContext';
@@ -8,8 +8,11 @@ interface CarouselItemProps {
     cartProduct: CartProduct;
 }
 
-const CarouselItem: React.FC<CarouselItemProps> = ({ cartProduct }) => {
-    const { getCartProduct } = useContext(ShoppingCartContext);
+const FrequentlyPurchasedItem: React.FC<CarouselItemProps> = ({
+    cartProduct,
+}) => {
+    const { updateCartProductQuantity } =
+        useContext(ShoppingCartContext);
 
     return (
         <div className="carousel-item max-w-xs max-h-96">
@@ -28,8 +31,7 @@ const CarouselItem: React.FC<CarouselItemProps> = ({ cartProduct }) => {
                 </figure>
                 <div className="card-body">
                     <h2 className="card-title">{cartProduct.product.name}</h2>
-                    <p className="line-through">€{cartProduct.product.price}</p>
-                    <p>{cartProduct.product.price}</p>
+                    <p>Price: €{cartProduct.product.price}</p>
                     <div className="card-actions justify-between">
                         <div className="flex flex-wrap items-center gap-1">
                             <span>Tags:</span>
@@ -45,11 +47,11 @@ const CarouselItem: React.FC<CarouselItemProps> = ({ cartProduct }) => {
                                 ))}
                         </div>
                     </div>
-                    <CartButtons item={getCartProduct(cartProduct.product)} />
+                    <CartButtons item={cartProduct} />
                 </div>
             </div>
         </div>
     );
 };
 
-export default CarouselItem;
+export default FrequentlyPurchasedItem;
