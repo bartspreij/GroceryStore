@@ -1,12 +1,14 @@
+import { Outlet } from 'react-router-dom';
 import Navbar from './components/Navbar';
-import Products from './components/Products';
 import { ShoppingCartProvider } from './components/cart/ShoppingCartContext';
 
 const App = () => {
     return (
         <ShoppingCartProvider>
             <Navbar />
-            <Products />
+            <div id="outlet">
+                <Outlet />
+            </div>
         </ShoppingCartProvider>
     );
 };
