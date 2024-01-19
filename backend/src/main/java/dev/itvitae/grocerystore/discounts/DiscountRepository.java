@@ -8,6 +8,9 @@ import java.time.LocalDate;
 @Component
 public interface DiscountRepository extends JpaRepository<Discount, Long> {
 
-    Iterable<Discount>findByStartDateAfterAndFindByEndDateBefore();
+//    Iterable<Discount>findByStartDateAfterAndFindByEndDateBefore();
+//
+//    Iterable<Discount>findByStartDateBefore();
+
 
 }

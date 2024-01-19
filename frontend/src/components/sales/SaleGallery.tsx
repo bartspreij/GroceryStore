@@ -4,21 +4,21 @@ import SaleGalleryItem from './SaleGalleryItem';
 import { Discount } from '../../domain/discount';
 
 const SaleGallery = () => {
-    const [productsOnSale, setProductsOnSale] = useState<Discount[]>([]);
+    const [discount, setDiscount] = useState<Discount[]>([]);
 
     useEffect(() => {
-        const fetchProductsOnSale = async () => {
+        const fetchDiscount = async () => {
             const result = await axios.get(
                 'http://localhost:8080/api/v1/discounts'
             );
-            setProductsOnSale(result.data);
+            setDiscount(result.data);
         };
-        fetchProductsOnSale();
+        fetchDiscount();
     }, []);
 
     return (
         <div className="carousel carousel-center p-4 space-x-4 bg-neutral rounded-box">
-            {productsOnSale.map((discount) => (
+            {discount.map((discount) => (
                 <SaleGalleryItem key={discount.id} discount={discount} />
             ))}
         </div>
