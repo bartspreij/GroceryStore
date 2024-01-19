@@ -46,11 +46,19 @@ form {
 input,
 select {
     padding: 0.25rem 0.5rem;
+    border: 1.2px solid #8080802b;
+        border-radius: 0.3rem;
 }
 
 h2 {
     font-size: 1.5rem;
     font-weight: bold;
+}
+
+h3 {
+    font-size: 1.1rem;
+    margin-bottom: 0.25rem;
+    font-weight: 500;
 }
 
 .popup-overlay {

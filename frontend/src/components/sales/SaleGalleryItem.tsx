@@ -17,7 +17,7 @@ const SaleGalleryItem = ({ product }: Props) => {
     const { getCartProduct } = useContext(ShoppingCartContext);
 
     return (
-        <div className="carousel-item max-w-xs max-h-96">
+        <div className="carousel-item max-h-96" style={{ maxWidth: '25%' }}>
             <div
                 key={product.id}
                 className="card m-2 text-gray-400 card-compact bg-base-100 shadow-xl"
