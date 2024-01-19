@@ -1,10 +1,12 @@
 package dev.itvitae.grocerystore.discounts;
 
+import dev.itvitae.grocerystore.products.ProductDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -16,8 +18,12 @@ public class DiscountController {
     private final DiscountRepository discountRepository;
 
     @GetMapping()
-    public Iterable<Discount> findAll() {
-        return discountRepository.findAll();
+    public Iterable<ProductDTO> findAll() {
+        var discounts = discountRepository.findAll();
+
+        return discounts.stream()
+                .map(d -> new ProductDTO(d.getProduct()))
+                .toList();
     }
 
 //    @GetMapping()

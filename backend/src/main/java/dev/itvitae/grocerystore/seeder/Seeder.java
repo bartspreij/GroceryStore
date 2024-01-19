@@ -18,6 +18,7 @@ import org.springframework.stereotype.Component;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Random;
 
 @RequiredArgsConstructor
 @Component
@@ -233,10 +234,19 @@ public class Seeder implements CommandLineRunner {
     }
 
     private void seedDiscounts() {
+        List<Product> allProducts = productRepository.findAll();
+        if(allProducts.isEmpty()) return;
+        Random random = new Random();
+
         discountRepository.saveAll(
                 List.of(new Discount(1.0, LocalDate.now(), LocalDate.now().plusDays(7),
-                        productRepository.findByName("Milk")),
+                                allProducts.get(random.nextInt(allProducts.size()))),
                         new Discount(2.49, LocalDate.now(), LocalDate.now().plusDays(7),
-                                productRepository.findByName("Minced Beef"))));
+                                allProducts.get(random.nextInt(allProducts.size()))),
+                        new Discount(2.49, LocalDate.now(), LocalDate.now().plusDays(7),
+                                allProducts.get(random.nextInt(allProducts.size()))),
+                        new Discount(2.49, LocalDate.now(), LocalDate.now().plusDays(7),
+                                allProducts.get(random.nextInt(allProducts.size())))
+                ));
     }
 }

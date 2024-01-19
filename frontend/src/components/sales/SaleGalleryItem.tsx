@@ -2,10 +2,10 @@ import { useContext } from 'react';
 import { Tag } from '../../domain/tag';
 import CartButtons from '../cart/CartButtons';
 import ShoppingCartContext from '../cart/ShoppingCartContext';
-import { Discount } from '../../domain/discount';
+import { Product } from '../../domain/product';
 
 interface Props {
-    discount: Discount;
+    product: Product;
 }
 
 // function roundedPrice(price: number): string {
@@ -13,33 +13,33 @@ interface Props {
 //     return `Now: €${roundedValue}`;
 // }
 
-const SaleGalleryItem = ({ discount }: Props) => {
+const SaleGalleryItem = ({ product }: Props) => {
     const { getCartProduct } = useContext(ShoppingCartContext);
 
     return (
         <div className="carousel-item max-w-xs max-h-96">
             <div
-                key={discount.product.id}
+                key={product.id}
                 className="card text-gray-400 card-compact bg-base-100 shadow-xl"
             >
                 <figure className="aspect-square">
                     <img
                         className="w-full h-full object-cover"
-                        src={discount.product.imageUrl}
-                        alt={discount.product.name}
+                        src={product.imageUrl}
+                        alt={product.name}
                         height="300px"
                         width="300px"
                     />
                 </figure>
                 <div className="card-body">
-                    <h2 className="card-title">{discount.product.name}</h2>
-                    <p className="line-through">€{discount.product.price}</p>
-                    <p>€{discount.discountedPrice.toFixed(2)}</p>
+                    <h2 className="card-title">{product.name}</h2>
+                    <p className="line-through">€{product.price}</p>
+                    <p>€{product.discounts[0].discountedPrice.toFixed(2)}</p>
                     <div className="card-actions justify-between">
                         <div className="flex flex-wrap items-center gap-1">
                             <span>Tags:</span>
-                            {discount.product.tags &&
-                                discount.product.tags.map((tag: Tag) => (
+                            {product.tags &&
+                                product.tags.map((tag: Tag) => (
                                     <a
                                         className="p-1 bg-slate-400 text-white"
                                         href={`/?c=${tag.name}`}
@@ -50,7 +50,7 @@ const SaleGalleryItem = ({ discount }: Props) => {
                                 ))}
                         </div>
                     </div>
-                    <CartButtons item={getCartProduct(discount.product)} />
+                    <CartButtons item={getCartProduct(product)} />
                 </div>
             </div>
         </div>
