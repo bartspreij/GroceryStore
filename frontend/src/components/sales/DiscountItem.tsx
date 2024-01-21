@@ -47,7 +47,10 @@ const DiscountItem: React.FC<Props> = ({ product }) => {
                                 ))}
                         </div>
                     </div>
-                    <CartButtons item={getCartProduct(product)} />
+                    <CartButtons
+                        item={getCartProduct(product)}
+                        isFrequentPurchase={false}
+                    />
                 </div>
             </div>
         </div>

@@ -1,24 +1,19 @@
-import { useContext } from 'react';
 import { Product } from '../../domain/product';
 import { Tag } from '../../domain/tag';
-import CartButtons from '../cart/CartButtons';
-import ShoppingCartContext from '../cart/ShoppingCartContext';
 
-interface Props {
+interface GalleryItemProps {
     product: Product;
 }
 
-function roundedPrice(price: number): string {
-    const roundedValue: number = Number((price * 0.7).toFixed(2));
-    return `Now: €${roundedValue}`;
-}
-
-const SaleGalleryItem = ({ product }: Props) => {
-    const { getCartProduct } = useContext(ShoppingCartContext);
-
+const GalleryItem: React.FC<GalleryItemProps> = ({
+    product,
+}: GalleryItemProps) => {
     return (
-        <div className="carousel-item max-w-xs max-h-96">
-            <div key={product.id} className="card w-96 bg-base-100 shadow-xl">
+        <div className="carousel-item max-h-96" style={{ maxWidth: '25%' }}>
+            <div
+                key={product.id}
+                className="card m-2 text-gray-400 card-compact bg-base-100 shadow-xl"
+            >
                 <figure className="aspect-square">
                     <img
                         className="w-full h-full object-cover"
@@ -31,7 +26,7 @@ const SaleGalleryItem = ({ product }: Props) => {
                 <div className="card-body">
                     <h2 className="card-title">{product.name}</h2>
                     <p className="line-through">€{product.price}</p>
-                    <p>{roundedPrice(product.price)}</p>
+                    <p>€{product.price.toFixed(2)}</p>
                     <div className="card-actions justify-between">
                         <div className="flex flex-wrap items-center gap-1">
                             <span>Tags:</span>
@@ -47,11 +42,10 @@ const SaleGalleryItem = ({ product }: Props) => {
                                 ))}
                         </div>
                     </div>
-                    <CartButtons item={getCartProduct(product)} />
                 </div>
             </div>
         </div>
     );
 };
 
-export default SaleGalleryItem;
+export default GalleryItem;

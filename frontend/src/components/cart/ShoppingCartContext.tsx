@@ -1,8 +1,8 @@
 import { createContext, useMemo, ReactNode, useCallback } from 'react';
 import Cart from '../../domain/cart';
 import { CartProduct } from '../../domain/cart-product';
-import useStorageState from '../../hooks/useStorageState';
 import { Product } from '../../domain/product';
+import useStorageState from '../../hooks/useStorageState';
 
 interface ShoppingCartContextValue {
     cart: Cart;
@@ -10,10 +10,10 @@ interface ShoppingCartContextValue {
     totalQuantity: number;
     isInCart: (product: CartProduct) => boolean;
     getCartProduct: (product: Product) => CartProduct;
-    addProductToCart: (product: Product) => void;
-    addProductInSpecificQuantity: (product: Product, quantity: number) => void;
-    removeProductFromCart: (product: CartProduct) => void;
+    addProductToCart: (product: Product, quantity: number) => void;
+    removeProductFromCart: (product: Product, quantity: number) => void;
     deleteProductFromCart: (product: CartProduct) => void;
+    checkout: () => void;
 }
 
 interface ShoppingCartProviderProps {
@@ -44,9 +44,9 @@ const defaultContextValue: ShoppingCartContextValue = {
         };
     },
     addProductToCart: () => {},
-    addProductInSpecificQuantity: () => {},
     removeProductFromCart: () => {},
     deleteProductFromCart: () => {},
+    checkout: () => {},
 };
 
 const ShoppingCartContext =
@@ -55,64 +55,57 @@ const ShoppingCartContext =
 export const ShoppingCartProvider: React.FC<ShoppingCartProviderProps> = ({
     children,
 }) => {
-    const [cart, setCart] = useStorageState('cartKey');
-
-    const updateCart = useCallback((): void => {
-        const updatedCart = new Cart();
-        updatedCart.products = [...cart.products];
-        setCart(updatedCart);
-    }, [cart, setCart]);
+    const [cart, setCart] = useStorageState('cartKey', new Cart());
 
     const addProductToCart = useCallback(
-        (newItem: Product, quantity = 1): void => {
-            const itemToAdd = newItem;
-
+        (newItem: Product, quantity: number): void => {
             const existingItem = cart.products.find(
-                (item) => item.product.id === itemToAdd.id
+                (item) => item.product.id === newItem.id
             );
 
             if (existingItem) {
-                existingItem.quantity += 1;
+                existingItem.quantity += quantity;
             } else {
-                const cartProduct = { itemToAdd, quantity}
-                cart.products.push({ itemToAdd, quantity });
+                cart.products.push({ product: newItem, quantity });
             }
 
-            updateCart();
+            setCart((prevCart) => new Cart(prevCart.products));
         },
-        [cart, updateCart]
+        [cart, setCart]
     );
 
     const removeProductFromCart = useCallback(
-        (itemToRemove: CartProduct): void => {
+        (itemToRemove: Product, quantity: number): void => {
             const itemIndex = cart.products.findIndex(
-                (item) => item.product.id === itemToRemove.product.id
+                (item) => item.product.id === itemToRemove.id
             );
 
             if (itemIndex < 0) return;
 
-            cart.products[itemIndex].quantity -= 1;
+            cart.products[itemIndex].quantity -= quantity;
 
             if (cart.products[itemIndex].quantity < 1) {
                 cart.products.splice(itemIndex, 1);
             }
 
-            updateCart();
+            setCart((prevCart) => new Cart(prevCart.products));
         },
-        [cart, updateCart]
+        [cart, setCart]
     );
 
     const deleteProductFromCart = useCallback(
-        (itemToDelete: CartProduct): void => {
-            const itemIndex = cart.products.findIndex(
-                (item) => item.product.id === itemToDelete.product.id
+        (itemToDelete: CartProduct) => {
+            setCart(
+                (prevCart) =>
+                    new Cart(
+                        prevCart.products.filter(
+                            (item) =>
+                                item.product.id !== itemToDelete.product.id
+                        )
+                    )
             );
-            cart.products[itemIndex].quantity = 0;
-            cart.products.splice(itemIndex, 1);
-
-            updateCart();
         },
-        [cart, updateCart]
+        [setCart]
     );
 
     const getCartProduct = useCallback(
@@ -134,22 +127,9 @@ export const ShoppingCartProvider: React.FC<ShoppingCartProviderProps> = ({
         [cart]
     );
 
-    const addProductInSpecificQuantity = useCallback(
-        (product: Product, quantity: number) => {
-            const itemToAdd = product;
-
-            const existingItem = cart.products.find(
-                (item) => item.product.id === itemToAdd.id
-            );
-
-            if (!existingItem) {
-                cart.products.push({ product, quantity });
-            }
-
-            updateCart();
-        },
-        [cart, updateCart]
-    );
+    const checkout = useCallback(() => {
+        setCart(() => new Cart());
+    }, [setCart]);
 
     const subtotal = cart.products.reduce(
         (total, item) => total + item.quantity * item.product.price,
@@ -169,9 +149,9 @@ export const ShoppingCartProvider: React.FC<ShoppingCartProviderProps> = ({
             isInCart,
             getCartProduct,
             addProductToCart,
-            addProductInSpecificQuantity,
             removeProductFromCart,
             deleteProductFromCart,
+            checkout,
         }),
         [
             cart,
@@ -179,10 +159,10 @@ export const ShoppingCartProvider: React.FC<ShoppingCartProviderProps> = ({
             totalQuantity,
             isInCart,
             getCartProduct,
-            addProductInSpecificQuantity,
             addProductToCart,
             deleteProductFromCart,
             removeProductFromCart,
+            checkout,
         ]
     );
 

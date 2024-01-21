@@ -5,9 +5,13 @@ import ShoppingCartContext from './ShoppingCartContext';
 
 interface CartButtonProps {
     item: CartProduct;
+    isFrequentPurchase?: boolean;
 }
 
-const CartButtons: React.FC<CartButtonProps> = ({ item }) => {
+const CartButtons: React.FC<CartButtonProps> = ({
+    item,
+    isFrequentPurchase = false,
+}) => {
     const {
         addProductToCart,
         removeProductFromCart,
@@ -15,9 +19,11 @@ const CartButtons: React.FC<CartButtonProps> = ({ item }) => {
         isInCart,
     } = useContext(ShoppingCartContext);
 
+    const quantity = isFrequentPurchase && !isInCart(item) ? item.quantity : 1;
+
     return (
         <div className="join">
-            {isInCart(item) && (
+            {isInCart(item) && !isFrequentPurchase && (
                 <>
                     <button
                         aria-label="Delete button"
@@ -29,34 +35,37 @@ const CartButtons: React.FC<CartButtonProps> = ({ item }) => {
                     </button>
                     <button
                         aria-label="Remove button"
-                        onClick={() => removeProductFromCart(item)}
+                        onClick={() =>
+                            removeProductFromCart(item.product, quantity)
+                        }
                         type="button"
                         className="btn btn-xs join-item"
                     >
                         <FaMinus />
                     </button>
-                    <input
-                        className="input input-xs input-bordered w-12 caret-transparent text-center focus:outline-none focus:ring-0 join-item"
-                        type="number"
-                        aria-label="Change product value"
-                        pattern="[0-9]{1,2}"
-                        max="99"
-                        aria-disabled="false"
-                        autoComplete="off"
-                        value={item.quantity}
-                        readOnly
-                    />
                 </>
             )}
+
+            {(isInCart(item) || isFrequentPurchase) && (
+                <input
+                    className={`${isFrequentPurchase ? 'input-' : 'input-xs'} input input-bordered w-16 caret-transparent text-center focus:outline-none focus:ring-0 join-item`}
+                    type="number"
+                    aria-label="Change product value"
+                    pattern="[0-9]{1,2}"
+                    max="99"
+                    aria-disabled="false"
+                    autoComplete="off"
+                    value={item.quantity}
+                    readOnly
+                />
+            )}
+
             <button
                 aria-label="Add button"
-                onClick={() => addProductToCart(item, 1)}
+                onClick={() => addProductToCart(item.product, quantity)}
                 type="button"
-                className={
-                    isInCart(item)
-                        ? 'btn btn-xs  join-item rounded-r-full'
-                        : 'btn btn-xs btn-circle btn-success'
-                }
+                className={`btn ${isFrequentPurchase ? 'btn-md' : 'btn-xs'} btn-circle btn-success join-item rounded-r-full`}
+                disabled={isFrequentPurchase && isInCart(item)}
             >
                 <FaPlus />
             </button>

@@ -10,7 +10,6 @@ const Navbar = () => {
         const loadCategories = async () => {
             const tags = await fetchCategories();
             setCategories(tags);
-            console.log(tags);
         };
         loadCategories();
     }, []);

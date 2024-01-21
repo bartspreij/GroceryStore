@@ -4,8 +4,8 @@ import ShoppingCartContext from './cart/ShoppingCartContext';
 import Pageable from '../domain/pageable';
 import { Results, queryProducts } from '../api/products-api';
 import { Tag } from '../domain/tag';
-import DiscountCarousel from './sales/DiscountCarousel';
-import FrequentlyPurchasedCarousel from './frequently-purchased/FrequentlyPurchasedCarousel';
+import FrequentlyPurchasedGallery from './frequently-purchased/FrequentlyPurchasedGallery';
+import DiscountGallery from './sales/DiscountGallery';
 
 const Products = () => {
     const [results, setResults] = useState<Results>(new Results());
@@ -44,20 +44,8 @@ const Products = () => {
 
     return (
         <>
-            <div className="indicator">
-                <span className="indicator-item indicator-top indicator-start badge badge-lg">
-                    Frequently Purchased
-                </span>
-                <FrequentlyPurchasedCarousel />
-            </div>
-
-            <div className="indicator">
-                <span className="indicator-item indicator-top indicator-start badge badge-lg">
-                    Discounted Items
-                </span>
-                <DiscountCarousel />
-            </div>
-
+            <FrequentlyPurchasedGallery />
+            <DiscountGallery />
             <div className="products grid grid-cols-1 sm:grid-cols-3 gap-5">
                 {results.content.map((product) => (
                     <div
@@ -80,7 +68,6 @@ const Products = () => {
 
                             <div className="card-actions justify-between">
                                 <div className="flex flex-wrap items-center gap-1">
-                                    <span>Tags:</span>
                                     {product.tags.map((tag: Tag) => (
                                         <a
                                             className="p-1 bg-slate-400 text-white"

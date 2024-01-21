@@ -31,7 +31,6 @@ public class Seeder implements CommandLineRunner {
 
     private final OrderRepository orderRepository;
     private final ProductRepository productRepository;
-    private final ProductService productService;
     private final TagRepository tagRepository;
     private final UserRepository userRepository;
 
@@ -221,13 +220,11 @@ public class Seeder implements CommandLineRunner {
 
     private void seedOrders() {
         List<Product> products = productRepository.findAll(PageRequest.of(0, 10)).toList();
-        User user =
-                userRepository
-                        .findByEmail("bartspreij@gmail.com")
-                        .orElseThrow(() -> new UserNotFoundException("bartspreij@gmail.com"));
+        User user = new User("Bob", "jaja", "bob@debouwer.nl", "USER");
+        userRepository.save(user);
 
         // Create multiple orders with varying quantities for the same products
-        for (int i = 0; i < 5; i++) { // Create multiple orders
+        for (int i = 0; i < 5; i++) {
             Order order = new Order();
             order.setUser(user);
 
@@ -241,8 +238,8 @@ public class Seeder implements CommandLineRunner {
                         .add(
                                 new OrderProduct(
                                         order,
-                                        products.get(1),
-                                        7)); // Repeatedly add product with quantity 7
+                                        products.get(i),
+                                        i * 2 + 7)); // Make top three of 7, 9, 11 for testing
             }
 
             user.getOrders().add(order);

@@ -19,7 +19,7 @@ import java.util.Optional;
 
 @RequiredArgsConstructor
 @RestController
-@CrossOrigin("http://localhost:5173/")
+@CrossOrigin("http://localhost:5173")
 @RequestMapping("/api/v1/products")
 public class ProductController {
 
@@ -33,18 +33,6 @@ public class ProductController {
 
         Sort sortObj = Sort.by(Sort.Direction.fromString(sortDirection), sortBy);
         return PageRequest.of(page, size, sortObj);
-    }
-
-    @GetMapping("/test")
-    public ProductDTO makeTestProduct() {
-        Tag fruit = new Tag("Fruit", true);
-        Tag healthy = new Tag("Healthy", false);
-
-        tagRepository.save(fruit);
-        tagRepository.save(healthy);
-
-        Product product = new Product("Appel", "google.com", BigDecimal.ONE, false, fruit, healthy);
-        return new ProductDTO(productRepository.save(product));
     }
 
     @GetMapping("/onsale")
@@ -63,12 +51,15 @@ public class ProductController {
         Pageable pageable = createPageable(sort, page, size);
 
         // Replace + with spaces
-        if(query != null) query = query.replaceAll("\\+", " ");
-        if(categoryName != null) categoryName = categoryName.replaceAll("\\+", " ");
+        if (query != null) query = query.replaceAll("\\+", " ");
+        if (categoryName != null) categoryName = categoryName.replaceAll("\\+", " ");
 
         Page<Product> results;
         if (query != null && !query.isEmpty())
-            results = productRepository.findByNameContainingIgnoreCaseOrProductTags_Tag_NameContainingIgnoreCase(query, query, pageable);
+            results =
+                    productRepository
+                            .findByNameContainingIgnoreCaseOrProductTags_Tag_NameContainingIgnoreCase(
+                                    query, query, pageable);
         else if (categoryName != null && !categoryName.isEmpty()) {
             Optional<Tag> tag = tagRepository.findByName(categoryName);
             if (tag.isEmpty()) return new ResponseEntity<>("Tag not found", HttpStatus.NOT_FOUND);

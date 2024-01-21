@@ -1,7 +1,5 @@
-import { useContext, useEffect } from 'react';
 import { Tag } from '../../domain/tag';
 import CartButtons from '../cart/CartButtons';
-import ShoppingCartContext from '../cart/ShoppingCartContext';
 import { CartProduct } from '../../domain/cart-product';
 
 interface CarouselItemProps {
@@ -28,10 +26,17 @@ const FrequentlyPurchasedItem: React.FC<CarouselItemProps> = ({
                 </figure>
                 <div className="card-body">
                     <h2 className="card-title">{cartProduct.product.name}</h2>
-                    <p>Price: €{cartProduct.product.price}</p>
+                    <p>
+                        Price: €
+                        {(
+                            cartProduct.product.price * cartProduct.quantity
+                        ).toFixed(2)}
+                    </p>
                     <div className="card-actions justify-between">
                         <div className="flex flex-wrap items-center gap-1">
-                            <span>Tags:</span>
+                            <span>
+                                <h3>Quick add</h3>
+                            </span>
                             {cartProduct.product.tags &&
                                 cartProduct.product.tags.map((tag: Tag) => (
                                     <a
@@ -44,7 +49,7 @@ const FrequentlyPurchasedItem: React.FC<CarouselItemProps> = ({
                                 ))}
                         </div>
                     </div>
-                    <CartButtons item={cartProduct} />
+                    <CartButtons item={cartProduct} isFrequentPurchase />
                 </div>
             </div>
         </div>

@@ -29,7 +29,7 @@ public class OrderController {
 
     @GetMapping("/user/{userId}/frequent-purchases")
     public List<OrderProductDTO> getFrequentPurchaseByUser(@PathVariable Long userId) {
-        return orderProductRepository.findTopFrequentlyPurchasedProducts(
+        return orderProductRepository.findTopFrequentlyPurchasedProductsByUserId(
                 userId, PageRequest.of(0, 10));
     }
 
