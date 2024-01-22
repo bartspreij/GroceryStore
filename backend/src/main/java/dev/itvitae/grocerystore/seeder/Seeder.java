@@ -224,12 +224,14 @@ public class Seeder implements CommandLineRunner {
         userRepository.save(user);
 
         // Create multiple orders with varying quantities for the same products
+        int minQuantity = 2, maxQuantity = 6;
         for (int i = 0; i < 5; i++) {
+            int randomQuantity = (int) (Math.random() * maxQuantity) + minQuantity;
             Order order = new Order();
             order.setUser(user);
 
             for (Product product : products) {
-                order.getOrderProducts().add(new OrderProduct(order, product, i + 1));
+                order.getOrderProducts().add(new OrderProduct(order, product, randomQuantity));
             }
 
             // Add some specific order products to test frequency in specific quantities

@@ -36,8 +36,8 @@ public class ProductController {
     }
 
     @GetMapping("/onsale")
-    public List<Product> getOnSaleProducts() {
-        return productRepository.findByOnSaleTrue();
+    public List<ProductDTO> getOnSaleProducts() {
+        return productRepository.findByOnSaleTrue().stream().map(ProductDTO::new).toList();
     }
 
     @GetMapping("/query")

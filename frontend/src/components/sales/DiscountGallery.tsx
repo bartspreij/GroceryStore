@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import Carousel from '../common/Gallery';
-import DiscountItem from './DiscountItem';
 import { Product } from '../../domain/product';
 import { fetchDiscounts } from '../../api/products-api';
+import GalleryProductCard from '../common/GalleryProductCard';
 
 const DiscountGallery = () => {
     const [discounts, setDiscounts] = useState<Product[]>([]);
@@ -21,7 +21,11 @@ const DiscountGallery = () => {
             <h2>On Sale</h2>
             <Carousel>
                 {discounts.map((product) => (
-                    <DiscountItem key={product.id} product={product} />
+                    <GalleryProductCard
+                        key={product.id}
+                        product={product}
+                        isDiscounted
+                    />
                 ))}
             </Carousel>
         </>

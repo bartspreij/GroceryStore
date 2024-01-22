@@ -6,6 +6,7 @@ import { Results, queryProducts } from '../api/products-api';
 import { Tag } from '../domain/tag';
 import FrequentlyPurchasedGallery from './frequently-purchased/FrequentlyPurchasedGallery';
 import DiscountGallery from './sales/DiscountGallery';
+import Tags from './common/Tags';
 
 const Products = () => {
     const [results, setResults] = useState<Results>(new Results());
@@ -67,18 +68,9 @@ const Products = () => {
                             <p>€{product.price}</p>
 
                             <div className="card-actions justify-between">
-                                <div className="flex flex-wrap items-center gap-1">
-                                    {product.tags.map((tag: Tag) => (
-                                        <a
-                                            className="p-1 bg-slate-400 text-white"
-                                            href={`/?c=${tag.name}`}
-                                            key={tag.id}
-                                        >
-                                            {tag.name}
-                                        </a>
-                                    ))}
+                                <div className="card-actions justify-between">
+                                    <Tags tags={product.tags} />
                                 </div>
-
                                 <CartButtons item={getCartProduct(product)} />
                             </div>
                         </div>

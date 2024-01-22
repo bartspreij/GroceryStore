@@ -6,11 +6,13 @@ import ShoppingCartContext from './ShoppingCartContext';
 interface CartButtonProps {
     item: CartProduct;
     isFrequentPurchase?: boolean;
+    quantity?: number;
 }
 
 const CartButtons: React.FC<CartButtonProps> = ({
     item,
     isFrequentPurchase = false,
+    quantity: defaultQuantity = 1,
 }) => {
     const {
         addProductToCart,
@@ -18,8 +20,6 @@ const CartButtons: React.FC<CartButtonProps> = ({
         deleteProductFromCart,
         isInCart,
     } = useContext(ShoppingCartContext);
-
-    const quantity = isFrequentPurchase && !isInCart(item) ? item.quantity : 1;
 
     return (
         <div className="join">
@@ -36,7 +36,7 @@ const CartButtons: React.FC<CartButtonProps> = ({
                     <button
                         aria-label="Remove button"
                         onClick={() =>
-                            removeProductFromCart(item.product, quantity)
+                            removeProductFromCart(item.product, defaultQuantity)
                         }
                         type="button"
                         className="btn btn-xs join-item"
@@ -48,23 +48,23 @@ const CartButtons: React.FC<CartButtonProps> = ({
 
             {(isInCart(item) || isFrequentPurchase) && (
                 <input
-                    className={`${isFrequentPurchase ? 'input-' : 'input-xs'} input input-bordered w-16 caret-transparent text-center focus:outline-none focus:ring-0 join-item`}
+                    className={`${isFrequentPurchase ? 'input-xl w-16' : 'input-xs w-12'} input input-bordered caret-transparent text-center focus:outline-none focus:ring-0 join-item`}
                     type="number"
                     aria-label="Change product value"
                     pattern="[0-9]{1,2}"
                     max="99"
                     aria-disabled="false"
                     autoComplete="off"
-                    value={item.quantity}
+                    value={isInCart(item) ? item.quantity : defaultQuantity}
                     readOnly
                 />
             )}
 
             <button
                 aria-label="Add button"
-                onClick={() => addProductToCart(item.product, quantity)}
+                onClick={() => addProductToCart(item.product, defaultQuantity)}
                 type="button"
-                className={`btn ${isFrequentPurchase ? 'btn-md' : 'btn-xs'} btn-circle btn-success join-item rounded-r-full`}
+                className={`btn ${isFrequentPurchase ? 'btn-md btn-success' : 'btn-xs'} ${!isInCart(item) ? 'btn-success' : ''} btn-circle join-item rounded-r-full`}
                 disabled={isFrequentPurchase && isInCart(item)}
             >
                 <FaPlus />

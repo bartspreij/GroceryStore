@@ -38,7 +38,7 @@ const defaultContextValue: ShoppingCartContextValue = {
                 imageUrl: 'www.lmgtfy.com',
                 price: 69,
                 onSale: true,
-                tags: [{ id: 1, name: 'cheese' }],
+                tags: [{ id: 1, name: 'cheese', category: false }],
             },
             quantity: 1,
         };

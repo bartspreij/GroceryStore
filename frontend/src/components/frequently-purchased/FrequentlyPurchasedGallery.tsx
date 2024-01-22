@@ -1,9 +1,9 @@
 import { useContext, useEffect, useState } from 'react';
-import Carousel from '../common/Gallery';
 import { CartProduct } from '../../domain/cart-product';
-import FrequentlyPurchasedItem from './FrequentlyPurchasedItem';
 import { fetchFrequentlyPurchasedInSpecificQuantity } from '../../api/products-api';
 import ShoppingCartContext from '../cart/ShoppingCartContext';
+import GalleryProductCard from '../common/GalleryProductCard';
+import Gallery from '../common/Gallery';
 
 const FrequentlyPurchasedGallery = () => {
     const [frequentPurchases, setFrequentPurchases] = useState<CartProduct[]>(
@@ -16,6 +16,7 @@ const FrequentlyPurchasedGallery = () => {
             const fetchedPurchases =
                 await fetchFrequentlyPurchasedInSpecificQuantity();
             setFrequentPurchases(fetchedPurchases);
+            console.log(fetchedPurchases);
         };
 
         loadFrequentPurchases();
@@ -34,14 +35,15 @@ const FrequentlyPurchasedGallery = () => {
     return (
         <>
             <h2>Frequently Purchased</h2>
-            <Carousel>
+            <Gallery>
                 {frequentPurchases.map((cartProduct) => (
-                    <FrequentlyPurchasedItem
+                    <GalleryProductCard
                         key={cartProduct.product.id}
-                        cartProduct={cartProduct}
+                        product={cartProduct.product}
+                        quantity={cartProduct.quantity}
                     />
                 ))}
-            </Carousel>
+            </Gallery>
         </>
     );
 };

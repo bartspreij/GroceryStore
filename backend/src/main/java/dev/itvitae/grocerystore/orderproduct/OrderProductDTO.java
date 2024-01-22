@@ -1,9 +1,10 @@
 package dev.itvitae.grocerystore.orderproduct;
 
-import dev.itvitae.grocerystore.products.Product;
+import dev.itvitae.grocerystore.products.ProductDTO;
 
-public record OrderProductDTO(Product product, Integer quantity) {
+public record OrderProductDTO(ProductDTO product, Integer quantity) {
+
     public OrderProductDTO(OrderProduct cartProduct) {
-        this(cartProduct.getProduct(), cartProduct.getQuantity());
+        this(new ProductDTO(cartProduct.getProduct()), cartProduct.getQuantity());
     }
 }
