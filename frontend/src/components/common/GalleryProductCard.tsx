@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
-import ShoppingCartContext from '../cart/ShoppingCartContext';
-import CartButtons from '../cart/CartButtons';
 import { Product } from '../../domain/product';
 import Tags from './Tags';
+import ShoppingCartContext from '../cart/ShoppingCartContext';
+import CartButtons from '../cart/CartButtons';
 
 interface GalleryProductCardProps {
     product: Product;

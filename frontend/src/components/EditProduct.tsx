@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
+import { FaMinus } from 'react-icons/fa6';
 import { Product } from '../domain/product';
 import { Tag } from '../domain/tag';
 import { fetchTags } from '../api/tag-api';
-import { FaMinus } from 'react-icons/fa6';
 
 interface EditProductProps {
     title: string;
@@ -133,7 +133,7 @@ const EditProduct: React.FC<EditProductProps> = ({
                         type="text"
                         value={productMockup.name}
                         onChange={(e) => setName(e.target.value)}
-                    ></input>
+                    />
                 </label>
 
                 <label>
@@ -142,7 +142,7 @@ const EditProduct: React.FC<EditProductProps> = ({
                         type="text"
                         value={productMockup.price}
                         onChange={(e) => setPrice(e.target.value)}
-                    ></input>
+                    />
                 </label>
 
                 <label>
@@ -152,7 +152,7 @@ const EditProduct: React.FC<EditProductProps> = ({
                         className="w-full"
                         value={productMockup.imageUrl}
                         onChange={(e) => setImageUrl(e.target.value)}
-                    ></input>
+                    />
                 </label>
 
                 <label>
@@ -162,7 +162,7 @@ const EditProduct: React.FC<EditProductProps> = ({
                         className="w-full"
                         value={productMockup.description}
                         onChange={(e) => setDescription(e.target.value)}
-                    ></input>
+                    />
                 </label>
 
                 {productMockup.tags.length > 0 && (
