@@ -16,13 +16,13 @@ const GalleryProductCard: React.FC<GalleryProductCardProps> = ({
     isDiscounted = false,
 }) => {
     const { getCartProduct } = useContext(ShoppingCartContext);
-    const displayPrice = isDiscounted
-        ? Number((product.price * 0.7).toFixed(2))
-        : product.price;
 
     return (
-        <div className="carousel-item max-w-xs max-h-96">
-            <div key={product.id} className="card w-96 bg-base-100 shadow-xl">
+        <div
+            className="carousel-item max-w-xs max-h-96"
+            style={{ maxWidth: '25%' }}
+        >
+            <div className="card m-2 text-gray-400 card-compact bg-base-100 shadow-xl">
                 <figure className="aspect-square">
                     <img
                         className="w-full h-full object-cover"
@@ -37,21 +37,19 @@ const GalleryProductCard: React.FC<GalleryProductCardProps> = ({
                     {isDiscounted ? (
                         <>
                             <p className="line-through">€{product.price}</p>
-                            <p>Now: €{displayPrice}</p>
+                            <p>
+                                €
+                                {product.discounts[0].discountedPrice.toFixed(
+                                    2
+                                )}
+                            </p>
                         </>
                     ) : (
                         <p>
-                            Price: €
-                            {quantity
-                                ? (displayPrice * quantity).toFixed(2)
-                                : displayPrice}
+                            €{quantity && (product.price * quantity).toFixed(2)}
                         </p>
                     )}
-
-                    <div className="card-actions justify-between">
-                        <Tags tags={product.tags} />
-                    </div>
-
+                    <Tags tags={product.tags} />
                     <CartButtons
                         item={getCartProduct(product)}
                         isFrequentPurchase={!isDiscounted}

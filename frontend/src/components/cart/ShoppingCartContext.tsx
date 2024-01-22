@@ -33,12 +33,28 @@ const defaultContextValue: ShoppingCartContextValue = {
     getCartProduct: () => {
         return {
             product: {
-                id: 1,
-                name: 'Why the f',
-                imageUrl: 'www.lmgtfy.com',
-                price: 69,
+                id: 7,
+                name: 'Apples',
+                description: 'Crisp and juicy apples for a healthy snack.',
+                price: 1.99,
+                imageUrl:
+                    'https://static.ah.nl/dam/product/AHI_43545239383933333036?revLabel=1&rendition=800x800_JPG_Q90&fileType=binary',
                 onSale: true,
-                tags: [{ id: 1, name: 'cheese', category: false }],
+                tags: [
+                    {
+                        id: 5,
+                        name: 'Fruits',
+                        category: true,
+                    },
+                ],
+                discounts: [
+                    {
+                        id: 1,
+                        discountedPrice: 1.59,
+                        startDate: new Date('2024-01-22'),
+                        endDate: new Date('2024-01-29'),
+                    },
+                ],
             },
             quantity: 1,
         };

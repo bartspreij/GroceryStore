@@ -4,9 +4,6 @@ import dev.itvitae.grocerystore.exception.UserNotFoundException;
 import dev.itvitae.grocerystore.order.Order;
 import dev.itvitae.grocerystore.order.OrderRepository;
 import dev.itvitae.grocerystore.orderproduct.OrderProduct;
-import dev.itvitae.grocerystore.cart.Cart;
-import dev.itvitae.grocerystore.cart.CartService;
-import dev.itvitae.grocerystore.cartproduct.CartProduct;
 import dev.itvitae.grocerystore.discounts.Discount;
 import dev.itvitae.grocerystore.discounts.DiscountRepository;
 import dev.itvitae.grocerystore.products.Product;
@@ -248,13 +245,14 @@ public class Seeder implements CommandLineRunner {
         userRepository.save(user);
 
         // Create multiple orders with varying quantities for the same products
-        int minQuantity = 2, maxQuantity = 6;
         for (int i = 0; i < 5; i++) {
-            int randomQuantity = (int) (Math.random() * maxQuantity) + minQuantity;
             Order order = new Order();
             order.setUser(user);
 
+            int minQuantity = 2, maxQuantity = 6;
             for (Product product : products) {
+                int randomQuantity =
+                        (int) (Math.random() * maxQuantity - minQuantity) + minQuantity;
                 order.getOrderProducts().add(new OrderProduct(order, product, randomQuantity));
             }
 
@@ -275,18 +273,21 @@ public class Seeder implements CommandLineRunner {
 
     private void seedDiscounts() {
         List<Product> allProducts = productRepository.findAll();
-        if(allProducts.isEmpty()) return;
+        if (allProducts.isEmpty()) return;
         Random random = new Random();
 
-        for(var i = 0; i < 10; i++) {
+        for (var i = 0; i < 10; i++) {
             generateDiscount(allProducts.get(random.nextInt(allProducts.size())));
         }
     }
 
     private void generateDiscount(Product product) {
-        Discount discount = new Discount(product.getPrice().multiply(BigDecimal.valueOf(0.8)),
-                LocalDate.now(), LocalDate.now().plusDays(7),
-                product);
+        Discount discount =
+                new Discount(
+                        product.getPrice().multiply(BigDecimal.valueOf(0.8)),
+                        LocalDate.now(),
+                        LocalDate.now().plusDays(7),
+                        product);
 
         discountRepository.save(discount);
     }

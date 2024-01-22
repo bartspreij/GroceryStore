@@ -22,7 +22,7 @@ const CartButtons: React.FC<CartButtonProps> = ({
     } = useContext(ShoppingCartContext);
 
     return (
-        <div className="join">
+        <div className="join justify-end">
             {isInCart(item) && !isFrequentPurchase && (
                 <>
                     <button
@@ -46,9 +46,10 @@ const CartButtons: React.FC<CartButtonProps> = ({
                 </>
             )}
 
+            {isFrequentPurchase && <span className="pr-2">Quick add </span>}
             {(isInCart(item) || isFrequentPurchase) && (
                 <input
-                    className={`${isFrequentPurchase ? 'input-xl w-16' : 'input-xs w-12'} input input-bordered caret-transparent text-center focus:outline-none focus:ring-0 join-item`}
+                    className="input-xs w-12 input input-bordered caret-transparent text-center focus:outline-none focus:ring-0 join-item"
                     type="number"
                     aria-label="Change product value"
                     pattern="[0-9]{1,2}"
@@ -64,7 +65,7 @@ const CartButtons: React.FC<CartButtonProps> = ({
                 aria-label="Add button"
                 onClick={() => addProductToCart(item.product, defaultQuantity)}
                 type="button"
-                className={`btn ${isFrequentPurchase ? 'btn-md btn-success' : 'btn-xs'} ${!isInCart(item) ? 'btn-success' : ''} btn-circle join-item rounded-r-full`}
+                className={` ${(isFrequentPurchase || !isInCart(item)) && 'btn-success'} btn btn-xs btn-circle join-item rounded-r-full`}
                 disabled={isFrequentPurchase && isInCart(item)}
             >
                 <FaPlus />
