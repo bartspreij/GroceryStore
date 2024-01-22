@@ -1,8 +1,6 @@
-import { Product } from './product';
-
-export default interface Discount {
+export interface Discount {
+    id: number;
+    discountedPrice: number;
     startDate: Date;
     endDate: Date;
-    discountPrice: number;
-    product: Product;
 }

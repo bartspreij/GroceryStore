@@ -51,6 +51,10 @@ const Navbar = () => {
                 </div>
             </div>
             <div className="flex-none">
+                <a href={'/admin'} className="btn btn-ghost text-xl">
+                    Admin
+                </a>
+
                 <CartDropdown />
 
                 <div className="dropdown dropdown-end">
