@@ -24,7 +24,6 @@ public class Product {
   private String description;
   private BigDecimal price;
   private String imageUrl;
-  private boolean onSale; // REMOVE
 
   @ManyToMany
   private Set<Tag> tags = new HashSet<>();

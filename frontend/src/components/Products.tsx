@@ -7,15 +7,21 @@ import SaleGallery from './sales/SaleGallery';
 const Products = () => {
     const [results, setResults] = useState<Results>(new Results());
     const [pageable, setPageable] = useState<Pageable>(new Pageable());
+    const [filterUsed, setFilterUsed] = useState(false);
 
     useEffect(() => {
         const fetchProduct = async () => {
             const searchType = window.location.search.substring(1, 2);
             let query = '';
             let category = '';
-            if (searchType === 'c')
+            if (searchType === 'c') {
                 category = window.location.search.substring(3);
-            if (searchType === 'q') query = window.location.search.substring(3);
+                setFilterUsed(true);
+            }
+            if (searchType === 'q') {
+                query = window.location.search.substring(3);
+                setFilterUsed(true);
+            }
 
             const result = await queryProducts(
                 pageable.pageNumber,
@@ -47,7 +53,9 @@ const Products = () => {
 
     return (
         <>
-            <SaleGallery />
+            {pageable.pageNumber === 0 && filterUsed === false && (
+                <SaleGallery />
+            )}
 
             <ProductList
                 products={results.content}

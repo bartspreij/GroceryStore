@@ -26,11 +26,6 @@ public class ProductController {
   private final ProductRepository productRepository;
   private final TagRepository tagRepository;
 
-  @GetMapping("/onsale")
-  public List<Product> getOnSaleProducts() {
-    return productRepository.findByOnSaleTrue();
-  }
-
   @GetMapping("/query")
   public ResponseEntity<?> query(
       @RequestParam(name = "q", required = false) String query,
