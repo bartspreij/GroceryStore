@@ -17,6 +17,7 @@ const ManageProducts = () => {
     const [pageable, setPageable] = useState<Pageable>(new Pageable());
     const [productEditing, setProductEditing] = useState<Product>();
     const [addingProduct, setAddingProduct] = useState<boolean>(false);
+    const [discountEditing, setDiscountEditing] = useState<Product>();
 
     useEffect(() => {
         loadProducts();
@@ -99,6 +100,12 @@ const ManageProducts = () => {
                 ) : null}
             </Popup>
 
+            {/* Edit discounts */}
+            <Popup
+                isOpen={!!discountEditing}
+                onClose={() => setDiscountEditing(undefined)}
+            ></Popup>
+
             <ProductList
                 products={results.content}
                 currentPage={pageable.pageNumber}
@@ -107,6 +114,9 @@ const ManageProducts = () => {
                 editProduct={(product: Product) => setProductEditing(product)}
                 deleteProduct={(product: Product) =>
                     handleDeleteProduct(product)
+                }
+                editDiscounts={(product: Product) =>
+                    setDiscountEditing(product)
                 }
             />
         </>

@@ -34,7 +34,7 @@ public class DiscountController {
 //        return discountRepository.findByStartDateBetween(startDate, endDate);
 //    }
 
-    @PostMapping("/new/{productId}")
+    @PostMapping("add-to-product/{productId}")
     public ResponseEntity<String> addDiscount(@PathVariable Long productId, @RequestBody Discount discount) {
         Optional<Product> findProduct = productRepository.findById(productId);
 
