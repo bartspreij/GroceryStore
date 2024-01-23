@@ -32,12 +32,12 @@ public class User {
     private String email;
 
     private String password;
-    private String role;
+    private String roles;
 
-    public User(String firstName, String password, String email, String role) {
+    public User(String firstName, String password, String email, String roles) {
         this.firstName = firstName;
         this.password = password;
         this.email = email;
-        this.role = role;
+        this.roles = roles;
     }
 }

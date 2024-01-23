@@ -15,7 +15,7 @@ spring:
   main:
     banner-mode: off
 
-#  jwt:
-#    secret: ${JWT.SECRET}
-#    jwtExpirationTimeInMs: 1800000
+  jwt:
+    secret: ${JWT.SECRET}
+    jwtExpirationTimeInMs: 1800000
 

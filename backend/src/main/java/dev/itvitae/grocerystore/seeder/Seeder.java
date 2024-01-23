@@ -1,9 +1,5 @@
 package dev.itvitae.grocerystore.seeder;
 
-import dev.itvitae.grocerystore.exception.UserNotFoundException;
-import dev.itvitae.grocerystore.order.Order;
-import dev.itvitae.grocerystore.order.OrderRepository;
-import dev.itvitae.grocerystore.orderproduct.OrderProduct;
 import dev.itvitae.grocerystore.discounts.Discount;
 import dev.itvitae.grocerystore.discounts.DiscountRepository;
 import dev.itvitae.grocerystore.order.Order;
@@ -11,7 +7,6 @@ import dev.itvitae.grocerystore.order.OrderRepository;
 import dev.itvitae.grocerystore.orderproduct.OrderProduct;
 import dev.itvitae.grocerystore.products.Product;
 import dev.itvitae.grocerystore.products.ProductRepository;
-import dev.itvitae.grocerystore.products.ProductService;
 import dev.itvitae.grocerystore.tags.Tag;
 import dev.itvitae.grocerystore.tags.TagRepository;
 import dev.itvitae.grocerystore.user.User;
@@ -23,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
@@ -40,6 +36,7 @@ public class Seeder implements CommandLineRunner {
     private final TagRepository tagRepository;
     private final DiscountRepository discountRepository;
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public void run(String... args) throws Exception {
@@ -50,11 +47,18 @@ public class Seeder implements CommandLineRunner {
     }
 
     private void seedUsers() {
-        List<User> users =
+        userRepository.saveAll(
                 List.of(
-                        new User("John Doe", "kaas", "bartspreij@gmail.com", "USER"),
-                        new User("John Deere", "worst", "dummy@gmail.com", "ADMIN"));
-        userRepository.saveAll(users);
+                        new User(
+                                "John Doe",
+                                passwordEncoder.encode("worst"),
+                                "bartspreij@gmail.com",
+                                "USER"),
+                        new User(
+                                "John Deere",
+                                passwordEncoder.encode("kaas"),
+                                "dummy@gmail.com",
+                                "ADMIN")));
     }
 
     private void saveProduct(
