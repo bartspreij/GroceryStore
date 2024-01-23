@@ -1,8 +1,8 @@
 import { createContext, useMemo, ReactNode, useCallback } from 'react';
 import Cart from '../../domain/cart';
 import { CartProduct } from '../../domain/cart-product';
-import useStorageState from '../../hooks/useStorageState';
 import { Product } from '../../domain/product';
+import useStorageState from '../../hooks/useStorageState';
 
 interface ShoppingCartContextValue {
     cart: Cart;
@@ -10,9 +10,10 @@ interface ShoppingCartContextValue {
     totalQuantity: number;
     isInCart: (product: CartProduct) => boolean;
     getCartProduct: (product: Product) => CartProduct;
-    addProductToCart: (product: CartProduct) => void;
-    removeProductFromCart: (product: CartProduct) => void;
+    addProductToCart: (product: Product, quantity: number) => void;
+    removeProductFromCart: (product: Product, quantity: number) => void;
     deleteProductFromCart: (product: CartProduct) => void;
+    checkout: () => void;
 }
 
 interface ShoppingCartProviderProps {
@@ -32,11 +33,28 @@ const defaultContextValue: ShoppingCartContextValue = {
     getCartProduct: () => {
         return {
             product: {
-                id: 1,
-                name: 'Why the f',
-                imageUrl: 'www.lmgtfy.com',
-                price: 69,
-                tags: [{ id: 1, name: 'cheese' }],
+                id: 7,
+                name: 'Apples',
+                description: 'Crisp and juicy apples for a healthy snack.',
+                price: 1.99,
+                imageUrl:
+                    'https://static.ah.nl/dam/product/AHI_43545239383933333036?revLabel=1&rendition=800x800_JPG_Q90&fileType=binary',
+                onSale: true,
+                tags: [
+                    {
+                        id: 5,
+                        name: 'Fruits',
+                        category: true,
+                    },
+                ],
+                discounts: [
+                    {
+                        id: 1,
+                        discountedPrice: 1.59,
+                        startDate: new Date('2024-01-22'),
+                        endDate: new Date('2024-01-29'),
+                    },
+                ],
             },
             quantity: 1,
         };
@@ -44,6 +62,7 @@ const defaultContextValue: ShoppingCartContextValue = {
     addProductToCart: () => {},
     removeProductFromCart: () => {},
     deleteProductFromCart: () => {},
+    checkout: () => {},
 };
 
 const ShoppingCartContext =
@@ -52,64 +71,57 @@ const ShoppingCartContext =
 export const ShoppingCartProvider: React.FC<ShoppingCartProviderProps> = ({
     children,
 }) => {
-    const [cart, setCart] = useStorageState('cartKey');
-
-    const updateCart = useCallback((): void => {
-        const updatedCart = new Cart();
-        updatedCart.products = [...cart.products];
-        setCart(updatedCart);
-    }, [cart, setCart]);
+    const [cart, setCart] = useStorageState('cartKey', new Cart());
 
     const addProductToCart = useCallback(
-        (newItem: CartProduct): void => {
-            const itemToAdd = newItem;
-
+        (newItem: Product, quantity: number): void => {
             const existingItem = cart.products.find(
-                (item) => item.product.id === itemToAdd.product.id
+                (item) => item.product.id === newItem.id
             );
 
             if (existingItem) {
-                existingItem.quantity += 1;
+                existingItem.quantity += quantity;
             } else {
-                itemToAdd.quantity = 1;
-                cart.products.push(itemToAdd);
+                cart.products.push({ product: newItem, quantity });
             }
 
-            updateCart();
+            setCart((prevCart) => new Cart(prevCart.products));
         },
-        [cart, updateCart]
+        [cart, setCart]
     );
 
     const removeProductFromCart = useCallback(
-        (itemToRemove: CartProduct): void => {
+        (itemToRemove: Product, quantity: number): void => {
             const itemIndex = cart.products.findIndex(
-                (item) => item.product.id === itemToRemove.product.id
+                (item) => item.product.id === itemToRemove.id
             );
 
             if (itemIndex < 0) return;
 
-            cart.products[itemIndex].quantity -= 1;
+            cart.products[itemIndex].quantity -= quantity;
 
             if (cart.products[itemIndex].quantity < 1) {
                 cart.products.splice(itemIndex, 1);
             }
 
-            updateCart();
+            setCart((prevCart) => new Cart(prevCart.products));
         },
-        [cart, updateCart]
+        [cart, setCart]
     );
 
     const deleteProductFromCart = useCallback(
-        (itemToDelete: CartProduct): void => {
-            const itemIndex = cart.products.findIndex(
-                (item) => item.product.id === itemToDelete.product.id
+        (itemToDelete: CartProduct) => {
+            setCart(
+                (prevCart) =>
+                    new Cart(
+                        prevCart.products.filter(
+                            (item) =>
+                                item.product.id !== itemToDelete.product.id
+                        )
+                    )
             );
-            cart.products[itemIndex].quantity = 0;
-            cart.products.splice(itemIndex, 1);
-
-            updateCart();
         },
-        [cart, updateCart]
+        [setCart]
     );
 
     const getCartProduct = useCallback(
@@ -131,6 +143,10 @@ export const ShoppingCartProvider: React.FC<ShoppingCartProviderProps> = ({
         [cart]
     );
 
+    const checkout = useCallback(() => {
+        setCart(() => new Cart());
+    }, [setCart]);
+
     const subtotal = cart.products.reduce(
         (total, item) => total + item.quantity * item.product.price,
         0
@@ -151,6 +167,7 @@ export const ShoppingCartProvider: React.FC<ShoppingCartProviderProps> = ({
             addProductToCart,
             removeProductFromCart,
             deleteProductFromCart,
+            checkout,
         }),
         [
             cart,
@@ -161,6 +178,7 @@ export const ShoppingCartProvider: React.FC<ShoppingCartProviderProps> = ({
             addProductToCart,
             deleteProductFromCart,
             removeProductFromCart,
+            checkout,
         ]
     );
 

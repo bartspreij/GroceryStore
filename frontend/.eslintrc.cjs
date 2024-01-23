@@ -30,8 +30,10 @@ module.exports = {
     },
     plugins: ['@typescript-eslint', 'react'],
     rules: {
+        'react/require-default-props': 'off',
         'react/prop-types': 'off',
         'react/react-in-jsx-scope': 0,
+        '@typescript-eslint/lines-between-class-members': 'off',
         'react/function-component-definition': [
             'error',
             {

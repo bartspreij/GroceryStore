@@ -31,6 +31,7 @@ const LogIn = (onLogIn) => {
                         className="input input-bordered"
                         type="email"
                         placeholder="email"
+                        name="username"
                         autoComplete="username"
                         required
                         value={email}
@@ -44,6 +45,7 @@ const LogIn = (onLogIn) => {
                     <input
                         className="input input-bordered"
                         type="password"
+                        name="password"
                         autoComplete="current-password"
                         placeholder="password"
                         required
