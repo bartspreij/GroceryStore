@@ -2,13 +2,16 @@
 import { useState, useEffect } from 'react';
 import { fetchCategories } from '../../api/tag-api';
 import { Tag } from '../../domain/tag';
-import Popup from '../Popup';
-import LogIn from './LogIn';
 import CartDropdown from '../cart/CartDropdown';
+import LogInPopUp from '../auth/LoginPopUp';
+import Register from '../auth/Register';
+import RegisterPopUp from '../auth/RegistrationPopUp';
+import Modal from '../auth/Modal';
+import LogIn from '../auth/LogIn';
+import LoginPopUp from '../auth/LoginPopUp';
 
 const Navbar = () => {
     const [categories, setCategories] = useState<Tag[]>([]);
-    const [isPopupOpen, setIsPopupOpen] = useState(false);
 
     useEffect(() => {
         const loadCategories = async () => {
@@ -17,14 +20,6 @@ const Navbar = () => {
         };
         loadCategories();
     }, []);
-
-    const handlePopupOpen = () => {
-        setIsPopupOpen(true);
-    };
-
-    const handlePopupClose = () => {
-        setIsPopupOpen(false);
-    };
 
     return (
         <div className="navbar bg-base-100 mb-4">
@@ -84,16 +79,14 @@ const Navbar = () => {
                     </div>
                     <ul className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
                         <li>
-                            <button onClick={handlePopupOpen} type="button">
-                                Log In
-                            </button>
+                            <LoginPopUp />
+                        </li>
+                        <li>
+                            <RegisterPopUp />
                         </li>
                     </ul>
                 </div>
             </div>
-            <Popup isOpen={isPopupOpen} onClose={handlePopupClose}>
-                <LogIn onLogIn={handlePopupClose} />
-            </Popup>
         </div>
     );
 };
