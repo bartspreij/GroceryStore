@@ -1,17 +1,16 @@
 package dev.itvitae.grocerystore.seeder;
 
-import dev.itvitae.grocerystore.cart.Cart;
-import dev.itvitae.grocerystore.cart.CartService;
-import dev.itvitae.grocerystore.cartproduct.CartProduct;
 import dev.itvitae.grocerystore.discounts.Discount;
 import dev.itvitae.grocerystore.discounts.DiscountRepository;
+import dev.itvitae.grocerystore.order.Order;
+import dev.itvitae.grocerystore.order.OrderRepository;
+import dev.itvitae.grocerystore.orderproduct.OrderProduct;
 import dev.itvitae.grocerystore.products.Product;
 import dev.itvitae.grocerystore.products.ProductRepository;
 import dev.itvitae.grocerystore.tags.Tag;
 import dev.itvitae.grocerystore.tags.TagRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 
@@ -34,6 +33,13 @@ public class Seeder implements CommandLineRunner {
         seedProducts();
         seedCart();
         seedDiscounts();
+    }
+
+    private void seedUsers() {
+        userRepository.saveAll(
+                List.of(
+                        new User("John Doe", "kaas", "bartspreij@gmail.com", "USER"),
+                        new User("John Deere", "worst", "dummy@gmail.com", "ADMIN")));
     }
 
     private void saveProduct(
