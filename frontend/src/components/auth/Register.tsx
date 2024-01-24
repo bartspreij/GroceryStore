@@ -3,26 +3,23 @@
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { object, string, ref, ObjectSchema } from 'yup';
-import ErrorMessage from '../common/ErrorMessage';
 import { User } from '../../domain/user';
 import { postUser } from '../../api/user-api';
 
 const Register = () => {
     const userSchema: ObjectSchema<User> = object().shape({
-        firstName: string().required('Your First Name is Required!'),
-        email: string().email().required('Email must be a valid email!'),
-        password: string()
-            .min(4)
-            .max(20)
-            .required('Password must be at least 4 characters!'),
+        firstName: string().required(),
+        email: string().email().required(),
+        password: string().min(4).max(20).required(),
         confirmPassword: string()
-            .oneOf([ref('password'), null], "Passwords Don't Match!")
+            .oneOf([ref('password'), null])
             .required(),
     });
 
     const {
         register,
         handleSubmit,
+        setError,
         formState: { errors },
     } = useForm({
         resolver: yupResolver(userSchema),
@@ -34,7 +31,9 @@ const Register = () => {
             const response = await postUser(userData);
             console.log(response.data);
         } catch (error) {
-            console.error(error);
+            setError('root', {
+                message: 'This email is already taken',
+            });
         }
     };
 
@@ -52,7 +51,6 @@ const Register = () => {
                         {...register('firstName')}
                         autoComplete="name"
                     />
-                    <ErrorMessage message={errors.firstName?.message} />
                 </div>
                 <div className="form-control">
                     <label className="label">
@@ -64,7 +62,6 @@ const Register = () => {
                         {...register('email')}
                         autoComplete="email"
                     />
-                    <ErrorMessage message={errors.email?.message} />
                 </div>
                 <div className="form-control">
                     <label className="label">
@@ -77,7 +74,6 @@ const Register = () => {
                         {...register('password')}
                         autoComplete="current-password"
                     />
-                    <ErrorMessage message={errors.password?.message} />
                 </div>
                 <div className="form-control">
                     <label className="label">
@@ -90,7 +86,6 @@ const Register = () => {
                         {...register('confirmPassword')}
                         autoComplete="current-password"
                     />
-                    <ErrorMessage message={errors.confirmPassword?.message} />
                 </div>
                 <div className="form-control mt-6">
                     <input
@@ -99,6 +94,9 @@ const Register = () => {
                         value="Register"
                     />
                 </div>
+                {errors.root && (
+                    <div className="text-red-500">{errors.root.message}</div>
+                )}
             </form>
         </div>
     );

@@ -27,16 +27,17 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
-    public User add(User user) {
+    public User addUser(User user) {
         Optional<User> theUser = userRepository.findByEmail(user.getEmail());
         if (theUser.isPresent()) {
             throw new UserAlreadyExistsException(user.getEmail());
         }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setRoles("USER");
         return userRepository.save(user);
     }
 
-    public void delete(String email) {
+    public void deleteUser(String email) {
         userRepository.deleteByEmail(email);
     }
 
@@ -46,7 +47,7 @@ public class UserService {
                 .orElseThrow(() -> new UserNotFoundException(email));
     }
 
-    public User update(User user) {
+    public User updateUser(User user) {
         user.setRoles(user.getRoles());
         return userRepository.save(user);
     }

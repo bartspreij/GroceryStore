@@ -27,13 +27,13 @@ public class UserController {
     }
 
     @PostMapping()
-    public ResponseEntity<User> saveUser(@RequestBody User user, UriComponentsBuilder ucb) {
+    public ResponseEntity<UserDTO> saveUser(@RequestBody User user, UriComponentsBuilder ucb) {
         System.out.println("saving user");
-        User savedUser = userService.add(user);
+        User savedUser = userService.addUser(user);
 
         URI locationOfNewRecipe =
                 ucb.path("api/v1/user/{id}").buildAndExpand(savedUser.getId()).toUri();
 
-        return ResponseEntity.created(locationOfNewRecipe).body(savedUser);
+        return ResponseEntity.created(locationOfNewRecipe).body(new UserDTO(savedUser));
     }
 }

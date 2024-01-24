@@ -1,7 +1,7 @@
 import Register from './Register';
 
 const RegisterPopUp = () => (
-    <>
+    <div className="dropdown-item">
         <button
             type="button"
             onClick={() => document.getElementById('register').showModal()}
@@ -13,7 +13,7 @@ const RegisterPopUp = () => (
                 <Register />
             </div>
         </dialog>
-    </>
+    </div>
 );
 
 export default RegisterPopUp;
