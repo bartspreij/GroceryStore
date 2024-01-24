@@ -2,25 +2,36 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { object, string } from 'yup';
+import { object, string, InferType } from 'yup';
 import ErrorMessage from '../common/ErrorMessage';
+import { loginUser } from '../../api/user-api';
+
+const loginSchema = object().shape({
+    email: string().email().required(),
+    password: string().min(4).max(20).required(),
+});
 
 const Login = () => {
-    const loginSchema = object().shape({
-        email: string().email().required(),
-        password: string().min(4).max(20).required(),
-    });
+    type LoginRequest = InferType<typeof loginSchema>;
 
     const {
         register,
         handleSubmit,
-        formState: { errors },
-    } = useForm({
+        setError,
+        formState: { errors, isSubmitting },
+    } = useForm<LoginRequest>({
         resolver: yupResolver(loginSchema),
     });
 
-    const onSubmit = (data) => {
-        console.log(data);
+    const onSubmit = async (userData: LoginRequest) => {
+        try {
+            const response = await loginUser(userData);
+            console.log(response.data);
+        } catch (error) {
+            setError('root', {
+                message: 'Wrong password',
+            });
+        }
     };
 
     return (
@@ -58,6 +69,9 @@ const Login = () => {
                         value="Login"
                     />
                 </div>
+                {errors.root && (
+                    <div className="text-red-500">{errors.root.message}</div>
+                )}
             </form>
         </div>
     );

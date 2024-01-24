@@ -1,3 +1,4 @@
+import { LoginRequest } from '../domain/LoginRequest';
 import { User } from '../domain/user';
 import api from './api';
 
@@ -6,5 +7,9 @@ export const postUser = (userData: User) => {
 };
 
 export const fetchUser = (id: number) => {
-    api.get(`/users/${id}`);
+    return api.get(`/users/${id}`);
+};
+
+export const loginUser = (loginRequest: LoginRequest) => {
+    return api.post('/auth', loginRequest);
 };

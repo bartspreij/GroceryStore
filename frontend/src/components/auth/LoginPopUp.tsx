@@ -1,4 +1,4 @@
-import LogIn from './LogIn';
+import LogIn from './Login';
 
 const LogInPopUp = () => (
     <>
