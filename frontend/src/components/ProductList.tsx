@@ -75,11 +75,12 @@ const ProductList: React.FC<ProductListProps> = ({
                         <div className="card-body">
                             <div className="flex items-center justify-between">
                                 <h3>{product.name}</h3>
-                                <span>
+                                <span className="flex items-center">
                                     €{product.price}
                                     {!!editDiscounts && (
                                         <button
                                             type="button"
+                                            title="Edit discounts"
                                             className="btn btn-xs btn-circle ml-1"
                                             onClick={() =>
                                                 editDiscounts(product)

@@ -48,7 +48,7 @@ public class DiscountController {
         }
     }
 
-    @DeleteMapping("/delete/{discountId}")
+    @DeleteMapping("{discountId}")
     public ResponseEntity<String> deleteDiscount(@PathVariable Long discountId) {
         Optional<Discount> discountOptional = discountRepository.findById(discountId);
         if (discountOptional.isPresent()) {
