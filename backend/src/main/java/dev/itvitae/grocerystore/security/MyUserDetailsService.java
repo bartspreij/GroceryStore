@@ -1,9 +1,7 @@
 package dev.itvitae.grocerystore.security;
 
 import dev.itvitae.grocerystore.user.UserRepository;
-
 import lombok.RequiredArgsConstructor;
-
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -18,7 +16,7 @@ public class MyUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepository
-                .findByEmail(username)
+                .findByUsername(username)
                 .map(MyUserDetails::new)
                 .orElseThrow(
                         () ->

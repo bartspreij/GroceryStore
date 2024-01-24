@@ -3,12 +3,19 @@
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { object, string, InferType } from 'yup';
+import { useState } from 'react';
 import { loginUser } from '../../api/user-api';
-import { LoginRequest } from '../../domain/LoginRequest';
+import WarningMessage from '../alerts/WarningMessage';
+import { useAuth } from './AuthProvider';
+import SuccesAlert from '../alerts/SuccesAlert';
 
 const loginSchema = object().shape({
-    username: string().email().required(),
-    password: string().min(4).max(20).required(),
+    username: string()
+        .email('Invalid email format')
+        .required('Email is required'),
+    password: string()
+        .min(4, 'Password must be at least 4 characters long')
+        .required('Password is required'),
 });
 
 type FormValues = InferType<typeof loginSchema>;
@@ -18,25 +25,37 @@ const Login = () => {
         register,
         handleSubmit,
         setError,
-        formState: { errors, isSubmitting },
+        formState: { errors },
     } = useForm<FormValues>({
         resolver: yupResolver(loginSchema),
     });
+    const [successLogin, setSuccessLogin] = useState(false);
+    const { handleLogin } = useAuth();
 
-    const onSubmit = async (userData: LoginRequest) => {
+    const onSubmit = async (userData: FormValues) => {
         try {
             const response = await loginUser(userData);
-            console.log(response.data);
-            throw new Error();
+            handleLogin(response.data);
+            setSuccessLogin(true);
         } catch (error) {
-            setError('username', {
-                message: 'Wrong password',
-            });
+            let errorMessage =
+                'An unexpected error occurred. Please try again later.';
+
+            if (error.response?.status === 401) {
+                errorMessage = 'Invalid email or password.';
+            }
+
+            setError('root', { message: errorMessage });
         }
+
+        setTimeout(() => {
+            setSuccessLogin(false);
+        }, 2000);
     };
 
     return (
         <div className="card shrink-0 w-full max-w-sm bg-base-100">
+            {successLogin && <SuccesAlert message="Logged in successfully!" />}
             <form className="card-body" onSubmit={handleSubmit(onSubmit)}>
                 <div className="form-control">
                     <label className="label">
@@ -49,6 +68,9 @@ const Login = () => {
                         autoComplete="email"
                     />
                 </div>
+                {errors.username?.message && (
+                    <WarningMessage message={errors.username.message} />
+                )}
                 <div className="form-control">
                     <label className="label">
                         <span className="label-text">Password</span>
@@ -61,15 +83,16 @@ const Login = () => {
                         autoComplete="current-password"
                     />
                 </div>
+                {errors.password?.message && (
+                    <WarningMessage message={errors.password.message} />
+                )}
                 <div className="form-control mt-6">
-                    <input
-                        type="submit"
-                        className="btn btn-primary"
-                        value="Login"
-                    />
+                    <button type="submit" className="btn btn-primary">
+                        Login
+                    </button>
                 </div>
-                {errors.root && (
-                    <div className="text-red-500">{errors.root.message}</div>
+                {errors.root?.message && (
+                    <WarningMessage message={errors.root.message} />
                 )}
             </form>
         </div>

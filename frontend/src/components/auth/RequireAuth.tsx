@@ -7,7 +7,6 @@ interface RequireAuthProps {
 
 const RequireAuth: React.FC<RequireAuthProps> = ({ children }) => {
     const user = localStorage.getItem('userId');
-    const location = useLocation();
     if (!user) {
         return <Navigate to="/login" state={{ path: location.pathname }} />;
     }

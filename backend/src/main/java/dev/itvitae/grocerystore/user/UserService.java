@@ -2,11 +2,8 @@ package dev.itvitae.grocerystore.user;
 
 import dev.itvitae.grocerystore.exception.UserAlreadyExistsException;
 import dev.itvitae.grocerystore.exception.UserNotFoundException;
-
 import jakarta.transaction.Transactional;
-
 import lombok.RequiredArgsConstructor;
-
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -23,14 +20,14 @@ public class UserService {
 
     public List<UserDTO> getAllUsers() {
         return userRepository.findAll().stream()
-                .map(user -> new UserDTO(user.getId(), user.getFirstName(), user.getEmail()))
+                .map(user -> new UserDTO(user.getId(), user.getFullName(), user.getUsername()))
                 .collect(Collectors.toList());
     }
 
     public User addUser(User user) {
-        Optional<User> theUser = userRepository.findByEmail(user.getEmail());
+        Optional<User> theUser = userRepository.findByUsername(user.getUsername());
         if (theUser.isPresent()) {
-            throw new UserAlreadyExistsException(user.getEmail());
+            throw new UserAlreadyExistsException(user.getUsername());
         }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRoles("USER");
@@ -38,12 +35,12 @@ public class UserService {
     }
 
     public void deleteUser(String email) {
-        userRepository.deleteByEmail(email);
+        userRepository.deleteByUsername(email);
     }
 
     public User getUserByEmail(String email) {
         return userRepository
-                .findByEmail(email)
+                .findByUsername(email)
                 .orElseThrow(() -> new UserNotFoundException(email));
     }
 

@@ -4,7 +4,7 @@ import { fetchCategories } from '../../api/tag-api';
 import { Tag } from '../../domain/tag';
 import CartDropdown from '../cart/CartDropdown';
 import LogInPopUp from '../auth/LoginPopUp';
-import Register from '../auth/Register';
+import Register from '../auth/Registration';
 import RegisterPopUp from '../auth/RegistrationPopUp';
 import Modal from '../auth/Modal';
 import LogIn from '../auth/LogIn';

@@ -1,6 +1,6 @@
-import Register from './Register';
+import Register from './Registration';
 
-const RegisterPopUp = () => (
+const RegistrationPopUp = () => (
     <div className="dropdown-item">
         <button
             type="button"
@@ -16,4 +16,4 @@ const RegisterPopUp = () => (
     </div>
 );
 
-export default RegisterPopUp;
+export default RegistrationPopUp;

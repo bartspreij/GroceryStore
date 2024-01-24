@@ -9,7 +9,7 @@ import WarningMessage from '../alerts/WarningMessage';
 
 const userSchema: ObjectSchema<User> = object().shape({
     fullName: string().required('Full name is required'),
-    email: string().email().required('Email is required'),
+    username: string().email().required('Email is required'),
     password: string().min(4, 'Must be at least 4 characters long').required(),
     confirmPassword: string()
         .oneOf([ref('password'), null], "Password doesn't match")
@@ -18,12 +18,12 @@ const userSchema: ObjectSchema<User> = object().shape({
 
 type FormValues = InferType<typeof userSchema>;
 
-const Register = () => {
+const Registration = () => {
     const {
         register,
         handleSubmit,
         setError,
-        formState: { errors, isSubmitting },
+        formState: { errors },
     } = useForm<FormValues>({
         resolver: yupResolver(userSchema),
     });
@@ -31,9 +31,8 @@ const Register = () => {
     const onSubmit = async (userData: User) => {
         try {
             console.log('Submitting user');
-            const success = await postUser(userData);
-            console.log(success.data);
-            // Handle success case here (e.g., redirect to a login page)
+            const response = await postUser(userData);
+            console.log(response.data);
         } catch (error) {
             let errorMessage =
                 'An unexpected error occurred. Please try again later.';
@@ -72,12 +71,12 @@ const Register = () => {
                     <input
                         className="input input-bordered"
                         placeholder="Email..."
-                        {...register('email')}
+                        {...register('username')}
                         autoComplete="email"
                     />
                 </div>
-                {errors.email?.message && (
-                    <WarningMessage message={errors.email.message} />
+                {errors.username?.message && (
+                    <WarningMessage message={errors.username.message} />
                 )}
                 <div className="form-control">
                     <label className="label">
@@ -122,4 +121,4 @@ const Register = () => {
     );
 };
 
-export default Register;
+export default Registration;

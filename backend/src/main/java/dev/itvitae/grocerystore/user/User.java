@@ -1,13 +1,10 @@
 package dev.itvitae.grocerystore.user;
 
 import dev.itvitae.grocerystore.order.Order;
-
 import jakarta.persistence.*;
-
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 import org.hibernate.annotations.NaturalId;
 
 import java.util.HashSet;
@@ -26,18 +23,18 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String firstName;
+    private String fullName;
 
     @NaturalId(mutable = true)
-    private String email;
+    private String username;
 
     private String password;
     private String roles;
 
-    public User(String firstName, String password, String email, String roles) {
-        this.firstName = firstName;
+    public User(String fullName, String password, String username, String roles) {
+        this.fullName = fullName;
         this.password = password;
-        this.email = email;
+        this.username = username;
         this.roles = roles;
     }
 }
