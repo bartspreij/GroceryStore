@@ -12,5 +12,4 @@ public record ProductDTO(Long id, String name, String description, BigDecimal pr
        product.getTags().toArray(new Tag[0]), product.getDiscounts().stream().map(DiscountDTO::new).toArray(DiscountDTO[]::new)
         );
     }
-            
 }

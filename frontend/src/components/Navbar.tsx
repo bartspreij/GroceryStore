@@ -10,7 +10,6 @@ const Navbar = () => {
         const loadCategories = async () => {
             const tags = await fetchCategories();
             setCategories(tags);
-            console.log(tags);
         };
         loadCategories();
     }, []);
@@ -18,7 +17,7 @@ const Navbar = () => {
     return (
         <div className="navbar bg-base-100 mb-4">
             <div className="flex-1 mr-2">
-                <a href={'/'} className="btn btn-ghost text-xl">
+                <a href="/" className="btn btn-ghost text-xl">
                     GroceryStore
                 </a>
 
@@ -26,14 +25,11 @@ const Navbar = () => {
                     <div tabIndex={0} role="button" className="btn btn-ghost">
                         <span>Categories</span>
                     </div>
-                    <div
-                        tabIndex={0}
-                        className="mt-3 z-[1] card card-compact dropdown-content w-52 bg-base-100 shadow"
-                    >
+                    <div className="mt-3 z-[1] card card-compact dropdown-content w-52 bg-base-100 shadow">
                         <div className="card-body">
                             {categories.map((category) => (
                                 <a
-                                    href={'/?c=' + category.name}
+                                    href={`/?c=${category.name}`}
                                     key={category.id}
                                 >
                                     {category.name}
