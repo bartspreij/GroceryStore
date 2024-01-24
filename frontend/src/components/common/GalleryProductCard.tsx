@@ -34,21 +34,23 @@ const GalleryProductCard: React.FC<GalleryProductCardProps> = ({
                 </figure>
                 <div className="card-body">
                     <h2 className="card-title">{product.name}</h2>
-                    {isDiscounted ? (
+                    {product.discounts[0] ? (
                         <>
-                            <p className="line-through">€{product.price}</p>
+                            <p className="line-through">
+                                €{(product.price * (quantity || 1)).toFixed(2)}
+                            </p>
                             <p>
                                 €
-                                {product.discounts[0].discountedPrice.toFixed(
-                                    2
-                                )}
+                                {(
+                                    product.discounts[0].discountedPrice *
+                                    (quantity || 1)
+                                ).toFixed(2)}
                             </p>
                         </>
                     ) : (
-                        <p>
-                            €{quantity && (product.price * quantity).toFixed(2)}
-                        </p>
+                        <p>€{(product.price * (quantity || 1)).toFixed(2)}</p>
                     )}
+
                     <Tags tags={product.tags} />
                     <CartButtons
                         item={getCartProduct(product)}

@@ -72,7 +72,22 @@ const ProductList: React.FC<ProductListProps> = ({
                         <div className="card-body">
                             <div className="flex items-center justify-between">
                                 <h3>{product.name}</h3>
-                                <span>€{product.price}</span>
+                                {product.discounts[0] ? (
+                                    <>
+                                        <span className="line-through">
+                                            €{product.price}
+                                        </span>
+                                        <span>
+                                            €
+                                            {
+                                                product.discounts[0]
+                                                    .discountedPrice
+                                            }
+                                        </span>
+                                    </>
+                                ) : (
+                                    <span>€{product.price}</span>
+                                )}
                             </div>
                             <div className="card-actions justify-between">
                                 <div className="flex flex-wrap items-center gap-1">
@@ -100,6 +115,7 @@ const ProductList: React.FC<ProductListProps> = ({
                     <button
                         className={`btn ${index === currentPage ? 'btn-success' : ''}`}
                         type="button"
+                        // eslint-disable-next-line react/no-array-index-key
                         key={index + 1}
                         onClick={() => setPage(index)}
                     >
