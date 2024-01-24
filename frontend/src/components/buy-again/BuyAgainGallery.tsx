@@ -27,9 +27,7 @@ const FrequentlyPurchasedGallery = () => {
 
     return (
         <>
-            {filteredFrequentPurchases.length !== 0 && (
-                <h2>Frequently Purchased</h2>
-            )}
+            {filteredFrequentPurchases.length !== 0 && <h2>Buy again</h2>}
             <Gallery>
                 {filteredFrequentPurchases.map((cartProduct) => (
                     <GalleryProductCard

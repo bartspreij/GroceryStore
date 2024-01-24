@@ -3,23 +3,23 @@
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { object, string, InferType } from 'yup';
-import ErrorMessage from '../common/ErrorMessage';
 import { loginUser } from '../../api/user-api';
+import { LoginRequest } from '../../domain/LoginRequest';
 
 const loginSchema = object().shape({
-    email: string().email().required(),
+    username: string().email().required(),
     password: string().min(4).max(20).required(),
 });
 
-const Login = () => {
-    type LoginRequest = InferType<typeof loginSchema>;
+type FormValues = InferType<typeof loginSchema>;
 
+const Login = () => {
     const {
         register,
         handleSubmit,
         setError,
         formState: { errors, isSubmitting },
-    } = useForm<LoginRequest>({
+    } = useForm<FormValues>({
         resolver: yupResolver(loginSchema),
     });
 
@@ -27,8 +27,9 @@ const Login = () => {
         try {
             const response = await loginUser(userData);
             console.log(response.data);
+            throw new Error();
         } catch (error) {
-            setError('root', {
+            setError('username', {
                 message: 'Wrong password',
             });
         }
@@ -44,10 +45,9 @@ const Login = () => {
                     <input
                         className="input input-bordered"
                         placeholder="Email..."
-                        {...register('email')}
+                        {...register('username')}
                         autoComplete="email"
                     />
-                    <ErrorMessage message={errors.email?.message} />
                 </div>
                 <div className="form-control">
                     <label className="label">
@@ -60,7 +60,6 @@ const Login = () => {
                         {...register('password')}
                         autoComplete="current-password"
                     />
-                    <ErrorMessage message={errors.password?.message} />
                 </div>
                 <div className="form-control mt-6">
                     <input

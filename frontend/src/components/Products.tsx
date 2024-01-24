@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import Pageable from '../domain/pageable';
 import { Results, queryProducts } from '../api/products-api';
 import ProductList from './ProductList';
-import FrequentlyPurchasedGallery from './frequently-purchased/FrequentlyPurchasedGallery';
+import FrequentlyPurchasedGallery from './buy-again/BuyAgainGallery';
 import DiscountGallery from './discount/DiscountGallery';
 
 const Products = () => {

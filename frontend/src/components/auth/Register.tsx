@@ -2,38 +2,48 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { object, string, ref, ObjectSchema } from 'yup';
+import { object, string, ref, ObjectSchema, InferType } from 'yup';
 import { User } from '../../domain/user';
 import { postUser } from '../../api/user-api';
+import WarningMessage from '../alerts/WarningMessage';
+
+const userSchema: ObjectSchema<User> = object().shape({
+    fullName: string().required('Full name is required'),
+    email: string().email().required('Email is required'),
+    password: string().min(4, 'Must be at least 4 characters long').required(),
+    confirmPassword: string()
+        .oneOf([ref('password'), null], "Password doesn't match")
+        .required('Confirm password is required'),
+});
+
+type FormValues = InferType<typeof userSchema>;
 
 const Register = () => {
-    const userSchema: ObjectSchema<User> = object().shape({
-        firstName: string().required(),
-        email: string().email().required(),
-        password: string().min(4).max(20).required(),
-        confirmPassword: string()
-            .oneOf([ref('password'), null])
-            .required(),
-    });
-
     const {
         register,
         handleSubmit,
         setError,
-        formState: { errors },
-    } = useForm({
+        formState: { errors, isSubmitting },
+    } = useForm<FormValues>({
         resolver: yupResolver(userSchema),
     });
 
     const onSubmit = async (userData: User) => {
-        console.log(userData);
         try {
-            const response = await postUser(userData);
-            console.log(response.data);
+            console.log('Submitting user');
+            const success = await postUser(userData);
+            console.log(success.data);
+            // Handle success case here (e.g., redirect to a login page)
         } catch (error) {
-            setError('root', {
-                message: 'This email is already taken',
-            });
+            let errorMessage =
+                'An unexpected error occurred. Please try again later.';
+
+            if (error.response.status === 409) {
+                errorMessage =
+                    'This email address is already in use. Please use a different email or log in.';
+            }
+
+            setError('root', { message: errorMessage });
         }
     };
 
@@ -48,10 +58,13 @@ const Register = () => {
                         className="input input-bordered"
                         type="text"
                         placeholder="Full name..."
-                        {...register('firstName')}
+                        {...register('fullName')}
                         autoComplete="name"
                     />
                 </div>
+                {errors.fullName?.message && (
+                    <WarningMessage message={errors.fullName.message} />
+                )}
                 <div className="form-control">
                     <label className="label">
                         <span className="label-text">Email</span>
@@ -63,6 +76,9 @@ const Register = () => {
                         autoComplete="email"
                     />
                 </div>
+                {errors.email?.message && (
+                    <WarningMessage message={errors.email.message} />
+                )}
                 <div className="form-control">
                     <label className="label">
                         <span className="label-text">Password</span>
@@ -75,6 +91,9 @@ const Register = () => {
                         autoComplete="current-password"
                     />
                 </div>
+                {errors.password?.message && (
+                    <WarningMessage message={errors.password.message} />
+                )}
                 <div className="form-control">
                     <label className="label">
                         <span className="label-text">Confirm Password</span>
@@ -87,16 +106,17 @@ const Register = () => {
                         autoComplete="current-password"
                     />
                 </div>
-                <div className="form-control mt-6">
-                    <input
-                        type="submit"
-                        className="btn btn-primary"
-                        value="Register"
-                    />
-                </div>
-                {errors.root && (
-                    <div className="text-red-500">{errors.root.message}</div>
+                {errors.confirmPassword?.message && (
+                    <WarningMessage message={errors.confirmPassword.message} />
                 )}
+                <div className="form-control mt-6">
+                    <button type="submit" className="btn btn-primary m-1">
+                        Register
+                    </button>
+                    {errors.root?.message && (
+                        <WarningMessage message={errors.root.message} />
+                    )}
+                </div>
             </form>
         </div>
     );
