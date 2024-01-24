@@ -47,7 +47,7 @@ export const deleteProduct = async (product: Product) => {
     return result.data;
 };
 
-export const fetchDiscounts = async (): Promise<Product[]> => {
+export const fetchDiscountProducts = async (): Promise<Product[]> => {
     const result = await axios.get<Product[]>(
         'http://localhost:8080/api/v1/discounts'
     );
