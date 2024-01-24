@@ -1,10 +1,10 @@
 import { User } from '../domain/user';
-import api from './api';
+import axios from './axios';
 
 export const postUser = (userData: User) => {
-    return api.post<User>('/users', userData);
+    return axios.post<User>('/users', userData);
 };
 
 export const fetchUser = (id: number) => {
-    api.get(`/users/${id}`);
+    axios.get(`/users/${id}`);
 };
