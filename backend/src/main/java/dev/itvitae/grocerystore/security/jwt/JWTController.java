@@ -9,7 +9,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
-@CrossOrigin("localhost:5173")
+@CrossOrigin("http://localhost:5173")
 @RequestMapping("api/v1/auth")
 @RestController
 public class JWTController {
@@ -25,7 +25,6 @@ public class JWTController {
                         new UsernamePasswordAuthenticationToken(
                                 authenticationRequest.getUsername(),
                                 authenticationRequest.getPassword()));
-
         if (authentication.isAuthenticated()) {
             return jwtService.getGeneratedToken(authenticationRequest.getUsername());
         } else {
