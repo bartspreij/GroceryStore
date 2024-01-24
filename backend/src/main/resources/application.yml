@@ -7,6 +7,7 @@ spring:
   jpa:
     properties:
       hibernate:
+        globally_quoted_identifiers: true
         dialect: org.hibernate.dialect.PostgreSQLDialect
 
     show-sql: true
@@ -16,6 +17,6 @@ spring:
     banner-mode: off
 
   jwt:
-    secret: ${JWT.SECRET}
+    secret: ${JWT_SECRET}
     jwtExpirationTimeInMs: 1800000
 

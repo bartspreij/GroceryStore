@@ -16,7 +16,7 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor()
-@Entity(name = "`user`")
+@Entity()
 public class User {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
