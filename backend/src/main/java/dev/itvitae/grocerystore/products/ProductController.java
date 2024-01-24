@@ -2,7 +2,9 @@ package dev.itvitae.grocerystore.products;
 
 import dev.itvitae.grocerystore.tags.Tag;
 import dev.itvitae.grocerystore.tags.TagRepository;
+
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -19,7 +21,7 @@ import java.util.Set;
 
 @RequiredArgsConstructor
 @RestController
-@CrossOrigin("http://localhost:5173/")
+@CrossOrigin("http://localhost:5173")
 @RequestMapping("/api/v1/products")
 public class ProductController {
 

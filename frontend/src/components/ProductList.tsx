@@ -52,6 +52,7 @@ const ProductList: React.FC<ProductListProps> = ({
 
                         {!!editProduct && (
                             <button
+                                aria-label="Edit button"
                                 type="button"
                                 className="btn btn-sm btn-circle absolute top-1 left-1"
                                 onClick={() => editProduct(product)}
@@ -62,6 +63,7 @@ const ProductList: React.FC<ProductListProps> = ({
 
                         {!!deleteProduct && (
                             <button
+                                aria-label="Delete button"
                                 type="button"
                                 className="btn btn-sm btn-circle btn-error absolute top-1 right-1"
                                 onClick={() => deleteProduct(product)}
@@ -94,7 +96,7 @@ const ProductList: React.FC<ProductListProps> = ({
                                     {product.tags.map((tag: Tag) => (
                                         <a
                                             className="p-1 bg-slate-400 text-white"
-                                            href={'/?c=' + tag.name}
+                                            href={`/?c=${tag.name}`}
                                             key={tag.id}
                                         >
                                             {tag.name}

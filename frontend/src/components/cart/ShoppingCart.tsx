@@ -3,7 +3,8 @@ import CartButtons from './CartButtons';
 import ShoppingCartContext from './ShoppingCartContext';
 
 const ShoppingCart = () => {
-    const { cart, totalQuantity, subtotal } = useContext(ShoppingCartContext);
+    const { cart, checkout, totalQuantity, subtotal } =
+        useContext(ShoppingCartContext);
 
     return (
         <div className="mt-3 z-[1] card card-compact dropdown-content w-52 bg-base-100 shadow">
@@ -25,7 +26,11 @@ const ShoppingCart = () => {
                     Subtotal: €{subtotal.toFixed(2)}
                 </span>
                 <div className="card-actions">
-                    <button type="button" className="btn btn-primary btn-block">
+                    <button
+                        onClick={checkout}
+                        type="button"
+                        className="btn btn-primary btn-block"
+                    >
                         Checkout
                     </button>
                 </div>
