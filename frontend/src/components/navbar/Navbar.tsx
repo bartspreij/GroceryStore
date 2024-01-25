@@ -3,12 +3,7 @@ import { useState, useEffect } from 'react';
 import { fetchCategories } from '../../api/tag-api';
 import { Tag } from '../../domain/tag';
 import CartDropdown from '../cart/CartDropdown';
-import LogInPopUp from '../auth/LoginPopUp';
-import Register from '../auth/Registration';
-import RegisterPopUp from '../auth/RegistrationPopUp';
-import Modal from '../auth/Modal';
-import LogIn from '../auth/LogIn';
-import LoginPopUp from '../auth/LoginPopUp';
+import MenuDropdown from './MenuDropdown';
 
 const Navbar = () => {
     const [categories, setCategories] = useState<Tag[]>([]);
@@ -61,7 +56,6 @@ const Navbar = () => {
                 <a href="/admin" className="btn btn-ghost text-xl">
                     Admin
                 </a>
-
                 <CartDropdown />
 
                 <div className="dropdown dropdown-end">
@@ -77,15 +71,8 @@ const Navbar = () => {
                             />
                         </div>
                     </div>
-                    <ul className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
-                        <li>
-                            <LoginPopUp />
-                        </li>
-                        <li>
-                            <RegisterPopUp />
-                        </li>
-                    </ul>
                 </div>
+                <MenuDropdown />
             </div>
         </div>
     );
