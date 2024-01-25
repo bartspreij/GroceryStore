@@ -87,6 +87,8 @@ export const ShoppingCartProvider: React.FC<ShoppingCartProviderProps> = ({
             }
 
             setCart((prevCart) => new Cart(prevCart.orderProducts));
+
+            console.log(cart);
         },
         [cart, setCart]
     );
@@ -146,12 +148,13 @@ export const ShoppingCartProvider: React.FC<ShoppingCartProviderProps> = ({
 
     const checkout = useCallback(async () => {
         try {
+            console.log(cart);
             await postOrder(cart);
             setCart(() => new Cart());
-        } catch {
-            console.error('Unable to post cart. Display this somewhere.');
+        } catch (err: any) {
+            console.error(err);
         }
-    }, [setCart]);
+    }, [cart]);
 
     const subtotal = cart.orderProducts.reduce(
         (total, item) => total + item.quantity * item.product.price,
