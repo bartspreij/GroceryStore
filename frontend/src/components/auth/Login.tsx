@@ -20,7 +20,11 @@ const loginSchema = object().shape({
 
 type FormValues = InferType<typeof loginSchema>;
 
-const Login = () => {
+interface LoginProps {
+    onSuccess: () => void;
+}
+
+const Login: React.FC<LoginProps> = ({ onSuccess }) => {
     const {
         register,
         handleSubmit,
@@ -36,6 +40,7 @@ const Login = () => {
         try {
             const response = await loginUser(userData);
             handleLogin(response.data);
+            onSuccess();
             setSuccessLogin(true);
         } catch (error) {
             let errorMessage =
