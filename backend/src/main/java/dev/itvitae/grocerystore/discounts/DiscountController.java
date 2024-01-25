@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.Optional;
 
 @RestController
@@ -21,11 +22,7 @@ public class DiscountController {
 
     @GetMapping()
     public Iterable<ProductDTO> findAll() {
-        var discounts = discountRepository.findAll();
-
-        return discounts.stream()
-                .map(d -> new ProductDTO(d.getProduct()))
-                .toList();
+        return productRepository.findByValidDiscount(LocalDate.now());
     }
 
     @PostMapping("add-to-product/{productId}")

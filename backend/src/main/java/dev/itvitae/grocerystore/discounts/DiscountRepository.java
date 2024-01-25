@@ -5,5 +5,4 @@ import org.springframework.stereotype.Component;
 
 @Component
 public interface DiscountRepository extends JpaRepository<Discount, Long> {
-
 }
