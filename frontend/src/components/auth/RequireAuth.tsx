@@ -7,13 +7,14 @@ interface RequireAuthProps {
 }
 
 const RequireAuth: React.FC<RequireAuthProps> = ({ children }) => {
-    const { user, isUserAdmin } = useAuth();
+    const { isAdmin, isLoading } = useAuth();
     const location = useLocation();
 
-    console.log(user);
-    console.log(isUserAdmin);
+    if (isLoading) {
+        return <div>Loading...</div>;
+    }
 
-    if (!user || !isUserAdmin) {
+    if (!isAdmin) {
         return <Navigate to="/" state={{ from: location }} />;
     }
     return children;

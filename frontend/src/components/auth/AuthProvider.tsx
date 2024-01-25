@@ -4,15 +4,21 @@ import {
     useContext,
     ReactNode,
     useMemo,
-    useCallback,
+    useEffect,
 } from 'react';
 import { jwtDecode } from 'jwt-decode';
 
+/**
+This solely exists to satisfy a rule
+that makes sure that when the context is used outside of the
+`AuthProvider` it is safe to use.
+*/
 const AuthContext = createContext({
     user: null,
     successMessage: 'Success',
-    isUserAdmin: false,
-    handleLogin: (token) => {},
+    isAdmin: false,
+    isLoading: true,
+    handleLogin: (token: string) => {},
     handleLogout: () => {},
 });
 
@@ -22,42 +28,50 @@ interface AuthProviderProps {
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const [user, setUser] = useState(null);
-    const [userRoles, setUserRoles] = useState([]);
+    const [isAdmin, setIsAdmin] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
     const [successMessage, setSuccessMessage] = useState('');
 
-    const handleLogin = useCallback((token: string) => {
+    const processToken = (token: string) => {
         const decodedUser = jwtDecode(token);
-        console.log(decodedUser);
-        localStorage.setItem('userId', decodedUser.sub);
-        localStorage.setItem('userRoles', decodedUser.roles);
-        localStorage.setItem('token', token);
         setUser(decodedUser);
-        setUserRoles(decodedUser.roles);
+        setIsAdmin(decodedUser.roles.includes('ADMIN'));
+    };
+
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        if (token) {
+            processToken(token)
+        }
+        setIsLoading(false);
+    }, []);
+
+    const handleLogin = (token: string) => {
+        localStorage.setItem('token', token);
+        const decodedUser = jwtDecode(token);
+        processToken(token);
         setSuccessMessage('Logged in successfully!');
         setTimeout(() => setSuccessMessage(''), 3000);
-    }, []);
+    };
 
-    const handleLogout = useCallback(() => {
-        localStorage.removeItem('userId');
-        localStorage.removeItem('userRole');
+    const handleLogout = () => {
         localStorage.removeItem('token');
         setUser(null);
-        setUserRoles([]);
+        setIsAdmin(false);
         setSuccessMessage('Logged out successfully!');
         setTimeout(() => setSuccessMessage(''), 3000);
-    }, []);
-
-    const isUserAdmin = userRoles.includes('ADMIN');
+    };
 
     const contextValue = useMemo(
         () => ({
             user,
             successMessage,
-            isUserAdmin,
+            isAdmin,
+            isLoading,
             handleLogin,
             handleLogout,
         }),
-        [user, successMessage, isUserAdmin, handleLogin, handleLogout]
+        [isAdmin, isLoading, successMessage, user]
     );
 
     return (
@@ -67,6 +81,4 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     );
 };
 
-export const useAuth = () => {
-    return useContext(AuthContext);
-};
+export const useAuth = () => useContext(AuthContext);

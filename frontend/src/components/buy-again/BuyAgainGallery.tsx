@@ -1,20 +1,19 @@
-import { useContext, useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { CartProduct } from '../../domain/cart-product';
-import { fetchFrequentlyPurchasedInSpecificQuantity } from '../../api/products-api';
+import { fetchBuyAgainProducts } from '../../api/products-api';
 import GalleryProductCard from '../common/GalleryProductCard';
 import Gallery from '../common/Gallery';
-import ShoppingCartContext from '../cart/ShoppingCartContext';
+import { useShoppingCart } from '../cart/ShoppingCartContext';
 
-const FrequentlyPurchasedGallery = () => {
+const BuyAgainGallery = () => {
     const [frequentPurchases, setFrequentPurchases] = useState<CartProduct[]>(
         []
     );
-    const { isInCart } = useContext(ShoppingCartContext);
+    const { isInCart } = useShoppingCart();
 
     useEffect(() => {
         const loadFrequentPurchases = async () => {
-            const fetchedPurchases =
-                await fetchFrequentlyPurchasedInSpecificQuantity();
+            const fetchedPurchases = await fetchBuyAgainProducts();
             setFrequentPurchases(fetchedPurchases);
         };
 
@@ -41,4 +40,4 @@ const FrequentlyPurchasedGallery = () => {
     );
 };
 
-export default FrequentlyPurchasedGallery;
+export default BuyAgainGallery;

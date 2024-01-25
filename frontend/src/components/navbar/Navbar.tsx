@@ -9,7 +9,7 @@ import SuccessMessage from '../common/SuccessMessage';
 
 const Navbar = () => {
     const [categories, setCategories] = useState<Tag[]>([]);
-    const { isUserAdmin, successMessage } = useAuth();
+    const { isAdmin, successMessage } = useAuth();
 
     useEffect(() => {
         const loadCategories = async () => {
@@ -62,7 +62,7 @@ const Navbar = () => {
                     </div>
                 </div>
                 <div className="flex-none">
-                    {isUserAdmin && (
+                    {isAdmin && (
                         <a href="/admin" className="btn btn-ghost text-xl">
                             Admin
                         </a>

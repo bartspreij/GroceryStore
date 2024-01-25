@@ -1,10 +1,9 @@
-import { useContext } from 'react';
 import { FaTrashCan } from 'react-icons/fa6';
 import { MdEdit } from 'react-icons/md';
 import { Tag } from '../domain/tag';
 import { Product } from '../domain/product';
-import ShoppingCartContext from './cart/ShoppingCartContext';
 import CartButtons from './cart/CartButtons';
+import { useShoppingCart } from './cart/ShoppingCartContext';
 
 interface ProductListProps {
     products: Product[];
@@ -23,7 +22,7 @@ const ProductList: React.FC<ProductListProps> = ({
     editProduct,
     deleteProduct,
 }) => {
-    const { getCartProduct } = useContext(ShoppingCartContext);
+    const { getCartProduct } = useShoppingCart();
 
     return (
         <>

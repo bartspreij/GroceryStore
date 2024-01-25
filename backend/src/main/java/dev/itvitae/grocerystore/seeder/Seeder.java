@@ -11,12 +11,9 @@ import dev.itvitae.grocerystore.tags.Tag;
 import dev.itvitae.grocerystore.tags.TagRepository;
 import dev.itvitae.grocerystore.user.User;
 import dev.itvitae.grocerystore.user.UserRepository;
-
 import dev.itvitae.grocerystore.user.UserService;
 import jakarta.transaction.Transactional;
-
 import lombok.RequiredArgsConstructor;
-
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -54,12 +51,12 @@ public class Seeder implements CommandLineRunner {
                         new User(
                                 "John Doe",
                                 passwordEncoder.encode("worst"),
-                                "bartspreij@gmail.com",
+                                "user@gmail.com",
                                 "USER"),
                         new User(
                                 "John Deere",
                                 passwordEncoder.encode("kaas"),
-                                "dummy@gmail.com",
+                                "admin@gmail.com",
                                 "ADMIN")));
     }
 

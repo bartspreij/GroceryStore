@@ -1,4 +1,10 @@
-import { createContext, useMemo, ReactNode, useCallback } from 'react';
+import {
+    createContext,
+    useMemo,
+    ReactNode,
+    useCallback,
+    useContext,
+} from 'react';
 import Cart from '../../domain/cart';
 import { CartProduct } from '../../domain/cart-product';
 import { Product } from '../../domain/product';
@@ -189,4 +195,4 @@ export const ShoppingCartProvider: React.FC<ShoppingCartProviderProps> = ({
     );
 };
 
-export default ShoppingCartContext;
+export const useShoppingCart = () => useContext(ShoppingCartContext);

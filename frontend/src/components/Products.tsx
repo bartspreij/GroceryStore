@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 import Pageable from '../domain/pageable';
 import { Results, queryProducts } from '../api/products-api';
 import ProductList from './ProductList';
-import FrequentlyPurchasedGallery from './buy-again/BuyAgainGallery';
 import DiscountGallery from './discount/DiscountGallery';
+import BuyAgainGallery from './buy-again/BuyAgainGallery';
 
 const Products = () => {
     const [results, setResults] = useState<Results>(new Results());
@@ -55,7 +55,7 @@ const Products = () => {
         <>
             {pageable.pageNumber === 0 && filterUsed === false && (
                 <>
-                    <FrequentlyPurchasedGallery />
+                    <BuyAgainGallery />
                     <DiscountGallery />
                 </>
             )}

@@ -1,7 +1,6 @@
-import React, { useContext } from 'react';
 import { Product } from '../../domain/product';
 import Tags from './Tags';
-import ShoppingCartContext from '../cart/ShoppingCartContext';
+import { useShoppingCart } from '../cart/ShoppingCartContext';
 import CartButtons from '../cart/CartButtons';
 
 interface GalleryProductCardProps {
@@ -15,7 +14,7 @@ const GalleryProductCard: React.FC<GalleryProductCardProps> = ({
     quantity,
     isDiscounted = false,
 }) => {
-    const { getCartProduct } = useContext(ShoppingCartContext);
+    const { getCartProduct } = useShoppingCart();
 
     return (
         <div

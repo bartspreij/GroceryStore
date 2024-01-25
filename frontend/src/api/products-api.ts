@@ -54,9 +54,7 @@ export const fetchDiscountProducts = async (): Promise<Product[]> => {
     return result.data;
 };
 
-export const fetchFrequentlyPurchasedInSpecificQuantity = async (): Promise<
-    CartProduct[]
-> => {
+export const fetchBuyAgainProducts = async (): Promise<CartProduct[]> => {
     const result = await axios.get<CartProduct[]>(
         'http://localhost:8080/api/v1/orders/user/3/frequent-purchases'
     );
