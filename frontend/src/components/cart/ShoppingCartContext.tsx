@@ -87,8 +87,6 @@ export const ShoppingCartProvider: React.FC<ShoppingCartProviderProps> = ({
             }
 
             setCart((prevCart) => new Cart(prevCart.orderProducts));
-
-            console.log(cart);
         },
         [cart, setCart]
     );
@@ -148,7 +146,6 @@ export const ShoppingCartProvider: React.FC<ShoppingCartProviderProps> = ({
 
     const checkout = useCallback(async () => {
         try {
-            console.log(cart);
             await postOrder(cart);
             setCart(() => new Cart());
         } catch (err: any) {
