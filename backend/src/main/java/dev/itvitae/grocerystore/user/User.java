@@ -24,10 +24,7 @@ public class User {
     private Long id;
 
     private String fullName;
-
-    @NaturalId(mutable = true)
     private String username;
-
     private String password;
     private String roles;
 

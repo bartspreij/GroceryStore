@@ -21,20 +21,23 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(UsernameNotFoundException.class)
     public ResponseEntity<ProblemDetail> handleAlreadyExistsException(UsernameNotFoundException e) {
-        var problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.UNAUTHORIZED, e.getMessage());
+        var problemDetail =
+                ProblemDetail.forStatusAndDetail(HttpStatus.UNAUTHORIZED, e.getMessage());
         return new ResponseEntity<>(problemDetail, HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler(AuthenticationException.class)
-    public ResponseEntity<ProblemDetail> handleAlreadyExistsException(AuthenticationException e) {
-        var problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.UNAUTHORIZED, e.getMessage());
+    public ResponseEntity<ProblemDetail> handleAuthenticationException(AuthenticationException e) {
+        var problemDetail =
+                ProblemDetail.forStatusAndDetail(HttpStatus.UNAUTHORIZED, e.getMessage());
         return new ResponseEntity<>(problemDetail, HttpStatus.UNAUTHORIZED);
     }
 
-
-    // Thread on appropriate status code https://stackoverflow.com/questions/3825990/http-response-code-for-post-when-resource-already-exists/70371989#70371989
+    // Thread on appropriate status code
+    // https://stackoverflow.com/questions/3825990/http-response-code-for-post-when-resource-already-exists/70371989#70371989
     @ExceptionHandler(UserAlreadyExistsException.class)
-    public ResponseEntity<ProblemDetail> handleAlreadyExistsException(UserAlreadyExistsException e) {
+    public ResponseEntity<ProblemDetail> handleAlreadyExistsException(
+            UserAlreadyExistsException e) {
         var problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.CONFLICT, e.getMessage());
         return new ResponseEntity<>(problemDetail, HttpStatus.CONFLICT);
     }

@@ -24,7 +24,7 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
-    public User addUser(User user) {
+    public User saveUser(User user) {
         Optional<User> theUser = userRepository.findByUsername(user.getUsername());
         if (theUser.isPresent()) {
             throw new UserAlreadyExistsException(user.getUsername());

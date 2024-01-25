@@ -31,25 +31,26 @@ public class JWTService {
     private int JWT_EXPIRATION_TIME;
 
     public String getGeneratedToken(String username) {
-        User user = userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException(username));
+        User user =
+                userRepository
+                        .findByUsername(username)
+                        .orElseThrow(() -> new UsernameNotFoundException(username));
         Map<String, Object> claims = new HashMap<>();
-        claims.put("sub", user.getId());
         claims.put("roles", user.getRoles().split(","));
-        return generateTokenForUser(claims, username);
+        return generateTokenForUser(claims, user.getId().toString());
     }
 
-    private String generateTokenForUser(Map<String, Object> claims, String username) {
+    private String generateTokenForUser(Map<String, Object> claims, String userId) {
         return Jwts.builder()
                 .claims(claims)
-                .subject(username)
+                .subject(userId)
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + JWT_EXPIRATION_TIME))
                 .signWith(getSignKey())
                 .compact();
     }
 
-    private SecretKe
-    y getSignKey() {
+    private SecretKey getSignKey() {
         byte[] keyBytes = Decoders.BASE64.decode(JWT_SECRET);
         return Keys.hmacShaKeyFor(keyBytes);
     }

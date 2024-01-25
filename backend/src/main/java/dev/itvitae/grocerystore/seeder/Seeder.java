@@ -12,6 +12,7 @@ import dev.itvitae.grocerystore.tags.TagRepository;
 import dev.itvitae.grocerystore.user.User;
 import dev.itvitae.grocerystore.user.UserRepository;
 
+import dev.itvitae.grocerystore.user.UserService;
 import jakarta.transaction.Transactional;
 
 import lombok.RequiredArgsConstructor;
@@ -36,6 +37,7 @@ public class Seeder implements CommandLineRunner {
     private final TagRepository tagRepository;
     private final DiscountRepository discountRepository;
     private final UserRepository userRepository;
+    private final UserService userService;
     private final PasswordEncoder passwordEncoder;
 
     @Override
@@ -248,7 +250,7 @@ public class Seeder implements CommandLineRunner {
     private void seedOrders() {
         List<Product> products = productRepository.findAll(PageRequest.of(0, 10)).toList();
         User user = new User("Bob", "jaja", "bob@debouwer.nl", "USER");
-        userRepository.save(user);
+        userService.saveUser(user);
 
         // Create multiple orders with varying quantities for the same products
         for (int i = 0; i < 5; i++) {

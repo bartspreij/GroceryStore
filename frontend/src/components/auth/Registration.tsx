@@ -18,7 +18,11 @@ const userSchema: ObjectSchema<User> = object().shape({
 
 type FormValues = InferType<typeof userSchema>;
 
-const Registration = () => {
+interface RegistrationProps {
+    onSuccess: () => void;
+}
+
+const Registration: React.FC<RegistrationProps> = ({ onSuccess }) => {
     const {
         register,
         handleSubmit,
@@ -30,9 +34,8 @@ const Registration = () => {
 
     const onSubmit = async (userData: User) => {
         try {
-            console.log('Submitting user');
             const response = await postUser(userData);
-            console.log(response.data);
+            onSuccess();
         } catch (error) {
             let errorMessage =
                 'An unexpected error occurred. Please try again later.';
