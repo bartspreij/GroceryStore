@@ -43,12 +43,20 @@ const ManageDiscounts: React.FC<ManageDiscountsProps> = ({
             return;
         }
 
-        if (startDate < new Date()) {
+        const currentDate = new Date();
+        const formattedCurrentDate = new Date(
+            currentDate.getFullYear(),
+            currentDate.getMonth(),
+            currentDate.getDate()
+        );
+        console.log(currentDate);
+        console.log(startDate);
+        if (startDate < formattedCurrentDate) {
             alert('Please select future start date');
             return;
         }
 
-        if (endDate <= startDate) {
+        if (endDate < startDate) {
             alert('Please select an end date after the start date');
             return;
         }
