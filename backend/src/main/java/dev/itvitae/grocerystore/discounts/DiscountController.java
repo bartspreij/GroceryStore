@@ -29,11 +29,6 @@ public class DiscountController {
                 .toList();
     }
 
-//    @GetMapping()
-//    public Iterable<Discount> findDiscounts() {
-//        return discountRepository.findByStartDateBetween(startDate, endDate);
-//    }
-
     @PostMapping("add-to-product/{productId}")
     public ResponseEntity<String> addDiscount(@PathVariable Long productId, @RequestBody Discount discount) {
         Optional<Product> findProduct = productRepository.findById(productId);
@@ -53,7 +48,7 @@ public class DiscountController {
         Optional<Discount> discountOptional = discountRepository.findById(discountId);
         if (discountOptional.isPresent()) {
             discountRepository.deleteById(discountId);
-            return new ResponseEntity<>("Discount successfully deleted", HttpStatus.OK);
+            return new ResponseEntity<>("Discount successfully deleted", HttpStatus.NO_CONTENT);
         } else {
             return new ResponseEntity<>("Discount not found", HttpStatus.NOT_FOUND);
         }
