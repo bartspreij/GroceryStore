@@ -1,6 +1,6 @@
 import { useContext, useEffect, useMemo, useState } from 'react';
 import { CartProduct } from '../../domain/cart-product';
-import { fetchFrequentlyPurchasedInSpecificQuantity } from '../../api/products-api';
+import { fetchFrequentlyPurchasedInSpecificQuantity } from '../../api/order-api';
 import ShoppingCartContext from '../cart/ShoppingCartContext';
 import GalleryProductCard from '../common/GalleryProductCard';
 import Gallery from '../common/Gallery';

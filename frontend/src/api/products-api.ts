@@ -2,7 +2,6 @@
 import axios from 'axios';
 import Pageable from '../domain/pageable';
 import { Product } from '../domain/product';
-import { CartProduct } from '../domain/cart-product';
 
 const uri = `http://localhost:8080/api/v1/products`;
 
@@ -50,15 +49,6 @@ export const deleteProduct = async (product: Product) => {
 export const fetchDiscounts = async (): Promise<Product[]> => {
     const result = await axios.get<Product[]>(
         'http://localhost:8080/api/v1/discounts'
-    );
-    return result.data;
-};
-
-export const fetchFrequentlyPurchasedInSpecificQuantity = async (): Promise<
-    CartProduct[]
-> => {
-    const result = await axios.get<CartProduct[]>(
-        'http://localhost:8080/api/v1/orders/user/3/frequent-purchases'
     );
     return result.data;
 };
