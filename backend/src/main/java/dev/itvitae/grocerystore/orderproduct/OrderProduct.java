@@ -32,22 +32,4 @@ public class OrderProduct {
         this.product = product;
         this.quantity = quantity;
     }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        OrderProduct that = (OrderProduct) o;
-
-        if (!getProduct().equals(that.getProduct())) return false;
-        return getQuantity().equals(that.getQuantity());
-    }
-
-    @Override
-    public int hashCode() {
-        int result = getProduct().hashCode();
-        result = 31 * result + getQuantity().hashCode();
-        return result;
-    }
 }
