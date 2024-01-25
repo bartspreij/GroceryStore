@@ -15,7 +15,7 @@ const Navbar = () => {
     }, []);
 
     return (
-        <div className="navbar bg-base-100 mb-4">
+        <div className="navbar p-0 bg-base-100 mb-4">
             <div className="flex-1 mr-2">
                 <a href="/" className="btn btn-ghost text-xl">
                     GroceryStore

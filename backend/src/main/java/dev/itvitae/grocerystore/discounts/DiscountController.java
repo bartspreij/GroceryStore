@@ -1,6 +1,8 @@
 package dev.itvitae.grocerystore.discounts;
 
+import dev.itvitae.grocerystore.products.Product;
 import dev.itvitae.grocerystore.products.ProductDTO;
+import dev.itvitae.grocerystore.products.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +18,7 @@ import java.util.Optional;
 public class DiscountController {
 
     private final DiscountRepository discountRepository;
+    private final ProductRepository productRepository;
 
     @GetMapping()
     public Iterable<ProductDTO> findAll() {
@@ -31,13 +34,22 @@ public class DiscountController {
 //        return discountRepository.findByStartDateBetween(startDate, endDate);
 //    }
 
-    @PostMapping("/new")
-    public Discount addDiscount (@RequestBody Discount discount) {
-        return discountRepository.save(discount);
+    @PostMapping("add-to-product/{productId}")
+    public ResponseEntity<String> addDiscount(@PathVariable Long productId, @RequestBody Discount discount) {
+        Optional<Product> findProduct = productRepository.findById(productId);
+
+        if (findProduct.isPresent()) {
+            Product product = findProduct.get();
+            discount.setProduct(product);
+            discountRepository.save(discount);
+            return new ResponseEntity<>("Discount added to " + product.getName(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("Product not found", HttpStatus.NOT_FOUND);
+        }
     }
 
-    @DeleteMapping("/delete/{discountId}")
-    public ResponseEntity<String> deleteDiscount (@PathVariable Long discountId) {
+    @DeleteMapping("{discountId}")
+    public ResponseEntity<String> deleteDiscount(@PathVariable Long discountId) {
         Optional<Discount> discountOptional = discountRepository.findById(discountId);
         if (discountOptional.isPresent()) {
             discountRepository.deleteById(discountId);
@@ -46,6 +58,4 @@ public class DiscountController {
             return new ResponseEntity<>("Discount not found", HttpStatus.NOT_FOUND);
         }
     }
-
-
 }
