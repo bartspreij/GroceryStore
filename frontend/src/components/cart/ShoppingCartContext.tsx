@@ -155,6 +155,7 @@ export const ShoppingCartProvider: React.FC<ShoppingCartProviderProps> = ({
             await postOrder(cart);
             setCart(() => new Cart());
         } catch (err: any) {
+            window.location.href = '/login';
             console.error(err);
         }
     }, [cart, setCart]);
