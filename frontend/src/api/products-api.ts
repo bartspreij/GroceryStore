@@ -46,9 +46,16 @@ export const deleteProduct = async (product: Product) => {
     return result.data;
 };
 
-export const fetchDiscounts = async (): Promise<Product[]> => {
+export const fetchDiscountProducts = async (): Promise<Product[]> => {
     const result = await axios.get<Product[]>(
         'http://localhost:8080/api/v1/discounts'
+    );
+    return result.data;
+};
+
+export const fetchBuyAgainProducts = async (): Promise<CartProduct[]> => {
+    const result = await axios.get<CartProduct[]>(
+        'http://localhost:8080/api/v1/orders/user/3/frequent-purchases'
     );
     return result.data;
 };

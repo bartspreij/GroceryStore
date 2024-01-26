@@ -1,23 +1,22 @@
 package dev.itvitae.grocerystore.seeder;
 
+import dev.itvitae.grocerystore.discounts.Discount;
+import dev.itvitae.grocerystore.discounts.DiscountRepository;
 import dev.itvitae.grocerystore.order.Order;
 import dev.itvitae.grocerystore.order.OrderRepository;
 import dev.itvitae.grocerystore.orderproduct.OrderProduct;
-import dev.itvitae.grocerystore.discounts.Discount;
-import dev.itvitae.grocerystore.discounts.DiscountRepository;
 import dev.itvitae.grocerystore.products.Product;
 import dev.itvitae.grocerystore.products.ProductRepository;
 import dev.itvitae.grocerystore.tags.Tag;
 import dev.itvitae.grocerystore.tags.TagRepository;
 import dev.itvitae.grocerystore.user.User;
 import dev.itvitae.grocerystore.user.UserRepository;
-
+import dev.itvitae.grocerystore.user.UserService;
 import jakarta.transaction.Transactional;
-
 import lombok.RequiredArgsConstructor;
-
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
@@ -35,6 +34,8 @@ public class Seeder implements CommandLineRunner {
     private final TagRepository tagRepository;
     private final DiscountRepository discountRepository;
     private final UserRepository userRepository;
+    private final UserService userService;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public void run(String... args) throws Exception {
@@ -45,11 +46,18 @@ public class Seeder implements CommandLineRunner {
     }
 
     private void seedUsers() {
-        List<User> users =
+        userRepository.saveAll(
                 List.of(
-                        new User("John Doe", "kaas", "bartspreij@gmail.com", "USER"),
-                        new User("John Deere", "worst", "dummy@gmail.com", "ADMIN"));
-        userRepository.saveAll(users);
+                        new User(
+                                "John Doe",
+                                passwordEncoder.encode("worst"),
+                                "user@gmail.com",
+                                "USER"),
+                        new User(
+                                "John Deere",
+                                passwordEncoder.encode("kaas"),
+                                "admin@gmail.com",
+                                "ADMIN")));
     }
 
     private void saveProduct(
@@ -239,7 +247,7 @@ public class Seeder implements CommandLineRunner {
     private void seedOrders() {
         List<Product> products = productRepository.findAll(PageRequest.of(0, 10)).toList();
         User user = new User("Bob", "jaja", "bob@debouwer.nl", "USER");
-        userRepository.save(user);
+        userService.saveUser(user);
 
         // Create multiple orders with varying quantities for the same products
         for (int i = 0; i < 5; i++) {

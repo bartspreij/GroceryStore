@@ -1,0 +1,84 @@
+import {
+    createContext,
+    useState,
+    useContext,
+    ReactNode,
+    useMemo,
+    useEffect,
+} from 'react';
+import { jwtDecode } from 'jwt-decode';
+
+/**
+This solely exists to satisfy a rule
+that makes sure that when the context is used outside of the
+`AuthProvider` it is safe to use.
+*/
+const AuthContext = createContext({
+    user: null,
+    successMessage: 'Success',
+    isAdmin: false,
+    isLoading: true,
+    handleLogin: (token: string) => {},
+    handleLogout: () => {},
+});
+
+interface AuthProviderProps {
+    children: ReactNode;
+}
+
+export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
+    const [user, setUser] = useState(null);
+    const [isAdmin, setIsAdmin] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
+    const [successMessage, setSuccessMessage] = useState('');
+
+    const processToken = (token: string) => {
+        const decodedUser = jwtDecode(token);
+        setUser(decodedUser);
+        setIsAdmin(decodedUser.roles.includes('ADMIN'));
+    };
+
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        if (token) {
+            processToken(token)
+        }
+        setIsLoading(false);
+    }, []);
+
+    const handleLogin = (token: string) => {
+        localStorage.setItem('token', token);
+        const decodedUser = jwtDecode(token);
+        processToken(token);
+        setSuccessMessage('Logged in successfully!');
+        setTimeout(() => setSuccessMessage(''), 3000);
+    };
+
+    const handleLogout = () => {
+        localStorage.removeItem('token');
+        setUser(null);
+        setIsAdmin(false);
+        setSuccessMessage('Logged out successfully!');
+        setTimeout(() => setSuccessMessage(''), 3000);
+    };
+
+    const contextValue = useMemo(
+        () => ({
+            user,
+            successMessage,
+            isAdmin,
+            isLoading,
+            handleLogin,
+            handleLogout,
+        }),
+        [isAdmin, isLoading, successMessage, user]
+    );
+
+    return (
+        <AuthContext.Provider value={contextValue}>
+            {children}
+        </AuthContext.Provider>
+    );
+};
+
+export const useAuth = () => useContext(AuthContext);

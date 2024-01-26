@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import Carousel from '../common/Gallery';
 import { Product } from '../../domain/product';
-import { fetchDiscounts } from '../../api/products-api';
+import { fetchDiscountProducts } from '../../api/products-api';
 import GalleryProductCard from '../common/GalleryProductCard';
 
 const DiscountGallery = () => {
@@ -9,7 +9,7 @@ const DiscountGallery = () => {
 
     useEffect(() => {
         const loadDiscounts = async () => {
-            const fetchedDiscounts = await fetchDiscounts();
+            const fetchedDiscounts = await fetchDiscountProducts();
             setDiscounts(fetchedDiscounts);
         };
 
