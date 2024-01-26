@@ -5,6 +5,7 @@ import {
     ReactNode,
     useMemo,
     useEffect,
+    useCallback,
 } from 'react';
 import { jwtDecode } from 'jwt-decode';
 
@@ -41,26 +42,26 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     useEffect(() => {
         const token = localStorage.getItem('token');
         if (token) {
-            processToken(token)
+            processToken(token);
         }
         setIsLoading(false);
     }, []);
 
-    const handleLogin = (token: string) => {
+    const handleLogin = useCallback((token: string) => {
         localStorage.setItem('token', token);
         const decodedUser = jwtDecode(token);
         processToken(token);
         setSuccessMessage('Logged in successfully!');
         setTimeout(() => setSuccessMessage(''), 3000);
-    };
+    }, []);
 
-    const handleLogout = () => {
+    const handleLogout = useCallback(() => {
         localStorage.removeItem('token');
         setUser(null);
         setIsAdmin(false);
         setSuccessMessage('Logged out successfully!');
         setTimeout(() => setSuccessMessage(''), 3000);
-    };
+    }, []);
 
     const contextValue = useMemo(
         () => ({
@@ -71,7 +72,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             handleLogin,
             handleLogout,
         }),
-        [isAdmin, isLoading, successMessage, user]
+        [user, isAdmin, isLoading, successMessage, handleLogin, handleLogout]
     );
 
     return (

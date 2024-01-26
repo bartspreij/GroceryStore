@@ -14,26 +14,25 @@ import java.net.URI;
 @RestController
 public class UserController {
 
-    private final UserService userService;
+  private final UserService userService;
 
-    @GetMapping()
-    public Iterable<UserDTO> getAllUsers() {
-        return userService.getAllUsers();
-    }
+  @GetMapping()
+  public Iterable<UserDTO> getAllUsers() {
+    return userService.getAllUsersAsDTO();
+  }
 
-    @GetMapping("/{email}")
-    public User findByEmail(@PathVariable("email") String email) {
-        return userService.getUserByEmail(email);
-    }
+  @GetMapping("/{email}")
+  public User findByEmail(@PathVariable("email") String email) {
+    return userService.getUserByEmail(email);
+  }
 
-    @PostMapping()
-    public ResponseEntity<UserDTO> saveUser(@RequestBody User user, UriComponentsBuilder ucb) {
-        System.out.println("saving user");
-        User savedUser = userService.saveUser(user);
+  @PostMapping()
+  public ResponseEntity<UserDTO> saveUser(@RequestBody User user, UriComponentsBuilder ucb) {
+    User savedUser = userService.saveUser(user);
 
-        URI locationOfNewRecipe =
-                ucb.path("api/v1/user/{id}").buildAndExpand(savedUser.getId()).toUri();
+    URI locationOfNewRecipe =
+        ucb.path("api/v1/user/{id}").buildAndExpand(savedUser.getId()).toUri();
 
-        return ResponseEntity.created(locationOfNewRecipe).body(new UserDTO(savedUser));
-    }
+    return ResponseEntity.created(locationOfNewRecipe).body(new UserDTO(savedUser));
+  }
 }
