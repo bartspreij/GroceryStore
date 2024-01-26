@@ -17,10 +17,7 @@ const GalleryProductCard: React.FC<GalleryProductCardProps> = ({
     const { getCartProduct } = useShoppingCart();
 
     return (
-        <div
-            className="carousel-item max-w-xs max-h-96"
-            style={{ maxWidth: '25%' }}
-        >
+        <div className="carousel-item card-width max-h-96">
             <div className="card m-2 text-gray-400 card-compact bg-base-100 shadow-xl">
                 <figure className="aspect-square">
                     <img
