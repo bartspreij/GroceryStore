@@ -4,23 +4,19 @@ import dev.itvitae.grocerystore.exception.UserNotFoundException;
 import dev.itvitae.grocerystore.orderproduct.OrderProduct;
 import dev.itvitae.grocerystore.orderproduct.OrderProductDTO;
 import dev.itvitae.grocerystore.orderproduct.OrderProductRepository;
-
 import dev.itvitae.grocerystore.products.Product;
 import dev.itvitae.grocerystore.products.ProductRepository;
 import dev.itvitae.grocerystore.user.User;
 import dev.itvitae.grocerystore.user.UserRepository;
+import java.net.URI;
+import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
-
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
-
-import java.net.URI;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @CrossOrigin("http://localhost:5173")
@@ -50,8 +46,8 @@ public class OrderController {
     // For now, get hard-coded user TODO: fix when auth supported
     User user =
         userRepository
-            .findByEmail("bartspreij@gmail.com")
-            .orElseThrow(() -> new UserNotFoundException("Bart not found"));
+            .findByUsername("user@gmail.com")
+            .orElseThrow(() -> new UserNotFoundException("User not found"));
 
     // Create new order and assign user
     Order order = new Order();

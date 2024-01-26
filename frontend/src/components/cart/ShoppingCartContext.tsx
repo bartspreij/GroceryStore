@@ -157,7 +157,7 @@ export const ShoppingCartProvider: React.FC<ShoppingCartProviderProps> = ({
         } catch (err: any) {
             console.error(err);
         }
-    }, [cart]);
+    }, [cart, setCart]);
 
     const subtotal = cart.orderProducts.reduce(
         (total, item) => total + item.quantity * item.product.price,
