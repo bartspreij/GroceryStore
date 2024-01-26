@@ -13,7 +13,7 @@
 
 body {
     padding: 1rem;
-    margin: 2rem auto;
+    margin: 0 auto;
     width: var(--site-width);
     max-width: 100%;
     /* background-color: oklch(var(--n)); */

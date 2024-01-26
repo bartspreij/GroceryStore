@@ -23,7 +23,7 @@ const Navbar = () => {
     return (
         <>
             {successMessage && <SuccessMessage message={successMessage} />}
-            <div className="navbar bg-base-100 mb-4">
+            <div className="navbar bg-base-100 mb-4 sticky top-0 z-10 border-b-2">
                 <div className="flex-1 mr-2">
                     <a href="/" className="btn btn-ghost text-xl">
                         GroceryStore
