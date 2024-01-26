@@ -2,9 +2,9 @@ import { CartProduct } from './cart-product';
 
 export default class Cart {
     public id: number = 0;
-    public products: CartProduct[];
+    public orderProducts: CartProduct[];
 
     constructor(products: CartProduct[] = []) {
-        this.products = [...products];
+        this.orderProducts = [...products];
     }
 }

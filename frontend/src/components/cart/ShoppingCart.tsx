@@ -9,7 +9,7 @@ const ShoppingCart = () => {
     return (
         <div className="mt-3 z-[1] card card-compact dropdown-content w-52 bg-base-100 shadow">
             <div className="card-body">
-                {cart.products.map((item) => (
+                {cart.orderProducts.map((item) => (
                     <div
                         key={item.product.id}
                         className="flex items-center justify-between mb-2"
