@@ -56,7 +56,7 @@ const Products = () => {
             {pageable.pageNumber === 0 && filterUsed === false && (
                 <>
                     <BuyAgainGallery />
-                    <DiscountGallery />
+                    <DiscountGallery products={results.content} />
                 </>
             )}
 

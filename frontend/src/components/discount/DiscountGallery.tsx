@@ -1,33 +1,26 @@
-import { useEffect, useState } from 'react';
-import Carousel from '../common/Gallery';
 import { Product } from '../../domain/product';
-import { fetchDiscountProducts } from '../../api/products-api';
-import GalleryProductCard from '../common/GalleryProductCard';
+import ProductCard from '../common/ProductCard';
+import Gallery from '../common/Gallery';
 
-const DiscountGallery = () => {
-    const [discounts, setDiscounts] = useState<Product[]>([]);
+interface Props {
+    products: Product[];
+}
 
-    useEffect(() => {
-        const loadDiscounts = async () => {
-            const fetchedDiscounts = await fetchDiscountProducts();
-            setDiscounts(fetchedDiscounts);
-        };
-
-        loadDiscounts();
-    }, []);
-
+const DiscountGallery = ({ products }: Props) => {
     return (
         <>
             <h2>On Sale</h2>
-            <Carousel>
-                {discounts.map((product) => (
-                    <GalleryProductCard
+            <Gallery>
+                {products.map((product) => (
+                    <div
+                        className="carousel-item max-w-xs max-h-96"
                         key={product.id}
-                        product={product}
-                        isDiscounted
-                    />
+                        style={{ maxWidth: '25%' }}
+                    >
+                        <ProductCard product={product} />
+                    </div>
                 ))}
-            </Carousel>
+            </Gallery>
         </>
     );
 };
