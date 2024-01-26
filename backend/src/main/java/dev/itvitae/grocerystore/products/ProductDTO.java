@@ -2,7 +2,6 @@ package dev.itvitae.grocerystore.products;
 
 import java.math.BigDecimal;
 
-import dev.itvitae.grocerystore.discounts.Discount;
 import dev.itvitae.grocerystore.discounts.DiscountDTO;
 import dev.itvitae.grocerystore.tags.Tag;
 

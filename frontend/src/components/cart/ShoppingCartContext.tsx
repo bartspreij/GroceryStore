@@ -1,8 +1,15 @@
-import { createContext, useMemo, ReactNode, useCallback } from 'react';
+import {
+    createContext,
+    useMemo,
+    ReactNode,
+    useCallback,
+    useContext,
+} from 'react';
 import Cart from '../../domain/cart';
 import { CartProduct } from '../../domain/cart-product';
 import { Product } from '../../domain/product';
 import useStorageState from '../../hooks/useStorageState';
+import { postOrder } from '../../api/order-api';
 
 interface ShoppingCartContextValue {
     cart: Cart;
@@ -75,36 +82,36 @@ export const ShoppingCartProvider: React.FC<ShoppingCartProviderProps> = ({
 
     const addProductToCart = useCallback(
         (newItem: Product, quantity: number): void => {
-            const existingItem = cart.products.find(
+            const existingItem = cart.orderProducts.find(
                 (item) => item.product.id === newItem.id
             );
 
             if (existingItem) {
                 existingItem.quantity += quantity;
             } else {
-                cart.products.push({ product: newItem, quantity });
+                cart.orderProducts.push({ product: newItem, quantity });
             }
 
-            setCart((prevCart) => new Cart(prevCart.products));
+            setCart((prevCart) => new Cart(prevCart.orderProducts));
         },
         [cart, setCart]
     );
 
     const removeProductFromCart = useCallback(
         (itemToRemove: Product, quantity: number): void => {
-            const itemIndex = cart.products.findIndex(
+            const itemIndex = cart.orderProducts.findIndex(
                 (item) => item.product.id === itemToRemove.id
             );
 
             if (itemIndex < 0) return;
 
-            cart.products[itemIndex].quantity -= quantity;
+            cart.orderProducts[itemIndex].quantity -= quantity;
 
-            if (cart.products[itemIndex].quantity < 1) {
-                cart.products.splice(itemIndex, 1);
+            if (cart.orderProducts[itemIndex].quantity < 1) {
+                cart.orderProducts.splice(itemIndex, 1);
             }
 
-            setCart((prevCart) => new Cart(prevCart.products));
+            setCart((prevCart) => new Cart(prevCart.orderProducts));
         },
         [cart, setCart]
     );
@@ -114,7 +121,7 @@ export const ShoppingCartProvider: React.FC<ShoppingCartProviderProps> = ({
             setCart(
                 (prevCart) =>
                     new Cart(
-                        prevCart.products.filter(
+                        prevCart.orderProducts.filter(
                             (item) =>
                                 item.product.id !== itemToDelete.product.id
                         )
@@ -126,7 +133,7 @@ export const ShoppingCartProvider: React.FC<ShoppingCartProviderProps> = ({
 
     const getCartProduct = useCallback(
         (product: Product) => {
-            const cartProductFound = cart.products.find(
+            const cartProductFound = cart.orderProducts.find(
                 (cartProduct) => cartProduct.product.id === product.id
             );
             return cartProductFound || { product, quantity: 0 };
@@ -136,23 +143,28 @@ export const ShoppingCartProvider: React.FC<ShoppingCartProviderProps> = ({
 
     const isInCart = useCallback(
         (item: CartProduct) => {
-            return cart.products.some(
+            return cart.orderProducts.some(
                 (cartProduct) => cartProduct.product.id === item.product.id
             );
         },
         [cart]
     );
 
-    const checkout = useCallback(() => {
-        setCart(() => new Cart());
-    }, [setCart]);
+    const checkout = useCallback(async () => {
+        try {
+            await postOrder(cart);
+            setCart(() => new Cart());
+        } catch (err: any) {
+            console.error(err);
+        }
+    }, [cart, setCart]);
 
-    const subtotal = cart.products.reduce(
+    const subtotal = cart.orderProducts.reduce(
         (total, item) => total + item.quantity * item.product.price,
         0
     );
 
-    const totalQuantity = cart.products.reduce(
+    const totalQuantity = cart.orderProducts.reduce(
         (total, item) => total + item.quantity,
         0
     );
@@ -189,4 +201,4 @@ export const ShoppingCartProvider: React.FC<ShoppingCartProviderProps> = ({
     );
 };
 
-export default ShoppingCartContext;
+export const useShoppingCart = () => useContext(ShoppingCartContext);

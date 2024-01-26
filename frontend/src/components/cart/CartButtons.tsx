@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { FaMinus, FaPlus, FaTrashCan } from 'react-icons/fa6';
 import { CartProduct } from '../../domain/cart-product';
-import ShoppingCartContext from './ShoppingCartContext';
+import ShoppingCartContext, { useShoppingCart } from './ShoppingCartContext';
 
 interface CartButtonProps {
     item: CartProduct;
@@ -19,7 +19,7 @@ const CartButtons: React.FC<CartButtonProps> = ({
         removeProductFromCart,
         deleteProductFromCart,
         isInCart,
-    } = useContext(ShoppingCartContext);
+    } = useShoppingCart();
 
     return (
         <div className="join justify-end">

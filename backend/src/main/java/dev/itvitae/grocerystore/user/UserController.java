@@ -1,7 +1,7 @@
 package dev.itvitae.grocerystore.user;
 
-import dev.itvitae.grocerystore.exception.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -9,35 +9,30 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.net.URI;
 
 @RequiredArgsConstructor
+@CrossOrigin("http://localhost:5173")
 @RequestMapping("api/v1/users")
 @RestController
 public class UserController {
 
-    private final UserRepository userRepository;
+  private final UserService userService;
 
-    @GetMapping()
-    public Iterable<User> getAllUsers() {
-        return userRepository.findAll();
-    }
+  @GetMapping()
+  public Iterable<UserDTO> getAllUsers() {
+    return userService.getAllUsersAsDTO();
+  }
 
-    @GetMapping("/{email}")
-    public User findByEmail(@PathVariable("email") String email){
-        return userRepository.findByEmail(email).orElseThrow(() -> new UserNotFoundException(email));
-    }
+  @GetMapping("/{email}")
+  public User findByEmail(@PathVariable("email") String email) {
+    return userService.getUserByEmail(email);
+  }
 
-    @PostMapping()
-    public ResponseEntity<User> saveUser(@RequestBody User user, UriComponentsBuilder ucb){
-        User savedUser = userRepository.save(user);
+  @PostMapping()
+  public ResponseEntity<UserDTO> saveUser(@RequestBody User user, UriComponentsBuilder ucb) {
+    User savedUser = userService.saveUser(user);
 
-        URI locationOfNewRecipe = ucb
-                .path("api/v1/user/{id}")
-                .buildAndExpand(savedUser.getId())
-                .toUri();
+    URI locationOfNewRecipe =
+        ucb.path("api/v1/user/{id}").buildAndExpand(savedUser.getId()).toUri();
 
-        return ResponseEntity
-                .created(locationOfNewRecipe)
-                .body(savedUser);
-    }
-
-
+    return ResponseEntity.created(locationOfNewRecipe).body(new UserDTO(savedUser));
+  }
 }

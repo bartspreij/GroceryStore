@@ -3,7 +3,7 @@ package dev.itvitae.grocerystore.tags;
 import jakarta.persistence.*;
 import lombok.*;
 
-@Entity(name = "tags")
+@Entity()
 @Setter
 @Getter
 @NoArgsConstructor

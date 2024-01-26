@@ -1,9 +1,14 @@
-import { useContext } from 'react';
+import {  useState } from 'react';
 import ShoppingCart from './ShoppingCart';
-import ShoppingCartContext from './ShoppingCartContext';
+import { useShoppingCart } from './ShoppingCartContext';
 
 const CartDropdown = () => {
-    const { totalQuantity } = useContext(ShoppingCartContext);
+    const { totalQuantity } = useShoppingCart();
+    const [isOpen, setIsOpen] = useState(false);
+
+    const toggleDropdown = () => {
+        setIsOpen(!isOpen);
+    };
 
     return (
         <div className="flex justify-center align-center">
@@ -12,6 +17,8 @@ const CartDropdown = () => {
                     tabIndex={0}
                     role="button"
                     className="btn btn-ghost btn-circle"
+                    onClick={toggleDropdown}
+                    onKeyDown={toggleDropdown}
                 >
                     <div className="indicator">
                         <svg

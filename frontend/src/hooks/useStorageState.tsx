@@ -9,6 +9,7 @@ import Cart from '../domain/cart';
  * is preserved across browser sessions.
  *
  * @param {string} key - The key under which the cart data is stored in localStorage.
+ * @param {Cart} initialState - The state that the hook gets initialized with when no cart is found in localStorage.
  * @returns {[Cart, Dispatch<SetStateAction<Cart>>]} A stateful value and a function to update it.
  *         The stateful value is the current state of the Cart, and the function
  *         allows updating this state, which will also update the localStorage entry.

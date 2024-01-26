@@ -1,13 +1,10 @@
 package dev.itvitae.grocerystore.user;
 
 import dev.itvitae.grocerystore.order.Order;
-
 import jakarta.persistence.*;
-
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 import org.hibernate.annotations.NaturalId;
 
 import java.util.HashSet;
@@ -16,7 +13,7 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor()
-@Entity(name = "`user`")
+@Entity()
 public class User {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
@@ -26,18 +23,15 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String firstName;
-
-    @NaturalId(mutable = true)
-    private String email;
-
+    private String fullName;
+    private String username;
     private String password;
-    private String role;
+    private String roles;
 
-    public User(String firstName, String password, String email, String role) {
-        this.firstName = firstName;
+    public User(String fullName, String password, String username, String roles) {
+        this.fullName = fullName;
         this.password = password;
-        this.email = email;
-        this.role = role;
+        this.username = username;
+        this.roles = roles;
     }
 }
