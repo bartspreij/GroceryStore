@@ -2,7 +2,6 @@ import { FaTrashCan } from 'react-icons/fa6';
 import { MdEdit } from 'react-icons/md';
 import { Tag } from '../domain/tag';
 import { Product } from '../domain/product';
-import { Discount } from '../domain/discount';
 import CartButtons from './cart/CartButtons';
 import { useShoppingCart } from './cart/ShoppingCartContext';
 
@@ -90,19 +89,16 @@ const ProductList: React.FC<ProductListProps> = ({
                                 ) : (
                                     <span>€{product.price}</span>
                                 )}
-                                            {!!editDiscounts && (
-                                        <button
-                                            type="button"
-                                            title="Edit discounts"
-                                            className="btn btn-xs btn-circle ml-1"
-                                            onClick={() =>
-                                                editDiscounts(product)
-                                            }
-                                        >
-                                            %
-                                        </button>
-                                    )}
-
+                                {!!editDiscounts && (
+                                    <button
+                                        type="button"
+                                        title="Edit discounts"
+                                        className="btn btn-xs btn-circle ml-1"
+                                        onClick={() => editDiscounts(product)}
+                                    >
+                                        %
+                                    </button>
+                                )}
                             </div>
                             <div className="card-actions justify-between">
                                 <div className="flex flex-wrap items-center gap-1">
