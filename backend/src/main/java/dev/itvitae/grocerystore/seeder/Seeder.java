@@ -1,6 +1,5 @@
 package dev.itvitae.grocerystore.seeder;
 
-import dev.itvitae.grocerystore.exception.UserNotFoundException;
 import dev.itvitae.grocerystore.order.Order;
 import dev.itvitae.grocerystore.order.OrderRepository;
 import dev.itvitae.grocerystore.orderproduct.OrderProduct;
@@ -8,7 +7,6 @@ import dev.itvitae.grocerystore.discounts.Discount;
 import dev.itvitae.grocerystore.discounts.DiscountRepository;
 import dev.itvitae.grocerystore.products.Product;
 import dev.itvitae.grocerystore.products.ProductRepository;
-import dev.itvitae.grocerystore.products.ProductService;
 import dev.itvitae.grocerystore.tags.Tag;
 import dev.itvitae.grocerystore.tags.TagRepository;
 import dev.itvitae.grocerystore.user.User;
@@ -19,7 +17,6 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 
