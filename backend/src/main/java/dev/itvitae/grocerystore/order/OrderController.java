@@ -15,6 +15,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -42,6 +44,14 @@ public class OrderController {
 
   @PostMapping()
   public ResponseEntity<?> addCart(@RequestBody OrderDTO orderDTO, UriComponentsBuilder ucb) {
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    String username = authentication.getName();
+
+    if (username.equals("anonymousUser")) {
+      System.out.println("User not authenticated");
+    } else {
+      System.out.println(username + " retrieved");
+    }
 
     // For now, get hard-coded user TODO: fix when auth supported
     User user =

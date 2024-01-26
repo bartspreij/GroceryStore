@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import Carousel from '../common/Gallery';
 import { Product } from '../../domain/product';
-import { fetchDiscountProducts } from '../../api/products-api';
 import GalleryProductCard from '../common/GalleryProductCard';
+import { fetchDiscountProducts } from '../../api/discount-api';
 
 const DiscountGallery = () => {
     const [discounts, setDiscounts] = useState<Product[]>([]);

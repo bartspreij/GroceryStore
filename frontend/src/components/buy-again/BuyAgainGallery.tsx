@@ -1,9 +1,9 @@
 import { useEffect, useMemo, useState } from 'react';
 import { CartProduct } from '../../domain/cart-product';
-import { fetchBuyAgainProducts } from '../../api/products-api';
 import GalleryProductCard from '../common/GalleryProductCard';
 import Gallery from '../common/Gallery';
 import { useShoppingCart } from '../cart/ShoppingCartContext';
+import { fetchBuyAgainProducts } from '../../api/order-api';
 
 const BuyAgainGallery = () => {
     const [frequentPurchases, setFrequentPurchases] = useState<CartProduct[]>(
