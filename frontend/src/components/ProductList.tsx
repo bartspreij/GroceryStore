@@ -6,6 +6,9 @@ interface ProductListProps {
     currentPage: number;
     totalPages: number;
     setPage: (page: number) => void;
+    editProduct?: (product: Product) => void;
+    deleteProduct?: (product: Product) => void;
+    editDiscounts?: (product: Product) => void;
 }
 
 const ProductList: React.FC<ProductListProps> = ({
@@ -13,12 +16,21 @@ const ProductList: React.FC<ProductListProps> = ({
     currentPage,
     totalPages,
     setPage,
+    editProduct,
+    deleteProduct,
+    editDiscounts,
 }) => {
     return (
         <>
             <div className="products grid grid-cols-1 sm:grid-cols-4 gap-5">
                 {products.map((product) => (
-                    <ProductCard key={product.id} product={product} />
+                    <ProductCard
+                        key={product.id}
+                        product={product}
+                        editProduct={editProduct}
+                        deleteProduct={deleteProduct}
+                        editDiscounts={editDiscounts}
+                    />
                 ))}
             </div>
             <div className="flex justify-center gap-2 mt-4">
