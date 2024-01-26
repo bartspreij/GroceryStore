@@ -8,6 +8,7 @@ import {
     useCallback,
 } from 'react';
 import { jwtDecode } from 'jwt-decode';
+import { setJwtHeader } from '../../api/api';
 
 /**
 This solely exists to satisfy a rule
@@ -51,6 +52,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         localStorage.setItem('token', token);
         const decodedUser = jwtDecode(token);
         processToken(token);
+        setJwtHeader(token);
         setSuccessMessage('Logged in successfully!');
         setTimeout(() => setSuccessMessage(''), 3000);
     }, []);
