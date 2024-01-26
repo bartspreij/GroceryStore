@@ -1,3 +1,6 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable no-alert */
 import React, { useEffect, useState } from 'react';
 import { FaMinus } from 'react-icons/fa6';
 import { Product } from '../domain/product';
@@ -18,27 +21,27 @@ const EditProduct: React.FC<EditProductProps> = ({
     onSubmit,
 }) => {
     // Save our passed Product into a local useState. If no Product passed, generate an empty one
-    const [productMockup, setProductMockup] = useState<Product>({
-        ...(product ?? {
+    const [productMockup, setProductMockup] = useState<Product>(
+        product ?? {
             id: -1,
             name: '',
             description: '',
             imageUrl: '',
+            onSale: false,
+            discounts: [],
             price: 0,
             tags: [],
-        }),
-    });
+        }
+    );
+    const [tags, setTags] = useState<Tag[]>([]);
 
     useEffect(() => {
         const loadTags = async () => {
-            const tags = await fetchTags();
-            setTags(tags);
+            setTags(await fetchTags());
         };
 
         loadTags();
     }, []);
-
-    const [tags, setTags] = useState<Tag[]>([]);
 
     const setName = (name: string) => {
         setProductMockup((old) => ({
@@ -64,7 +67,7 @@ const EditProduct: React.FC<EditProductProps> = ({
     const setPrice = (price: string) => {
         setProductMockup((old) => ({
             ...old,
-            price: parseInt(price),
+            price: parseInt(price, 10),
         }));
     };
 
@@ -78,7 +81,7 @@ const EditProduct: React.FC<EditProductProps> = ({
     };
 
     const setTag = (index: number, tagIdString: string) => {
-        const match = tags.find((t) => t.id === parseInt(tagIdString));
+        const match = tags.find((t) => t.id === parseInt(tagIdString, 10));
         if (!match) return;
 
         productMockup.tags[index] = match;
@@ -194,6 +197,7 @@ const EditProduct: React.FC<EditProductProps> = ({
                                             ))}
                                         </select>
                                         <button
+                                            aria-label="Remove tag"
                                             type="button"
                                             onClick={() =>
                                                 removeTag(productTag.id)

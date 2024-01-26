@@ -1,3 +1,6 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-alert */
+/* eslint-disable no-restricted-globals */
 import { useEffect, useState } from 'react';
 import Pageable from '../domain/pageable';
 import {
@@ -11,16 +14,16 @@ import ProductList from './ProductList';
 import EditProduct from './EditProduct';
 import { Product } from '../domain/product';
 import Popup from './Popup';
+import ManageDiscounts from './ManageDiscounts';
+import { Discount } from '../domain/discount';
+import { deleteDiscount, postDiscount } from '../api/discount-api';
 
 const ManageProducts = () => {
     const [results, setResults] = useState<Results>(new Results());
     const [pageable, setPageable] = useState<Pageable>(new Pageable());
     const [productEditing, setProductEditing] = useState<Product>();
     const [addingProduct, setAddingProduct] = useState<boolean>(false);
-
-    useEffect(() => {
-        loadProducts();
-    }, [pageable.pageNumber, pageable.pageSize]);
+    const [discountEditing, setDiscountEditing] = useState<Product>();
 
     const loadProducts = async () => {
         const result = await queryProducts(
@@ -31,6 +34,10 @@ const ManageProducts = () => {
         setResults(result);
         setPageable(result.pageable);
     };
+
+    useEffect(() => {
+        loadProducts();
+    }, [pageable.pageNumber, pageable.pageSize]);
 
     const setPage = (page: number) => {
         setPageable((old) => ({
@@ -59,9 +66,25 @@ const ManageProducts = () => {
         loadProducts();
     };
 
+    const handleSubmitDiscount = async (
+        discount: Discount,
+        productId: number
+    ) => {
+        await postDiscount(discount, productId);
+        setDiscountEditing(undefined);
+        loadProducts();
+    };
+
+    const handleDeleteDiscount = async (discount: Discount) => {
+        await deleteDiscount(discount);
+        setDiscountEditing(undefined);
+        loadProducts();
+    };
+
     return (
         <>
             <button
+                type="button"
                 className="m-auto btn btn-success mb-4"
                 onClick={() => setAddingProduct(true)}
             >
@@ -87,7 +110,7 @@ const ManageProducts = () => {
                 isOpen={!!productEditing}
                 onClose={() => setProductEditing(undefined)}
             >
-                {productEditing != undefined ? (
+                {productEditing ? (
                     <EditProduct
                         title="Edit product"
                         submitLabel="Save changes"
@@ -99,6 +122,20 @@ const ManageProducts = () => {
                 ) : null}
             </Popup>
 
+            {/* Edit discounts */}
+            <Popup
+                isOpen={!!discountEditing}
+                onClose={() => setDiscountEditing(undefined)}
+            >
+                {discountEditing && (
+                    <ManageDiscounts
+                        product={discountEditing}
+                        onSubmit={handleSubmitDiscount}
+                        onDelete={handleDeleteDiscount}
+                    />
+                )}
+            </Popup>
+
             <ProductList
                 products={results.content}
                 currentPage={pageable.pageNumber}
@@ -107,6 +144,9 @@ const ManageProducts = () => {
                 editProduct={(product: Product) => setProductEditing(product)}
                 deleteProduct={(product: Product) =>
                     handleDeleteProduct(product)
+                }
+                editDiscounts={(product: Product) =>
+                    setDiscountEditing(product)
                 }
             />
         </>

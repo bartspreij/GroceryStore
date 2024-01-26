@@ -74,7 +74,9 @@ h3 {
 
 .popup-content {
     width: 25rem;
-    max-width: calc(100vw - 4rem);
+    max-width: calc(100% - 4rem);
+    max-height: 100%;
+    overflow-y: auto;
     padding: 1rem;
     border-radius: 1rem;
 }

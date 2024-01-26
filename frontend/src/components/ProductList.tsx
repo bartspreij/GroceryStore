@@ -2,6 +2,7 @@ import { FaTrashCan } from 'react-icons/fa6';
 import { MdEdit } from 'react-icons/md';
 import { Tag } from '../domain/tag';
 import { Product } from '../domain/product';
+import { Discount } from '../domain/discount';
 import CartButtons from './cart/CartButtons';
 import { useShoppingCart } from './cart/ShoppingCartContext';
 
@@ -12,6 +13,7 @@ interface ProductListProps {
     setPage: (page: number) => void;
     editProduct?: (product: Product) => void;
     deleteProduct?: (product: Product) => void;
+    editDiscounts?: (product: Product) => void;
 }
 
 const ProductList: React.FC<ProductListProps> = ({
@@ -21,6 +23,7 @@ const ProductList: React.FC<ProductListProps> = ({
     setPage,
     editProduct,
     deleteProduct,
+    editDiscounts,
 }) => {
     const { getCartProduct } = useShoppingCart();
 
@@ -71,7 +74,21 @@ const ProductList: React.FC<ProductListProps> = ({
                         <div className="card-body">
                             <div className="flex items-center justify-between">
                                 <h3>{product.name}</h3>
-                                <span>€{product.price}</span>
+                                <span className="flex items-center">
+                                    €{product.price}
+                                    {!!editDiscounts && (
+                                        <button
+                                            type="button"
+                                            title="Edit discounts"
+                                            className="btn btn-xs btn-circle ml-1"
+                                            onClick={() =>
+                                                editDiscounts(product)
+                                            }
+                                        >
+                                            %
+                                        </button>
+                                    )}
+                                </span>
                             </div>
                             <div className="card-actions justify-between">
                                 <div className="flex flex-wrap items-center gap-1">
