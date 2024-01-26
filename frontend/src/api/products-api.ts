@@ -2,7 +2,6 @@
 import axios from 'axios';
 import Pageable from '../domain/pageable';
 import { Product } from '../domain/product';
-import { CartProduct } from '../domain/cart-product';
 
 const uri = `http://localhost:8080/api/v1/products`;
 

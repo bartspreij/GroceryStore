@@ -8,7 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.time.LocalDate;
 import java.util.Optional;
 
 @RestController
@@ -22,17 +22,8 @@ public class DiscountController {
 
     @GetMapping()
     public Iterable<ProductDTO> findAll() {
-        var discounts = discountRepository.findAll();
-
-        return discounts.stream()
-                .map(d -> new ProductDTO(d.getProduct()))
-                .toList();
+        return productRepository.findByValidDiscount(LocalDate.now());
     }
-
-//    @GetMapping()
-//    public Iterable<Discount> findDiscounts() {
-//        return discountRepository.findByStartDateBetween(startDate, endDate);
-//    }
 
     @PostMapping("add-to-product/{productId}")
     public ResponseEntity<String> addDiscount(@PathVariable Long productId, @RequestBody Discount discount) {
@@ -53,7 +44,7 @@ public class DiscountController {
         Optional<Discount> discountOptional = discountRepository.findById(discountId);
         if (discountOptional.isPresent()) {
             discountRepository.deleteById(discountId);
-            return new ResponseEntity<>("Discount successfully deleted", HttpStatus.OK);
+            return new ResponseEntity<>("Discount successfully deleted", HttpStatus.NO_CONTENT);
         } else {
             return new ResponseEntity<>("Discount not found", HttpStatus.NOT_FOUND);
         }
