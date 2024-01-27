@@ -7,9 +7,7 @@ const uri = `products`;
 
 export class Results {
     content: Product[] = [];
-
     pageable: Pageable = new Pageable();
-
     totalPages: number = 0;
 }
 
@@ -28,6 +26,11 @@ export const queryProducts = async (
     if (category && category.length > 0) params.c = category;
 
     const result = await api.get<Results>(`${uri}/query`, { params });
+    return result.data;
+};
+
+export const getProductById = async (productId: number) => {
+    const result = await api.get<Product>(`${uri}/product/${productId}`);
     return result.data;
 };
 

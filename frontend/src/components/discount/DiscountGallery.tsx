@@ -24,9 +24,11 @@ const DiscountGallery = () => {
                     <div
                         className="carousel-item max-w-xs max-h-96"
                         key={product.id}
-                        style={{ maxWidth: '25%' }}
                     >
-                        <ProductCard product={product} />
+                        <ProductCard
+                            product={product}
+                            isFrequentPurchase={false}
+                        />
                     </div>
                 ))}
             </Gallery>

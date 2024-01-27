@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import Popup from '../Popup';
+import Popup from '../common/Popup';
 import Login from '../auth/Login';
 import Registration from '../auth/Registration';
 import Logout from '../auth/Logout';

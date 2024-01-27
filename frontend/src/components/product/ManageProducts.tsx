@@ -2,21 +2,21 @@
 /* eslint-disable no-alert */
 /* eslint-disable no-restricted-globals */
 import { useEffect, useState } from 'react';
-import Pageable from '../domain/pageable';
+import Pageable from '../../domain/pageable';
 import {
     Results,
     deleteProduct,
     postProduct,
     queryProducts,
     saveProduct,
-} from '../api/products-api';
+} from '../../api/products-api';
 import ProductList from './ProductList';
 import EditProduct from './EditProduct';
-import { Product } from '../domain/product';
-import Popup from './Popup';
-import ManageDiscounts from './ManageDiscounts';
-import { Discount } from '../domain/discount';
-import { deleteDiscount, postDiscount } from '../api/discount-api';
+import { Product } from '../../domain/product';
+import Popup from '../common/Popup';
+import ManageDiscounts from '../ManageDiscounts';
+import { Discount } from '../../domain/discount';
+import { deleteDiscount, postDiscount } from '../../api/discount-api';
 
 const ManageProducts = () => {
     const [results, setResults] = useState<Results>(new Results());

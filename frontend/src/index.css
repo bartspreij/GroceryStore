@@ -82,12 +82,12 @@ h3 {
     border-radius: 1rem;
 }
 
-.card-width {
+.card-width > * {
     max-width: 100%;
 }
 
 @media (min-width: 640px) {
-    .card-width {
+    .card-width > * {
         max-width: 25%;
     }
 }

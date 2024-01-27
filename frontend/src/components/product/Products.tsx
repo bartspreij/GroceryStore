@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-import { Results, queryProducts } from '../api/products-api';
+import { Results, queryProducts } from '../../api/products-api';
 import ProductList from './ProductList';
-import DiscountGallery from './discount/DiscountGallery';
-import BuyAgainGallery from './buy-again/BuyAgainGallery';
+import DiscountGallery from '../discount/DiscountGallery';
+import BuyAgainGallery from '../buy-again/BuyAgainGallery';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 const Products = () => {
