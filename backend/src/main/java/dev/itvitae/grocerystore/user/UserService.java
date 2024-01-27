@@ -20,14 +20,14 @@ public class UserService {
 
   public List<UserDTO> getAllUsersAsDTO() {
     return userRepository.findAll().stream()
-        .map(user -> new UserDTO(user.getId(), user.getFullName(), user.getUsername()))
+        .map(user -> new UserDTO(user.getId(), user.getFullName(), user.getEmail()))
         .collect(Collectors.toList());
   }
 
   public User saveUser(User user) {
-    Optional<User> theUser = userRepository.findByUsername(user.getUsername());
+    Optional<User> theUser = userRepository.findByEmail(user.getEmail());
     if (theUser.isPresent()) {
-      throw new UserAlreadyExistsException(user.getUsername());
+      throw new UserAlreadyExistsException(user.getEmail());
     }
     user.setPassword(passwordEncoder.encode(user.getPassword()));
     user.setRoles("USER");
@@ -35,11 +35,11 @@ public class UserService {
   }
 
   public void deleteUser(String email) {
-    userRepository.deleteByUsername(email);
+    userRepository.deleteByEmail(email);
   }
 
   public User getUserByEmail(String email) {
-    return userRepository.findByUsername(email).orElseThrow(() -> new UserNotFoundException(email));
+    return userRepository.findByEmail(email).orElseThrow(() -> new UserNotFoundException(email));
   }
 
   public User updateUser(User user) {

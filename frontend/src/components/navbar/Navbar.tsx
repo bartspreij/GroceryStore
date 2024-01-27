@@ -6,10 +6,12 @@ import CartDropdown from '../cart/CartDropdown';
 import MenuDropdown from './MenuDropdown';
 import { useAuth } from '../auth/AuthProvider';
 import SuccessMessage from '../common/SuccessMessage';
+import { Link } from 'react-router-dom';
 
 const Navbar = () => {
     const [categories, setCategories] = useState<Tag[]>([]);
     const { isAdmin, successMessage } = useAuth();
+    const { user } = useAuth();
 
     useEffect(() => {
         const loadCategories = async () => {
@@ -22,11 +24,11 @@ const Navbar = () => {
     return (
         <>
             {successMessage && <SuccessMessage message={successMessage} />}
-            <div className="navbar bg-base-100 mb-4 sticky top-0 z-10 border-b-2">
+            <div className="navbar px-0 bg-base-100 mb-4 sticky top-0 z-10 border-b-2">
                 <div className="flex-1 mr-2">
-                    <a href="/" className="btn btn-ghost text-xl">
+                    <Link to="/" className="btn btn-ghost text-xl">
                         GroceryStore
-                    </a>
+                    </Link>
 
                     <div className="dropdown dropdown-end">
                         <div
@@ -39,12 +41,13 @@ const Navbar = () => {
                         <div className="mt-3 z-[1] card card-compact dropdown-content w-52 bg-base-100 shadow">
                             <div className="card-body">
                                 {categories.map((category) => (
-                                    <a
-                                        href={`/?c=${category.name}`}
+                                    <Link
+                                        to={`/?c=${category.name}`}
                                         key={category.id}
+                                        className="btn btn-ghost justify-start"
                                     >
                                         {category.name}
-                                    </a>
+                                    </Link>
                                 ))}
                             </div>
                         </div>
@@ -63,24 +66,36 @@ const Navbar = () => {
                 </div>
                 <div className="flex-none">
                     {isAdmin && (
-                        <a href="/admin" className="btn btn-ghost text-xl">
+                        <Link to="/admin" className="btn btn-ghost text-xl">
                             Admin
-                        </a>
+                        </Link>
                     )}
+
                     <CartDropdown />
+
                     <div className="dropdown dropdown-end">
-                        <div
-                            tabIndex={0}
-                            role="button"
-                            className="btn btn-ghost btn-circle avatar"
-                        >
-                            <div className="w-10 rounded-full">
-                                <img
-                                    alt="Tailwind CSS Navbar component"
-                                    src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
-                                />
+                        {!user ? (
+                            <div
+                                tabIndex={0}
+                                role="button"
+                                className="btn btn-ghost"
+                            >
+                                My Account
                             </div>
-                        </div>
+                        ) : (
+                            <div
+                                tabIndex={0}
+                                role="button"
+                                className="btn btn-ghost btn-circle avatar"
+                            >
+                                <div className="w-10 rounded-full">
+                                    <img
+                                        alt="Tailwind CSS Navbar component"
+                                        src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
+                                    />
+                                </div>
+                            </div>
+                        )}
 
                         <MenuDropdown />
                     </div>

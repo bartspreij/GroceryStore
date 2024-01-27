@@ -15,6 +15,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -34,19 +36,26 @@ public class OrderController {
     return orderRepository.findAll().stream().map(OrderDTO::new).toList();
   }
 
-  @GetMapping("/user/{userId}/frequent-purchases")
-  public List<OrderProductDTO> getFrequentPurchaseByUser(@PathVariable Long userId) {
+  @GetMapping("frequent-purchases")
+  public List<OrderProductDTO> getFrequentPurchaseByUser() {
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+    User user =
+        userRepository
+            .findByEmail(authentication.getName())
+            .orElseThrow(() -> new UserNotFoundException("User not found"));
+
     return orderProductRepository.findTopFrequentlyPurchasedProductsByUserId(
-        userId, PageRequest.of(0, 10));
+        user.getId(), PageRequest.of(0, 10));
   }
 
   @PostMapping()
   public ResponseEntity<?> addCart(@RequestBody OrderDTO orderDTO, UriComponentsBuilder ucb) {
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-    // For now, get hard-coded user TODO: fix when auth supported
     User user =
         userRepository
-            .findByUsername("user@gmail.com")
+            .findByEmail(authentication.getName())
             .orElseThrow(() -> new UserNotFoundException("User not found"));
 
     // Create new order and assign user

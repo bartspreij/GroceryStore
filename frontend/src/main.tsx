@@ -7,6 +7,7 @@ import Products from './components/Products';
 import ManageProducts from './components/ManageProducts';
 import RequireAuth from './components/auth/RequireAuth';
 import { AuthProvider } from './components/auth/AuthProvider';
+import Login from './components/auth/Login';
 
 const router = createBrowserRouter([
     {
@@ -24,6 +25,10 @@ const router = createBrowserRouter([
                         <ManageProducts />
                     </RequireAuth>
                 ),
+            },
+            {
+                path: '/login',
+                element: <Login redirectOnSuccess="/" />,
             },
         ],
     },

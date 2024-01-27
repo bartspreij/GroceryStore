@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import ProductCard from '../common/ProductCard';
 import Gallery from '../common/Gallery';
-import { fetchDiscountProducts } from '../../api/products-api';
+import { fetchDiscountProducts } from '../../api/discount-api';
 import { Product } from '../../domain/product';
 
 const DiscountGallery = () => {
