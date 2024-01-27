@@ -9,14 +9,13 @@ const Products = () => {
     const [results, setResults] = useState<Results>(new Results());
     const location = useLocation();
     const navigate = useNavigate();
-    const pageSize = 8;
+    const PAGE_SIZE = 8;
 
-    // Listen for url updates
     useEffect(() => {
         const fetchProducts = async () => {
             const result = await queryProducts(
                 getPageNumber(),
-                pageSize,
+                PAGE_SIZE,
                 getQuery() ?? '',
                 getCategory() ?? ''
             );
@@ -32,12 +31,13 @@ const Products = () => {
         search.set('page', page.toString());
         navigate(`?${search}`);
 
-        // Move window up
         window.scrollTo({
             top: 0,
             behavior: 'smooth',
         });
     };
+
+    const formatSearchString = (search: string) => search.replace(/\+/g, ' ');
 
     const getCategory = () => new URLSearchParams(location.search).get('c');
 
@@ -47,10 +47,8 @@ const Products = () => {
         parseInt(new URLSearchParams(location.search).get('page') ?? '0');
 
     const getPageTitle = () => {
-        if (getQuery())
-            return `"${getQuery()!.toString().replace(/\+/g, ' ')}"`;
-        if (getCategory())
-            return `${getCategory()!.toString().replace(/\+/g, ' ')}`;
+        if (getQuery()) return `"${formatSearchString(getQuery()!)}"`;
+        if (getCategory()) return formatSearchString(getCategory()!);
         return 'All Products';
     };
 

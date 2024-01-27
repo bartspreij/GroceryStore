@@ -2,7 +2,6 @@ import { FaTrashCan } from 'react-icons/fa6';
 import { MdEdit } from 'react-icons/md';
 import { Tag } from '../domain/tag';
 import { Product } from '../domain/product';
-import { Discount } from '../domain/discount';
 import CartButtons from './cart/CartButtons';
 import { useShoppingCart } from './cart/ShoppingCartContext';
 
