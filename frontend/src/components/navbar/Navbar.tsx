@@ -6,6 +6,7 @@ import CartDropdown from '../cart/CartDropdown';
 import MenuDropdown from './MenuDropdown';
 import { useAuth } from '../auth/AuthProvider';
 import SuccessMessage from '../common/SuccessMessage';
+import { Link } from 'react-router-dom';
 
 const Navbar = () => {
     const [categories, setCategories] = useState<Tag[]>([]);
@@ -25,9 +26,13 @@ const Navbar = () => {
             {successMessage && <SuccessMessage message={successMessage} />}
             <div className="navbar bg-base-100 mb-4 sticky top-0 z-10 border-b-2">
                 <div className="flex-1 mr-2">
-                    <a href="/" className="btn btn-ghost text-xl">
+                    {/* <a href="/" className="btn btn-ghost text-xl">
                         GroceryStore
-                    </a>
+                    </a> */}
+
+                    <Link to="/" className="btn btn-ghost text-xl">
+                        GroceryStore
+                    </Link>
 
                     <div className="dropdown dropdown-end">
                         <div
@@ -40,12 +45,19 @@ const Navbar = () => {
                         <div className="mt-3 z-[1] card card-compact dropdown-content w-52 bg-base-100 shadow">
                             <div className="card-body">
                                 {categories.map((category) => (
-                                    <a
-                                        href={`/?c=${category.name}`}
+                                    // <a
+                                    //     href={`/?c=${category.name}`}
+                                    //     key={category.id}
+                                    // >
+                                    //     {category.name}
+                                    // </a>
+
+                                    <Link
+                                        to={`/?c=${category.name}`}
                                         key={category.id}
                                     >
                                         {category.name}
-                                    </a>
+                                    </Link>
                                 ))}
                             </div>
                         </div>

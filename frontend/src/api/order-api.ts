@@ -9,18 +9,13 @@ export const postOrder = async (order: Cart) => {
     return result.data;
 };
 
-export const fetchFrequentlyPurchasedInSpecificQuantity = async (): Promise<
-    CartProduct[]
-> => {
-    const result = await api.get<CartProduct[]>(
-        `${uri}/user/3/frequent-purchases`
-    );
-    return result.data;
-};
-
 export const fetchBuyAgainProducts = async (): Promise<CartProduct[]> => {
-    const result = await api.get<CartProduct[]>(
-        `${uri}/user/3/frequent-purchases`
-    );
-    return result.data;
+    try {
+        const result = await api.get<CartProduct[]>(
+            `${uri}/frequent-purchases`
+        );
+        return result.data;
+    } catch {
+        return [];
+    }
 };
