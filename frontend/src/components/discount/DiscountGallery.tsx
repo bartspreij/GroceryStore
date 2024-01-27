@@ -21,12 +21,11 @@ const DiscountGallery = () => {
             <h2>On Sale</h2>
             <Gallery>
                 {discounts.map((product) => (
-                    <div
-                        className="carousel-item max-w-xs max-h-96"
-                        key={product.id}
-                        style={{ maxWidth: '25%' }}
-                    >
-                        <ProductCard product={product} />
+                    <div className="carousel-item max-h-96" key={product.id}>
+                        <ProductCard
+                            product={product}
+                            isFrequentPurchase={false}
+                        />
                     </div>
                 ))}
             </Gallery>

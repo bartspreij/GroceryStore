@@ -3,6 +3,7 @@ import { MdEdit } from 'react-icons/md';
 import { Product } from '../../domain/product';
 import CartButtons from '../cart/CartButtons';
 import { useShoppingCart } from '../cart/ShoppingCartContext';
+import { Link } from 'react-router-dom';
 
 interface ProductCardProps {
     product: Product;
@@ -26,9 +27,9 @@ const ProductCard: React.FC<ProductCardProps> = ({
     return (
         <div
             key={product.id}
-            className="card m-2 text-gray-400 card-compact bg-base-100 shadow-xl"
+            className="card m-2 w-full text-gray-400 card-compact bg-base-100 shadow-xl"
         >
-            <figure className="aspect-square">
+            <Link to={'/product/' + product.id} className="aspect-square">
                 <img
                     className="w-full h-full object-cover"
                     src={product.imageUrl}
@@ -36,7 +37,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
                     height="300px"
                     width="300px"
                 />
-            </figure>
+            </Link>
 
             {!!editProduct && (
                 <button

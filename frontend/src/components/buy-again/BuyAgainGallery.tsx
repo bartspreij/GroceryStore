@@ -30,7 +30,7 @@ const BuyAgainGallery = () => {
             <Gallery>
                 {filteredFrequentPurchases.map((cartProduct) => (
                     <div
-                        className="carousel-item max-w-xs max-h-96"
+                        className="carousel-item max-h-96"
                         key={cartProduct.product.id}
                         style={{ maxWidth: '25%' }}
                     >

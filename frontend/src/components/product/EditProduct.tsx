@@ -3,9 +3,9 @@
 /* eslint-disable no-alert */
 import React, { useEffect, useState } from 'react';
 import { FaMinus } from 'react-icons/fa6';
-import { Product } from '../domain/product';
-import { Tag } from '../domain/tag';
-import { fetchTags } from '../api/tag-api';
+import { Product } from '../../domain/product';
+import { Tag } from '../../domain/tag';
+import { fetchTags } from '../../api/tag-api';
 
 interface EditProductProps {
     title: string;

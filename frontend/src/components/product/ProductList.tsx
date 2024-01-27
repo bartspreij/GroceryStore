@@ -1,5 +1,5 @@
-import { Product } from '../domain/product';
-import ProductCard from './common/ProductCard';
+import { Product } from '../../domain/product';
+import ProductCard from '../common/ProductCard';
 
 interface ProductListProps {
     products: Product[];
