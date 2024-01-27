@@ -9,6 +9,8 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Getter
 @Setter
@@ -21,9 +23,14 @@ public class OrderProduct {
     @Getter(AccessLevel.NONE)
     private Long id;
 
-    @ManyToOne private Order order;
+    @ManyToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private Order order;
 
-    @ManyToOne private Product product;
+    @ManyToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private Product product;
+
 
     private Integer quantity;
 
