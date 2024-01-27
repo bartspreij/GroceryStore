@@ -29,9 +29,8 @@ export const queryProducts = async (
     return result.data;
 };
 
-export const getProductById = async (productId: number) => {
-    const result = await api.get<Product>(`${uri}/product/${productId}`);
-    return result.data;
+export const getProductById = (productId: number) => {
+    return api.get<Product>(`${uri}/by-id/${productId}`);
 };
 
 export const postProduct = async (product: Product) => {

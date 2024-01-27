@@ -18,8 +18,8 @@ import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
-@RequiredArgsConstructor
 @RestController
+@RequiredArgsConstructor
 @CrossOrigin("http://localhost:5173")
 @RequestMapping("/api/v1/products")
 public class ProductController {
@@ -55,7 +55,7 @@ public class ProductController {
     return new ResponseEntity<Page<ProductDTO>>(results.map(ProductDTO::new), HttpStatus.OK);
   }
 
-  @GetMapping("product")
+  @GetMapping("by-id/{productId}")
   public ResponseEntity<?> getProductById(@PathVariable long productId) {
     Optional<Product> product = productRepository.findById(productId);
     if (product.isEmpty()) return new ResponseEntity<>("", HttpStatus.NOT_FOUND);

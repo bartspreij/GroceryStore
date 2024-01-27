@@ -32,14 +32,13 @@ public class SecurityConfig {
 
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-    return http.csrf(AbstractHttpConfigurer::disable)
+    return http.csrf(c -> c.disable())
         .authorizeHttpRequests(
             auth ->
-                auth
-                    //                        .requestMatchers(ADMIN_URLS)
-                    //                    .hasRole("ADMIN")
-                    //                    .requestMatchers(USER_URLS)
-                    //                    .hasAnyRole("ADMIN", "USER")
+                auth.requestMatchers(ADMIN_URLS)
+                    .hasRole("ADMIN")
+                    .requestMatchers(USER_URLS)
+                    .hasAnyRole("ADMIN", "USER")
                     .anyRequest()
                     .permitAll())
         .sessionManagement(
