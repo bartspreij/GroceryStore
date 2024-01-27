@@ -154,8 +154,10 @@ export const ShoppingCartProvider: React.FC<ShoppingCartProviderProps> = ({
         try {
             await postOrder(cart);
             setCart(() => new Cart());
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (err: any) {
             window.location.href = '/login';
+            // eslint-disable-next-line no-console
             console.error(err);
         }
     }, [cart, setCart]);

@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-import Carousel from '../common/Gallery';
-import { Product } from '../../domain/product';
-import GalleryProductCard from '../common/GalleryProductCard';
+import ProductCard from '../common/ProductCard';
+import Gallery from '../common/Gallery';
 import { fetchDiscountProducts } from '../../api/discount-api';
+import { Product } from '../../domain/product';
 
 const DiscountGallery = () => {
     const [discounts, setDiscounts] = useState<Product[]>([]);
@@ -19,15 +19,17 @@ const DiscountGallery = () => {
     return (
         <>
             <h2>On Sale</h2>
-            <Carousel>
+            <Gallery>
                 {discounts.map((product) => (
-                    <GalleryProductCard
+                    <div
+                        className="carousel-item max-w-xs max-h-96"
                         key={product.id}
-                        product={product}
-                        isDiscounted
-                    />
+                        style={{ maxWidth: '25%' }}
+                    >
+                        <ProductCard product={product} />
+                    </div>
                 ))}
-            </Carousel>
+            </Gallery>
         </>
     );
 };

@@ -1,9 +1,9 @@
 import { useEffect, useMemo, useState } from 'react';
 import { CartProduct } from '../../domain/cart-product';
-import GalleryProductCard from '../common/GalleryProductCard';
+import { fetchBuyAgainProducts } from '../../api/products-api';
 import Gallery from '../common/Gallery';
 import { useShoppingCart } from '../cart/ShoppingCartContext';
-import { fetchBuyAgainProducts } from '../../api/order-api';
+import ProductCard from '../common/ProductCard';
 
 const BuyAgainGallery = () => {
     const [frequentPurchases, setFrequentPurchases] = useState<CartProduct[]>(
@@ -29,11 +29,16 @@ const BuyAgainGallery = () => {
             {filteredFrequentPurchases.length !== 0 && <h2>Buy again</h2>}
             <Gallery>
                 {filteredFrequentPurchases.map((cartProduct) => (
-                    <GalleryProductCard
+                    <div
+                        className="carousel-item max-w-xs max-h-96"
                         key={cartProduct.product.id}
-                        product={cartProduct.product}
-                        quantity={cartProduct.quantity}
-                    />
+                        style={{ maxWidth: '25%' }}
+                    >
+                        <ProductCard
+                            product={cartProduct.product}
+                            quantity={cartProduct.quantity}
+                        />
+                    </div>
                 ))}
             </Gallery>
         </>
