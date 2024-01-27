@@ -9,17 +9,17 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Tag {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-    private String name = "";
+  private String name = "";
 
-    private boolean isCategory;
+  private boolean isCategory;
 
-    public Tag(String name, boolean isCategory) {
+  public Tag(String name, boolean isCategory) {
 
-        this.name = name;
-        this.isCategory = isCategory;
-    }
+    this.name = name;
+    this.isCategory = isCategory;
+  }
 }

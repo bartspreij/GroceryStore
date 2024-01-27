@@ -13,21 +13,20 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class JWTController {
 
-    private final JWTService jwtService;
-    private final AuthenticationManager authenticationManager;
+  private final JWTService jwtService;
+  private final AuthenticationManager authenticationManager;
 
-    @PostMapping
-    public String getTokenForAuthenticatedUser(
-            @RequestBody JWTAuthenticationRequest authenticationRequest) {
-        Authentication authentication =
-                authenticationManager.authenticate(
-                        new UsernamePasswordAuthenticationToken(
-                                authenticationRequest.getUsername(),
-                                authenticationRequest.getPassword()));
-        if (authentication.isAuthenticated()) {
-            return jwtService.getGeneratedToken(authenticationRequest.getUsername());
-        } else {
-            throw new UsernameNotFoundException("Invalid user credentials");
-        }
+  @PostMapping
+  public String getTokenForAuthenticatedUser(
+      @RequestBody JWTAuthenticationRequest authenticationRequest) {
+    Authentication authentication =
+        authenticationManager.authenticate(
+            new UsernamePasswordAuthenticationToken(
+                authenticationRequest.getUsername(), authenticationRequest.getPassword()));
+    if (authentication.isAuthenticated()) {
+      return jwtService.getGeneratedToken(authenticationRequest.getUsername());
+    } else {
+      throw new UsernameNotFoundException("Invalid user credentials");
     }
+  }
 }

@@ -12,16 +12,16 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin("http://localhost:5173/")
 @RequestMapping("/api/v1/tags")
 public class TagController {
-    private final TagRepository tagRepository;
-    private final ProductRepository productRepository;
+  private final TagRepository tagRepository;
+  private final ProductRepository productRepository;
 
-    @GetMapping()
-    public Iterable<Tag> findAll(){
-        return tagRepository.findAll();
-    }
+  @GetMapping()
+  public Iterable<Tag> findAll() {
+    return tagRepository.findAll();
+  }
 
-    @GetMapping("categories")
-    public Iterable<Tag> findCategories() {
-        return tagRepository.findByIsCategoryTrue();
-    }
+  @GetMapping("categories")
+  public Iterable<Tag> findCategories() {
+    return tagRepository.findByIsCategoryTrue();
+  }
 }

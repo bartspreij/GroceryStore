@@ -1,7 +1,6 @@
 package dev.itvitae.grocerystore.order;
 
 import dev.itvitae.grocerystore.orderproduct.OrderProductDTO;
-
 import java.util.List;
 
 public record OrderDTO(Long id, List<OrderProductDTO> orderProducts) {

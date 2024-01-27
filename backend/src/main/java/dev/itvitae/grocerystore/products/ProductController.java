@@ -2,9 +2,11 @@ package dev.itvitae.grocerystore.products;
 
 import dev.itvitae.grocerystore.tags.Tag;
 import dev.itvitae.grocerystore.tags.TagRepository;
-
+import java.math.BigDecimal;
+import java.util.HashSet;
+import java.util.Optional;
+import java.util.Set;
 import lombok.RequiredArgsConstructor;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -12,11 +14,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.math.BigDecimal;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
 
 @RequiredArgsConstructor
 @RestController
@@ -38,22 +35,19 @@ public class ProductController {
     Pageable pageable = createPageable(sort, page, size);
 
     // Replace + with spaces
-    if (query != null)
-      query = query.replaceAll("\\+", " ");
-    if (categoryName != null)
-      categoryName = categoryName.replaceAll("\\+", " ");
+    if (query != null) query = query.replaceAll("\\+", " ");
+    if (categoryName != null) categoryName = categoryName.replaceAll("\\+", " ");
 
     Page<Product> results;
     if (query != null && !query.isEmpty())
-      results = productRepository.findByNameContainingIgnoreCaseOrTags_NameContainingIgnoreCase(
-          query, query, pageable);
+      results =
+          productRepository.findByNameContainingIgnoreCaseOrTags_NameContainingIgnoreCase(
+              query, query, pageable);
     else if (categoryName != null && !categoryName.isEmpty()) {
       Optional<Tag> tag = tagRepository.findByName(categoryName);
-      if (tag.isEmpty())
-        return new ResponseEntity<>("Tag not found", HttpStatus.NOT_FOUND);
+      if (tag.isEmpty()) return new ResponseEntity<>("Tag not found", HttpStatus.NOT_FOUND);
       results = productRepository.findByTags(tag.get(), pageable);
-    } else
-      results = productRepository.findAll(pageable);
+    } else results = productRepository.findAll(pageable);
 
     return new ResponseEntity<Page<ProductDTO>>(results.map(ProductDTO::new), HttpStatus.OK);
   }
@@ -83,8 +77,7 @@ public class ProductController {
 
     Product product = productRepository.findById(id).orElse(null);
 
-    if (product == null)
-      return new ResponseEntity<>("Product not found", HttpStatus.NOT_FOUND);
+    if (product == null) return new ResponseEntity<>("Product not found", HttpStatus.NOT_FOUND);
 
     // Update properties
     product.setName(name);
@@ -110,8 +103,7 @@ public class ProductController {
 
     Product product = productRepository.findById(productId).orElse(null);
 
-    if (product == null)
-      return new ResponseEntity<>("Product not found", HttpStatus.NOT_FOUND);
+    if (product == null) return new ResponseEntity<>("Product not found", HttpStatus.NOT_FOUND);
 
     productRepository.delete(product);
 

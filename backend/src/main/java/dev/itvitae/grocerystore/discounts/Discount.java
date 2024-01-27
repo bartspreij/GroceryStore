@@ -2,12 +2,11 @@ package dev.itvitae.grocerystore.discounts;
 
 import dev.itvitae.grocerystore.products.Product;
 import jakarta.persistence.*;
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.math.BigDecimal;
-import java.time.LocalDate;
 
 @Entity
 @Getter
@@ -15,20 +14,21 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class Discount {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private BigDecimal discountedPrice;
-    private LocalDate startDate;
-    private LocalDate endDate;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-    @ManyToOne
-    private Product product;
+  private BigDecimal discountedPrice;
+  private LocalDate startDate;
+  private LocalDate endDate;
 
-    public Discount (BigDecimal discountedPrice, LocalDate startDate, LocalDate endDate, Product product) {
-        this.discountedPrice = discountedPrice;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.product = product;
-    }
+  @ManyToOne private Product product;
+
+  public Discount(
+      BigDecimal discountedPrice, LocalDate startDate, LocalDate endDate, Product product) {
+    this.discountedPrice = discountedPrice;
+    this.startDate = startDate;
+    this.endDate = endDate;
+    this.product = product;
+  }
 }
