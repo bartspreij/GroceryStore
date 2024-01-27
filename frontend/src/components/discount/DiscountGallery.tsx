@@ -1,36 +1,34 @@
 import { useEffect, useState } from 'react';
 import ProductCard from '../common/ProductCard';
 import Gallery from '../common/Gallery';
-import { Results, queryProducts } from '../../api/products-api';
+import { fetchDiscountProducts } from '../../api/products-api';
+import { Product } from '../../domain/product';
 
 const DiscountGallery = () => {
-    const [results, setResults] = useState<Results>(new Results());
+    const [discounts, setDiscounts] = useState<Product[]>([]);
 
     useEffect(() => {
-        const fetchProduct = async () => {
-            const result = await queryProducts(0, 9999);
-
-            setResults(result);
+        const loadDiscounts = async () => {
+            const fetchedDiscounts = await fetchDiscountProducts();
+            setDiscounts(fetchedDiscounts);
         };
 
-        fetchProduct();
+        loadDiscounts();
     }, []);
 
     return (
         <>
             <h2>On Sale</h2>
             <Gallery>
-                {results.content
-                    .filter((product) => product.discounts[0])
-                    .map((product) => (
-                        <div
-                            className="carousel-item max-w-xs max-h-96"
-                            key={product.id}
-                            style={{ maxWidth: '25%' }}
-                        >
-                            <ProductCard product={product} />
-                        </div>
-                    ))}
+                {discounts.map((product) => (
+                    <div
+                        className="carousel-item max-w-xs max-h-96"
+                        key={product.id}
+                        style={{ maxWidth: '25%' }}
+                    >
+                        <ProductCard product={product} />
+                    </div>
+                ))}
             </Gallery>
         </>
     );
