@@ -3,7 +3,6 @@ import { MdEdit } from 'react-icons/md';
 import { Product } from '../../domain/product';
 import CartButtons from '../cart/CartButtons';
 import { useShoppingCart } from '../cart/ShoppingCartContext';
-import Tags from './Tags';
 
 interface ProductCardProps {
     product: Product;
@@ -61,39 +60,40 @@ const ProductCard: React.FC<ProductCardProps> = ({
 
             <div className="card-body">
                 <h2 className="card-title">{product.name}</h2>
-                {product.discounts[0] ? (
-                    <>
-                        <p className="line-through">
+                <div>
+                    {product.discounts[0] ? (
+                        <>
+                            <span>
+                                €
+                                {(
+                                    product.discounts[0].discountedPrice *
+                                    (quantity || 1)
+                                ).toFixed(2)}
+                            </span>
+                            <span className="line-through text-slate-300 ml-2">
+                                €{(product.price * (quantity || 1)).toFixed(2)}
+                            </span>
+                        </>
+                    ) : (
+                        <span>
                             €{(product.price * (quantity || 1)).toFixed(2)}
-                        </p>
-                        <p>
-                            €
-                            {(
-                                product.discounts[0].discountedPrice *
-                                (quantity || 1)
-                            ).toFixed(2)}
-                        </p>
-                    </>
-                ) : (
-                    <p>€{(product.price * (quantity || 1)).toFixed(2)}</p>
-                )}
+                        </span>
+                    )}
 
-                {!!editDiscounts && (
-                    <button
-                        type="button"
-                        title="Edit discounts"
-                        className="btn btn-xs btn-circle ml-1"
-                        onClick={() => editDiscounts(product)}
-                    >
-                        %
-                    </button>
-                )}
-            </div>
-            <div className="card-actions justify-between">
-                <div className="flex flex-wrap items-center gap-1 p-3">
-                    <Tags tags={product.tags} />
-                    <CartButtons item={getCartProduct(product)} />
+                    {!!editDiscounts && (
+                        <button
+                            type="button"
+                            title="Edit discounts"
+                            className="btn btn-xs btn-circle ml-2"
+                            onClick={() => editDiscounts(product)}
+                        >
+                            %
+                        </button>
+                    )}
                 </div>
+            </div>
+            <div className="flex justify-end w-full pb-2 pr-2">
+                <CartButtons item={getCartProduct(product)} />
             </div>
         </div>
     );
