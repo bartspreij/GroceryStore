@@ -1,83 +1,73 @@
 import { useEffect, useState } from 'react';
-import Pageable from '../domain/pageable';
 import { Results, queryProducts } from '../api/products-api';
 import ProductList from './ProductList';
 import DiscountGallery from './discount/DiscountGallery';
 import BuyAgainGallery from './buy-again/BuyAgainGallery';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const Products = () => {
     const [results, setResults] = useState<Results>(new Results());
-    const [pageable, setPageable] = useState<Pageable>(new Pageable());
-
     const location = useLocation();
+    const navigate = useNavigate();
+    const pageSize = 8;
 
-    // Listen for route changes
+    // Listen for url updates
     useEffect(() => {
-        console.log('Route changed:');
-        console.log(location);
-        setPageable(new Pageable());
-        fetchProduct();
-    }, [location]);
+        const fetchProducts = async () => {
+            const result = await queryProducts(
+                getPageNumber(),
+                pageSize,
+                getQuery() ?? '',
+                getCategory() ?? ''
+            );
 
-    useEffect(() => {
-        console.log('Pageable changed:');
-        console.log(pageable);
-        fetchProduct();
-    }, [pageable.pageNumber, pageable.pageSize]);
+            setResults(result);
+        };
 
-    const fetchProduct = async () => {
-        const searchType = window.location.search.substring(1, 2);
-        let query = '';
-        let category = '';
-        if (searchType === 'c') category = getSearchQuery();
-        if (searchType === 'q') query = getSearchQuery();
-
-        const result = await queryProducts(
-            pageable.pageNumber,
-            pageable.pageSize,
-            query,
-            category
-        );
-
-        setResults(result);
-        setPageable(result.pageable);
-    };
+        fetchProducts();
+    }, [location, location.search]);
 
     const setPage = (page: number) => {
-        setPageable((old) => ({
-            ...old,
-            pageNumber: page,
-        }));
+        let search = new URLSearchParams(location.search);
+        search.set('page', page.toString());
+        navigate(`?${search}`);
 
         // Move window up
         window.scrollTo({
             top: 0,
-            behavior: 'smooth', // Optional: Use 'smooth' for smooth scrolling
+            behavior: 'smooth',
         });
     };
 
-    const getSearchQuery = () => location.search.substring(3);
+    const getCategory = () => new URLSearchParams(location.search).get('c');
 
-    const getTitle = () => {
-        if (location.search.length > 0) return `"${getSearchQuery()}"`;
-        else return 'All Products';
+    const getQuery = () => new URLSearchParams(location.search).get('q');
+
+    const getPageNumber = () =>
+        parseInt(new URLSearchParams(location.search).get('page') ?? '0');
+
+    const getPageTitle = () => {
+        if (getQuery())
+            return `"${getQuery()!.toString().replace(/\+/g, ' ')}"`;
+        if (getCategory())
+            return `${getCategory()!.toString().replace(/\+/g, ' ')}`;
+        return 'All Products';
     };
 
     return (
         <>
-            {pageable.pageNumber === 0 && location.search.length == 0 && (
+            {getPageNumber() === 0 && location.search.length == 0 && (
                 <>
                     <BuyAgainGallery />
                     <DiscountGallery />
                 </>
             )}
 
-            <h2>{getTitle()}</h2>
+            <h2>{getPageTitle()}</h2>
 
             <ProductList
                 products={results.content}
-                currentPage={pageable.pageNumber}
+                currentPage={getPageNumber()}
                 totalPages={results.totalPages}
                 setPage={(page: number) => setPage(page)}
             />

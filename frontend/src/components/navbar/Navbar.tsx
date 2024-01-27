@@ -26,10 +26,6 @@ const Navbar = () => {
             {successMessage && <SuccessMessage message={successMessage} />}
             <div className="navbar px-0 bg-base-100 mb-4 sticky top-0 z-10 border-b-2">
                 <div className="flex-1 mr-2">
-                    {/* <a href="/" className="btn btn-ghost text-xl">
-                        GroceryStore
-                    </a> */}
-
                     <Link to="/" className="btn btn-ghost text-xl">
                         GroceryStore
                     </Link>
@@ -45,16 +41,10 @@ const Navbar = () => {
                         <div className="mt-3 z-[1] card card-compact dropdown-content w-52 bg-base-100 shadow">
                             <div className="card-body">
                                 {categories.map((category) => (
-                                    // <a
-                                    //     href={`/?c=${category.name}`}
-                                    //     key={category.id}
-                                    // >
-                                    //     {category.name}
-                                    // </a>
-
                                     <Link
                                         to={`/?c=${category.name}`}
                                         key={category.id}
+                                        className="btn btn-ghost justify-start"
                                     >
                                         {category.name}
                                     </Link>
@@ -76,11 +66,13 @@ const Navbar = () => {
                 </div>
                 <div className="flex-none">
                     {isAdmin && (
-                        <a href="/admin" className="btn btn-ghost text-xl">
+                        <Link to="/admin" className="btn btn-ghost text-xl">
                             Admin
-                        </a>
+                        </Link>
                     )}
+
                     <CartDropdown />
+
                     <div className="dropdown dropdown-end">
                         {!user ? (
                             <div

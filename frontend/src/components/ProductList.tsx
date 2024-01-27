@@ -29,6 +29,12 @@ const ProductList: React.FC<ProductListProps> = ({
 
     return (
         <>
+            {products.length === 0 && (
+                <div className="flex justify-center py-6">
+                    <span className="text-slate-400">No products found</span>
+                </div>
+            )}
+
             <div className="products grid grid-cols-1 sm:grid-cols-4 gap-5">
                 {products.map((product) => (
                     <div
@@ -110,7 +116,7 @@ const ProductList: React.FC<ProductListProps> = ({
                     </div>
                 ))}
             </div>
-            <div className="flex justify-center gap-2 mt-4">
+            <div className="flex justify-center gap-2 mt-8 mb-3">
                 {[...Array(totalPages)].map((_, index) => (
                     // eslint-disable-next-line react/no-array-index-key
                     <button

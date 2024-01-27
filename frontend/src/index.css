@@ -16,7 +16,7 @@ body {
     margin: 0 auto;
     width: var(--site-width);
     max-width: 100%;
-    /* background-color: oklch(var(--n)); */
+    scrollbar-gutter: stable;
 }
 
 label {
