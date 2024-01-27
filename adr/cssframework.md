@@ -4,7 +4,7 @@
 Choose CSS Framework: Tailwind CSS /w DaisyUI vs. Bootstrap vs. Material-UI
 
 ## Status
-Proposed
+Accepted
 
 ## Context
 For rapid development we should use a css framework. For consistent styling we should use a component library.
@@ -15,7 +15,7 @@ After careful consideration of our project's needs, including development timeli
 ## Consequences
 Choosing TailwindCSS /w DaisyUI leads to several consequences:
 
-- **Ease of Development**: [While tailwindcss has a bit steeper learning curve than regular css, considering the different levels of css knowledge in our group some of us had to learn the chosen one anyway.]
+- **Ease of Development**: [While tailwindcss has a bit steeper learning curve than regular css, considering the different levels of css knowledge in our group some of us had to learn either one anyway.]
 
 - **Design Consistency**: [For design consistency DaisyUI helps us with styling that's not too opiniated so both consistency and configureabilty are pro's]
 
