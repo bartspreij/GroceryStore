@@ -37,6 +37,7 @@ const BuyAgainGallery = () => {
                         <ProductCard
                             product={cartProduct.product}
                             quantity={cartProduct.quantity}
+                            isFrequentPurchase={true}
                         />
                     </div>
                 ))}

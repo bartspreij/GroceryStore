@@ -7,6 +7,7 @@ import { useShoppingCart } from '../cart/ShoppingCartContext';
 interface ProductCardProps {
     product: Product;
     quantity?: number;
+    isFrequentPurchase: boolean;
     editProduct?: (product: Product) => void;
     deleteProduct?: (product: Product) => void;
     editDiscounts?: (product: Product) => void;
@@ -15,6 +16,7 @@ interface ProductCardProps {
 const ProductCard: React.FC<ProductCardProps> = ({
     product,
     quantity,
+    isFrequentPurchase,
     editProduct,
     deleteProduct,
     editDiscounts,
@@ -93,7 +95,11 @@ const ProductCard: React.FC<ProductCardProps> = ({
                 </div>
             </div>
             <div className="flex justify-end w-full pb-2 pr-2">
-                <CartButtons item={getCartProduct(product)} />
+                <CartButtons
+                    item={getCartProduct(product)}
+                    isFrequentPurchase={isFrequentPurchase}
+                    quantity={quantity}
+                />
             </div>
         </div>
     );

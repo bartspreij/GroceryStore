@@ -33,6 +33,7 @@ const ProductList: React.FC<ProductListProps> = ({
                     <ProductCard
                         key={product.id}
                         product={product}
+                        isFrequentPurchase={false}
                         editProduct={editProduct}
                         deleteProduct={deleteProduct}
                         editDiscounts={editDiscounts}
