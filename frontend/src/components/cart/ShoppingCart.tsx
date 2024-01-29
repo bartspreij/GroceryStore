@@ -5,7 +5,7 @@ const ShoppingCart = () => {
   const { cart, checkout, totalQuantity, subtotal } = useShoppingCart();
 
   return (
-    <div className="mt-3 z-[1] w-96 card card-compact dropdown-content bg-base-100 shadow">
+    <div className="mt-3 z-[1] card card-compact dropdown-content w-80 bg-base-100 shadow">
       <div className="card-body">
         {cart.orderProducts.map((item) => (
           <div
