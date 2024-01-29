@@ -10,6 +10,8 @@ import java.util.Set;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.Length;
+import org.springframework.stereotype.Component;
 
 @Entity
 @Setter
@@ -22,6 +24,8 @@ public class Product {
   private Long id;
 
   private String name;
+
+  @Column(length = 10000)
   private String description;
   private BigDecimal price;
   private String imageUrl;
