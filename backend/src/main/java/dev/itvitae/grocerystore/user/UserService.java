@@ -3,13 +3,12 @@ package dev.itvitae.grocerystore.user;
 import dev.itvitae.grocerystore.exception.UserAlreadyExistsException;
 import dev.itvitae.grocerystore.exception.UserNotFoundException;
 import jakarta.transaction.Transactional;
-import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 
 @Transactional
 @Service

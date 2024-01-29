@@ -2,9 +2,11 @@ package dev.itvitae.grocerystore.products;
 
 import dev.itvitae.grocerystore.tags.Tag;
 import dev.itvitae.grocerystore.tags.TagRepository;
-
+import java.math.BigDecimal;
+import java.util.HashSet;
+import java.util.Optional;
+import java.util.Set;
 import lombok.RequiredArgsConstructor;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -13,19 +15,23 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
-
-@RestController
 @RequiredArgsConstructor
+@RestController
 @CrossOrigin("http://localhost:5173")
 @RequestMapping("/api/v1/products")
 public class ProductController {
 
   private final ProductRepository productRepository;
   private final TagRepository tagRepository;
+
+  private static Pageable createPageable(String sort, int page, int size) {
+    String[] sortArray = sort.split(",");
+    String sortBy = sortArray[0];
+    String sortDirection = sortArray.length > 1 ? sortArray[1] : "asc";
+
+    Sort sortObj = Sort.by(Sort.Direction.fromString(sortDirection), sortBy);
+    return PageRequest.of(page, size, sortObj);
+  }
 
   @GetMapping("query")
   public ResponseEntity<?> queryProducts(
@@ -34,6 +40,7 @@ public class ProductController {
       @RequestParam(name = "page", defaultValue = "0") int page,
       @RequestParam(name = "size", defaultValue = "20") int size,
       @RequestParam(name = "sort", defaultValue = "id,desc") String sort) {
+    System.out.println("Productcontroller");
 
     Pageable pageable = createPageable(sort, page, size);
 
@@ -119,14 +126,5 @@ public class ProductController {
     productRepository.delete(product);
 
     return new ResponseEntity<>("Delete success", HttpStatus.OK);
-  }
-
-  private static Pageable createPageable(String sort, int page, int size) {
-    String[] sortArray = sort.split(",");
-    String sortBy = sortArray[0];
-    String sortDirection = sortArray.length > 1 ? sortArray[1] : "asc";
-
-    Sort sortObj = Sort.by(Sort.Direction.fromString(sortDirection), sortBy);
-    return PageRequest.of(page, size, sortObj);
   }
 }

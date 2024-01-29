@@ -1,4 +1,4 @@
-# Supermarket App
+# GroceryStore App
 
 ## Overview
 The Supermarket App is designed to cater to different categories of users, typically customers and managers. Normally, separate apps would be developed for each main user category. However, in this instance, while the database and possibly the backend may be shared, the functionalities for customers and managers are integrated into a single application. The managers' section can be viewed as a more straightforward way to update the database, but it can also be expanded for more comprehensive management tasks.

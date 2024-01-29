@@ -13,16 +13,15 @@ import dev.itvitae.grocerystore.user.User;
 import dev.itvitae.grocerystore.user.UserRepository;
 import dev.itvitae.grocerystore.user.UserService;
 import jakarta.transaction.Transactional;
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Random;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.util.List;
-import java.util.Random;
 
 @Transactional
 @RequiredArgsConstructor
@@ -85,7 +84,7 @@ public class Seeder implements CommandLineRunner {
     saveProduct(
         "Minced Beef",
         "High-quality minced beef for your favorite recipes.",
-        "https://static.ah.nl/dam/product/AHI_4354523130303233323432?revLabel=1&rendition=800x800_JPG_Q90&fileType=binary",
+        "https://imgur.com/jFpJhgf.png",
         BigDecimal.valueOf(3.49),
         meat,
         protein);
@@ -93,7 +92,7 @@ public class Seeder implements CommandLineRunner {
     saveProduct(
         "Milk",
         "Fresh and nutritious milk for your daily needs.",
-        "https://static.ah.nl/dam/product/AHI_43545239393331383832?revLabel=6&rendition=800x800_JPG_Q90&fileType=binary",
+        "https://imgur.com/4P6rbXE.png",
         BigDecimal.valueOf(1.89),
         dairy,
         protein);
@@ -101,7 +100,7 @@ public class Seeder implements CommandLineRunner {
     saveProduct(
         "Chicken Breast",
         "Tender and lean chicken breasts for delicious meals.",
-        "https://static.ah.nl/dam/product/AHI_43545239383938333733?revLabel=1&rendition=800x800_JPG_Q90&fileType=binary",
+        "https://imgur.com/kswT8Vd.png",
         BigDecimal.valueOf(5.99),
         meat,
         protein);
@@ -109,7 +108,7 @@ public class Seeder implements CommandLineRunner {
     saveProduct(
         "Eggs",
         "Farm-fresh eggs for a protein-packed breakfast.",
-        "https://static.ah.nl/dam/product/AHI_4354523130303133313939?revLabel=1&rendition=800x800_JPG_Q90&fileType=binary",
+        "https://imgur.com/twqG6lZ.png",
         BigDecimal.valueOf(2.49),
         pantry,
         protein);
@@ -117,7 +116,7 @@ public class Seeder implements CommandLineRunner {
     saveProduct(
         "Salmon Fillet",
         "Premium salmon fillet for a healthy and tasty dish.",
-        "https://static.ah.nl/dam/product/AHI_43545239363933323830?revLabel=1&rendition=800x800_JPG_Q90&fileType=binary",
+        "https://imgur.com/J6gqmuf.png",
         BigDecimal.valueOf(7.99),
         seafood,
         protein);
@@ -125,7 +124,7 @@ public class Seeder implements CommandLineRunner {
     saveProduct(
         "Bread",
         "Freshly baked bread for your daily sandwiches.",
-        "https://static.ah.nl/dam/product/AHI_4354523130303135363931?revLabel=1&rendition=800x800_JPG_Q90&fileType=binary",
+        "https://imgur.com/iha1dYl.png",
         BigDecimal.valueOf(2.29),
         bread,
         carbs);
@@ -133,21 +132,21 @@ public class Seeder implements CommandLineRunner {
     saveProduct(
         "Apples",
         "Crisp and juicy apples for a healthy snack.",
-        "https://static.ah.nl/dam/product/AHI_43545239383933333036?revLabel=1&rendition=800x800_JPG_Q90&fileType=binary",
+        "https://imgur.com/ZlU2ptN.png",
         BigDecimal.valueOf(1.99),
         fruits);
 
     saveProduct(
         "Orange Juice",
         "Refreshing orange juice for a delightful drink.",
-        "https://static.ah.nl/dam/product/AHI_43545239373536353838?revLabel=3&rendition=800x800_JPG_Q90&fileType=binary",
+        "https://imgur.com/Gt7Gq8H.png",
         BigDecimal.valueOf(3.79),
         beverages);
 
     saveProduct(
         "Pasta",
         "Versatile pasta for quick and easy meal preparation.",
-        "https://static.ah.nl/dam/product/AHI_43545239393232393430?revLabel=1&rendition=800x800_JPG_Q90&fileType=binary",
+        "https://imgur.com/gpF2q24.png",
         BigDecimal.valueOf(1.49),
         pantry,
         carbs);
@@ -155,7 +154,7 @@ public class Seeder implements CommandLineRunner {
     saveProduct(
         "Yogurt",
         "Creamy yogurt for a delicious and healthy snack.",
-        "https://static.ah.nl/dam/product/AHI_43545239393331373339?revLabel=1&rendition=800x800_JPG_Q90&fileType=binary",
+        "https://imgur.com/ER5pinx.png",
         BigDecimal.valueOf(1.99),
         dairy,
         protein);
@@ -163,14 +162,14 @@ public class Seeder implements CommandLineRunner {
     saveProduct(
         "Spinach",
         "Fresh spinach for a nutritious addition to your meals.",
-        "https://static.ah.nl/dam/product/AHI_43545239383736323931?revLabel=1&rendition=800x800_JPG_Q90&fileType=binary",
+        "https://imgur.com/bBRiIB3.png",
         BigDecimal.valueOf(1.79),
         vegetables);
 
     saveProduct(
         "Ground Turkey",
         "Lean ground turkey for a lighter meat option.",
-        "https://static.ah.nl/dam/product/AHI_43545239393337383830?revLabel=1&rendition=800x800_JPG_Q90&fileType=binary",
+        "https://imgur.com/U6gx1Y8.png",
         BigDecimal.valueOf(4.29),
         meat,
         protein);
@@ -178,7 +177,7 @@ public class Seeder implements CommandLineRunner {
     saveProduct(
         "Cheese",
         "Variety of cheese for your culinary creations.",
-        "https://static.ah.nl/dam/product/AHI_4354523130303136373339?revLabel=1&rendition=800x800_JPG_Q90&fileType=binary",
+        "https://imgur.com/zqvwzXM.png",
         BigDecimal.valueOf(3.99),
         dairy,
         protein);
@@ -186,14 +185,14 @@ public class Seeder implements CommandLineRunner {
     saveProduct(
         "Shrimp",
         "Delicious shrimp for seafood lovers.",
-        "https://static.ah.nl/dam/product/AHI_43545239393731363731?revLabel=1&rendition=800x800_JPG_Q90&fileType=binary",
+        "https://imgur.com/rBBeJOv.png",
         BigDecimal.valueOf(8.99),
         seafood);
 
     saveProduct(
         "Baguette",
         "Crusty baguette for a delightful accompaniment.",
-        "https://static.ah.nl/dam/product/AHI_43545239383738313133?revLabel=1&rendition=800x800_JPG_Q90&fileType=binary",
+        "https://imgur.com/Jvr0pwf.png",
         BigDecimal.valueOf(2.99),
         bread,
         carbs);
@@ -201,21 +200,21 @@ public class Seeder implements CommandLineRunner {
     saveProduct(
         "Bananas",
         "Sweet and nutritious bananas for a quick energy boost.",
-        "https://static.ah.nl/dam/product/AHI_43545239383735353739?revLabel=1&rendition=800x800_JPG_Q90&fileType=binary",
+        "https://imgur.com/2PxqzX2.png",
         BigDecimal.valueOf(0.69),
         fruits);
 
     saveProduct(
         "Iced Tea",
         "Refreshing iced tea for a cool beverage.",
-        "https://static.ah.nl/dam/product/AHI_4354523130303332363731?revLabel=1&rendition=800x800_JPG_Q90&fileType=binary",
+        "https://imgur.com/9YzA29n.png",
         BigDecimal.valueOf(2.19),
         beverages);
 
     saveProduct(
         "Rice",
         "Versatile rice for a staple in your kitchen.",
-        "https://static.ah.nl/dam/product/AHI_43545239393033323534?revLabel=1&rendition=800x800_JPG_Q90&fileType=binary",
+        "https://imgur.com/brSEZp1.png",
         BigDecimal.valueOf(1.99),
         pantry,
         carbs);
@@ -223,7 +222,7 @@ public class Seeder implements CommandLineRunner {
     saveProduct(
         "Greek Yogurt",
         "Creamy Greek yogurt for a rich and indulgent treat.",
-        "https://static.ah.nl/dam/product/AHI_43545239393032303236?revLabel=1&rendition=800x800_JPG_Q90&fileType=binary",
+        "https://imgur.com/U7FGpH7.png",
         BigDecimal.valueOf(2.49),
         dairy,
         protein);
@@ -231,40 +230,38 @@ public class Seeder implements CommandLineRunner {
     saveProduct(
         "Broccoli",
         "Fresh broccoli for a nutritious and tasty side dish.",
-        "https://static.ah.nl/dam/product/AHI_43545237303333353032?revLabel=1&rendition=800x800_JPG_Q90&fileType=binary",
+        "https://imgur.com/fN2lZOY.png",
         BigDecimal.valueOf(1.49),
         vegetables);
   }
 
   private void seedOrders() {
     List<Product> products = productRepository.findAll(PageRequest.of(0, 10)).toList();
-    List<User> users = userRepository.findAll();
+    User user = new User("Bob", "jaja", "bob@debouwer.nl", "USER");
+    userService.saveUser(user);
 
-    for (var user : users) {
+    // Create multiple orders with varying quantities for the same products
+    for (int i = 0; i < 5; i++) {
+      Order order = new Order();
+      order.setUser(user);
 
-      // Create multiple orders with varying quantities for the same products
-      for (int i = 0; i < 5; i++) {
-        Order order = new Order();
-        order.setUser(user);
-
-        int minQuantity = 2, maxQuantity = 6;
-        for (Product product : products) {
-          int randomQuantity = (int) (Math.random() * maxQuantity - minQuantity) + minQuantity;
-          order.getOrderProducts().add(new OrderProduct(order, product, randomQuantity));
-        }
-
-        // Add some specific order products to test frequency in specific quantities
-        if (i < 3) {
-          order
-              .getOrderProducts()
-              .add(
-                  new OrderProduct(
-                      order, products.get(i), i * 2 + 7)); // Make top three of 7, 9, 11 for testing
-        }
-
-        user.getOrders().add(order);
-        orderRepository.save(order);
+      int minQuantity = 2, maxQuantity = 6;
+      for (Product product : products) {
+        int randomQuantity = (int) (Math.random() * maxQuantity - minQuantity) + minQuantity;
+        order.getOrderProducts().add(new OrderProduct(order, product, randomQuantity));
       }
+
+      // Add some specific order products to test frequency in specific quantities
+      if (i < 3) {
+        order
+            .getOrderProducts()
+            .add(
+                new OrderProduct(
+                    order, products.get(i), i * 2 + 7)); // Make top three of 7, 9, 11 for testing
+      }
+
+      user.getOrders().add(order);
+      orderRepository.save(order);
     }
   }
 

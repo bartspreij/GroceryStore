@@ -6,44 +6,44 @@ import { api } from './api';
 const uri = `products`;
 
 export class Results {
-    content: Product[] = [];
-    pageable: Pageable = new Pageable();
-    totalPages: number = 0;
+  content: Product[] = [];
+  pageable: Pageable = new Pageable();
+  totalPages: number = 0;
 }
 
 export const queryProducts = async (
-    page: number,
-    size: number,
-    query?: string,
-    category?: string
+  page: number,
+  size: number,
+  query?: string,
+  category?: string
 ): Promise<Results> => {
-    const params: any = {
-        page,
-        size,
-    };
+  const params: any = {
+    page,
+    size,
+  };
 
-    if (query && query.length > 0) params.q = query;
-    if (category && category.length > 0) params.c = category;
+  if (query && query.length > 0) params.q = query;
+  if (category && category.length > 0) params.c = category;
 
-    const result = await api.get<Results>(`${uri}/query`, { params });
-    return result.data;
+  const result = await api.get<Results>(`${uri}/query`, { params });
+  return result.data;
 };
 
 export const getProductById = (productId: number) => {
-    return api.get<Product>(`${uri}/by-id/${productId}`);
+  return api.get<Product>(`${uri}/by-id/${productId}`);
 };
 
 export const postProduct = async (product: Product) => {
-    const result = await api.post<Product>(uri, product);
-    return result.data;
+  const result = await api.post<Product>(uri, product);
+  return result.data;
 };
 
 export const saveProduct = async (product: Product) => {
-    const result = await api.patch<Product>(uri, product);
-    return result.data;
+  const result = await api.patch<Product>(uri, product);
+  return result.data;
 };
 
 export const deleteProduct = async (product: Product) => {
-    const result = await api.delete<Product>(`${uri}/${product.id}`);
-    return result.data;
+  const result = await api.delete<Product>(`${uri}/${product.id}`);
+  return result.data;
 };
