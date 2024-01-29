@@ -15,19 +15,19 @@ import Cart from '../domain/cart';
  *         allows updating this state, which will also update the localStorage entry.
  */
 const useStorageState = (
-    key: string,
-    initialState: Cart
+  key: string,
+  initialState: Cart
 ): [Cart, Dispatch<SetStateAction<Cart>>] => {
-    const [cart, setCart] = useState<Cart>(() => {
-        const storedValue = localStorage.getItem(key);
-        return storedValue ? JSON.parse(storedValue) : initialState;
-    });
+  const [cart, setCart] = useState<Cart>(() => {
+    const storedValue = localStorage.getItem(key);
+    return storedValue ? JSON.parse(storedValue) : initialState;
+  });
 
-    useEffect(() => {
-        localStorage.setItem(key, JSON.stringify(cart));
-    }, [key, cart]);
+  useEffect(() => {
+    localStorage.setItem(key, JSON.stringify(cart));
+  }, [key, cart]);
 
-    return [cart, setCart];
+  return [cart, setCart];
 };
 
 export default useStorageState;
