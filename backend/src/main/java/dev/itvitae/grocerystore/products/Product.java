@@ -6,6 +6,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.Length;
+import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.util.*;
@@ -21,6 +23,8 @@ public class Product {
   private Long id;
 
   private String name;
+  
+  @Column(length = 10000)
   private String description;
   private BigDecimal price;
   private String imageUrl;
