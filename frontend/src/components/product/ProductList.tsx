@@ -28,7 +28,7 @@ const ProductList: React.FC<ProductListProps> = ({
         </div>
       )}
 
-      <div className="products grid grid-cols-1 sm:grid-cols-4 gap-5">
+      <div className="products grid grid-cols-1 disable-child-margins sm:grid-cols-4 gap-5">
         {products.map((product) => (
           <ProductCard
             key={product.id}

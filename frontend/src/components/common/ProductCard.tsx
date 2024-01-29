@@ -27,7 +27,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
   return (
     <div
       key={product.id}
-      className="card m-2 w-full text-gray-400 card-compact bg-base-100 shadow-xl"
+      className="card overflow-hidden m-2 w-full text-gray-400 card-compact bg-base-100 shadow-xl"
     >
       <Link to={`/product/${product.id}`} className="aspect-square">
         <img
@@ -62,7 +62,10 @@ const ProductCard: React.FC<ProductCardProps> = ({
       )}
 
       <div className="card-body">
-        <h2 className="card-title">{product.name}</h2>
+        <Link to={`/product/${product.id}`} className="card-title">
+          {product.name}
+        </Link>
+
         <div>
           {product.discounts[0] ? (
             <>

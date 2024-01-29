@@ -7,9 +7,16 @@
     --transparent-dark: rgb(0, 0, 0, 0.1);
 }
 
-* {
+
+html {
     box-sizing: border-box;
-}
+  }
+  
+  *,
+  *:before,
+  *:after {
+    box-sizing: inherit;
+  }
 
 body {
     padding: 1rem;
@@ -89,6 +96,10 @@ h3 {
 
 .card-width > * {
     width: 100%;
+}
+
+.disable-child-margins > * {
+    margin: 0;
 }
 
 @media (min-width: 640px) {
