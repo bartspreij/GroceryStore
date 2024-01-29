@@ -34,6 +34,7 @@ const EditProduct: React.FC<EditProductProps> = ({
         }
     );
     const [tags, setTags] = useState<Tag[]>([]);
+    const [tempPrice, setTempPrice] = useState(product?.price.toString() ?? '');
 
     useEffect(() => {
         const loadTags = async () => {
@@ -61,13 +62,6 @@ const EditProduct: React.FC<EditProductProps> = ({
         setProductMockup((old) => ({
             ...old,
             imageUrl,
-        }));
-    };
-
-    const setPrice = (price: string) => {
-        setProductMockup((old) => ({
-            ...old,
-            price: parseInt(price, 10),
         }));
     };
 
@@ -104,8 +98,6 @@ const EditProduct: React.FC<EditProductProps> = ({
     };
 
     const handleSubmit = async (e: any) => {
-        console.log(productMockup);
-
         e.preventDefault();
 
         if (productMockup.name.length === 0) {
@@ -113,13 +105,35 @@ const EditProduct: React.FC<EditProductProps> = ({
             return;
         }
 
-        if (productMockup.price === 0) {
-            alert('Price cannot be 0');
+        productMockup.price = parseFloat(parseFloat(tempPrice).toFixed(2));
+
+        console.log(tempPrice);
+        console.log(productMockup.price);
+
+        if (Number.isNaN(productMockup.price)) {
+            alert('Price must be valid');
+            return;
+        }
+
+        if (productMockup.price <= 0) {
+            alert('Price must be higher than 0');
             return;
         }
 
         if (productMockup.tags.length === 0) {
             alert('Product needs at least 1 tag');
+            return;
+        }
+
+        let foundDuplicateTag = false;
+        productMockup.tags.forEach((tag: Tag, i: number) => {
+            productMockup.tags.forEach((other: Tag, o: number) => {
+                if (other.id === tag.id && i !== o) foundDuplicateTag = true;
+            });
+        });
+
+        if (foundDuplicateTag) {
+            alert('Tags must be unique');
             return;
         }
 
@@ -143,8 +157,9 @@ const EditProduct: React.FC<EditProductProps> = ({
                     Price
                     <input
                         type="text"
-                        value={productMockup.price}
-                        onChange={(e) => setPrice(e.target.value)}
+                        pattern="[0-9.]+"
+                        value={tempPrice}
+                        onChange={(e) => setTempPrice(e.target.value)}
                     />
                 </label>
 
