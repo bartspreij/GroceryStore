@@ -23,7 +23,7 @@ const CartButtons: React.FC<CartButtonProps> = ({
   return (
     <div className="join justify-end">
       {isInCart(item) && !isFrequentPurchase && (
-        <span>
+        <span className="flex">
           <button
             aria-label="Delete button"
             onClick={() => deleteProductFromCart(item)}
