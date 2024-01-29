@@ -24,7 +24,7 @@ public class JWTController {
             new UsernamePasswordAuthenticationToken(
                 authenticationRequest.getUsername(), authenticationRequest.getPassword()));
     if (authentication.isAuthenticated()) {
-      return jwtService.getGeneratedToken(authenticationRequest.getUsername());
+      return jwtService.generateUserJWT(authenticationRequest.getUsername());
     } else {
       throw new UsernameNotFoundException("Invalid user credentials");
     }

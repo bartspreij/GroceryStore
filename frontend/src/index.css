@@ -16,7 +16,7 @@ body {
     margin: 0 auto;
     width: var(--site-width);
     max-width: 100%;
-    /* background-color: oklch(var(--n)); */
+    scrollbar-gutter: stable;
 }
 
 label {
@@ -47,12 +47,18 @@ input,
 select {
     padding: 0.25rem 0.5rem;
     border: 1.2px solid #8080802b;
-        border-radius: 0.3rem;
+    border-radius: 0.3rem;
+}
+
+h1 {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
 }
 
 h2 {
     font-size: 1.5rem;
     font-weight: bold;
+    margin-bottom: 0.5rem;
 }
 
 h3 {
@@ -79,4 +85,14 @@ h3 {
     overflow-y: auto;
     padding: 1rem;
     border-radius: 1rem;
+}
+
+.card-width > * {
+    width: 100%;
+}
+
+@media (min-width: 640px) {
+    .card-width > * {
+        width: 25%;
+    }
 }

@@ -156,6 +156,7 @@ export const ShoppingCartProvider: React.FC<ShoppingCartProviderProps> = ({
             setCart(() => new Cart());
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (err: any) {
+            window.location.href = '/login';
             // eslint-disable-next-line no-console
             console.error(err);
         }

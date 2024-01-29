@@ -18,5 +18,5 @@ spring:
 
   jwt:
     secret: ${JWT_SECRET}
-    jwtExpirationTimeInMs: 1800000
+    jwtExpirationTimeInMs: 28800000
 

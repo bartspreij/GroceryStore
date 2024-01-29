@@ -8,6 +8,7 @@ import { loginUser } from '../../api/user-api';
 import WarningMessage from '../alerts/WarningMessage';
 import { useAuth } from './AuthProvider';
 import SuccesAlert from '../alerts/SuccesAlert';
+import { useNavigate } from 'react-router-dom';
 
 const loginSchema = object().shape({
     username: string()
@@ -21,10 +22,11 @@ const loginSchema = object().shape({
 type FormValues = InferType<typeof loginSchema>;
 
 interface LoginProps {
-    onSuccess: () => void;
+    onSuccess?: () => void;
+    redirectOnSuccess?: string;
 }
 
-const Login: React.FC<LoginProps> = ({ onSuccess }) => {
+const Login: React.FC<LoginProps> = ({ onSuccess, redirectOnSuccess }) => {
     const {
         register,
         handleSubmit,
@@ -36,11 +38,14 @@ const Login: React.FC<LoginProps> = ({ onSuccess }) => {
     const [successLogin, setSuccessLogin] = useState(false);
     const { handleLogin } = useAuth();
 
+    let navigate = useNavigate();
+
     const onSubmit = async (userData: FormValues) => {
         try {
             const response = await loginUser(userData);
             handleLogin(response.data);
-            onSuccess();
+            if (onSuccess) onSuccess();
+            if (redirectOnSuccess) navigate(redirectOnSuccess);
             setSuccessLogin(true);
         } catch (error) {
             let errorMessage =

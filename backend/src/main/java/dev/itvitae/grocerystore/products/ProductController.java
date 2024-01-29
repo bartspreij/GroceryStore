@@ -16,7 +16,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
-@RestController
 @CrossOrigin("http://localhost:5173")
 @RequestMapping("/api/v1/products")
 public class ProductController {
@@ -24,8 +23,8 @@ public class ProductController {
   private final ProductRepository productRepository;
   private final TagRepository tagRepository;
 
-  @GetMapping("/query")
-  public ResponseEntity<?> query(
+  @GetMapping("query")
+  public ResponseEntity<?> queryProducts(
       @RequestParam(name = "q", required = false) String query,
       @RequestParam(name = "c", required = false) String categoryName,
       @RequestParam(name = "page", defaultValue = "0") int page,
@@ -50,6 +49,14 @@ public class ProductController {
     } else results = productRepository.findAll(pageable);
 
     return new ResponseEntity<Page<ProductDTO>>(results.map(ProductDTO::new), HttpStatus.OK);
+  }
+
+  @GetMapping("by-id/{productId}")
+  public ResponseEntity<?> getProductById(@PathVariable long productId) {
+    Optional<Product> product = productRepository.findById(productId);
+    if (product.isEmpty()) return new ResponseEntity<>("", HttpStatus.NOT_FOUND);
+
+    return new ResponseEntity<ProductDTO>(new ProductDTO(product.get()), HttpStatus.OK);
   }
 
   @PostMapping()

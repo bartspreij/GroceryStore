@@ -29,20 +29,20 @@ public class JWTService {
   @Value("${spring.jwt.jwtExpirationTimeInMs}")
   private int JWT_EXPIRATION_TIME;
 
-  public String getGeneratedToken(String username) {
+  public String generateUserJWT(String username) {
     User user =
         userRepository
-            .findByUsername(username)
+            .findByEmail(username)
             .orElseThrow(() -> new UsernameNotFoundException(username));
     Map<String, Object> claims = new HashMap<>();
     claims.put("roles", user.getRoles().split(","));
-    return generateTokenForUser(claims, user.getId().toString());
+    return buildJWT(claims, user.getEmail());
   }
 
-  private String generateTokenForUser(Map<String, Object> claims, String userId) {
+  private String buildJWT(Map<String, Object> claims, String username) {
     return Jwts.builder()
         .claims(claims)
-        .subject(userId)
+        .subject(username)
         .issuedAt(new Date(System.currentTimeMillis()))
         .expiration(new Date(System.currentTimeMillis() + JWT_EXPIRATION_TIME))
         .signWith(getSignKey())
